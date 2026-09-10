@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16202b">
+<title>2026 布拉格 · 芬蘭行程</title>
+<style>
+:root{
+  --ink:#16202b; --muted:#6d7d8b; --line:#dfe5ea;
+  --bg:#e9edf1; --card:#fff; --accent:#a8412a;
+  --radius:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:15px; line-height:1.6;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:560px;margin:0 auto}
+b,strong{font-weight:700}
+a{color:inherit}
+.num{font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+/* ---------- now bar ---------- */
+header.now{
+  position:sticky; top:0; z-index:60;
+  background:var(--ink); color:#fff;
+  padding:calc(10px + env(safe-area-inset-top)) 16px 0;
+}
+.nb-row1{display:flex;align-items:center;gap:8px;font-size:13px;color:#a9bccb}
+.pin{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(255,255,255,.14);flex:none}
+.nb-city{color:#fff;font-weight:700;font-size:15px}
+.nb-day{margin-left:auto;background:rgba(255,255,255,.1);padding:2px 9px;border-radius:20px;font-size:12px}
+.clocks{display:flex;align-items:baseline;gap:14px;margin:2px 0 4px}
+#localTime{font-size:40px;font-weight:700;line-height:1.1;transition:font-size .18s ease}
+.clocks .sm{font-size:13px;color:#9db0c0}
+.clocks .sm b{font-size:15px;color:#dbe6ee;font-weight:600}
+.nowline{
+  border-top:1px solid rgba(255,255,255,.12);
+  padding:9px 0 11px; display:flex; gap:10px; align-items:flex-start;
+}
+.nowline .txt{flex:1;min-width:0}
+.nl-lead{font-size:11.5px;color:#93a8b8;margin-bottom:1px}
+.nl-title{font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nl-next{font-size:12.5px;color:#9db0c0;margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gobtn{
+  flex:none;background:#fff;color:var(--ink);border:0;border-radius:11px;
+  padding:9px 12px;font-size:13px;font-weight:700;font-family:inherit;
+  display:flex;align-items:center;gap:5px;text-decoration:none
+}
+header.now.compact #localTime{font-size:23px}
+header.now.compact .nl-next,header.now.compact .nl-lead{display:none}
+header.now.compact .nowline{padding:6px 0 8px}
+header.now.compact .clocks{margin:0}
+
+/* ---------- tabs ---------- */
+nav.tabs{
+  display:flex;background:var(--ink);
+  padding:0 0 9px;gap:6px
+}
+nav.tabs button{
+  flex:1;background:rgba(255,255,255,.08);color:#cfdde8;border:0;
+  font-family:inherit;font-size:13.5px;font-weight:600;padding:8px 0;border-radius:9px
+}
+nav.tabs button[aria-selected="true"]{background:#fff;color:var(--ink)}
+nav.tabs button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+main{padding:14px 12px 60px}
+section[hidden]{display:none}
+
+/* ---------- day card ---------- */
+.day{background:var(--card);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.day-head{
+  display:flex;align-items:center;gap:10px;width:100%;
+  border:0;background:none;font-family:inherit;text-align:left;
+  padding:13px 14px;color:var(--ink);border-left:4px solid var(--dc,#ccc)
+}
+.day-head .dn{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.day-head .dt{font-weight:700;font-size:15px;display:block}
+.day-head .chev{margin-left:auto;color:var(--muted);font-size:12px;transition:transform .2s}
+.day[open-state] .chev{transform:rotate(90deg)}
+.day-body{padding:2px 14px 14px;border-top:1px solid var(--line)}
+.today-flag{background:var(--dc);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;margin-left:6px}
+
+/* ---------- timeline ---------- */
+ol.tl{list-style:none;margin:0;padding:0}
+ol.tl li{display:grid;grid-template-columns:46px 16px 1fr;gap:0;position:relative;padding:9px 0}
+ol.tl li .t{font-size:13px;font-weight:600;color:var(--muted);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.tl li .rail{position:relative}
+ol.tl li .rail::before{content:"";position:absolute;left:5px;top:-9px;bottom:-9px;width:1px;background:var(--line)}
+ol.tl li:first-child .rail::before{top:12px}
+ol.tl li:last-child .rail::before{bottom:auto;height:14px}
+ol.tl li .rail::after{
+  content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;border-radius:50%;
+  background:#fff;border:2px solid var(--line)
+}
+ol.tl li.done{opacity:.42}
+ol.tl li.done .rail::after{background:var(--line);border-color:var(--line)}
+ol.tl li.cur{background:#fff9f4;margin:0 -8px;padding:9px 8px;border-radius:10px;box-shadow:inset 3px 0 0 var(--dc)}
+ol.tl li.cur .rail::after{background:var(--dc);border-color:var(--dc);box-shadow:0 0 0 4px color-mix(in srgb,var(--dc) 18%,transparent)}
+ol.tl li.cur .t{color:var(--dc)}
+.itrow{display:flex;gap:10px;align-items:flex-start}
+.itxt{flex:1;min-width:0}
+.thumb{
+  flex:none;width:62px;height:62px;border-radius:10px;background:#e9edf1;overflow:hidden;
+  position:relative;display:flex;align-items:center;justify-content:center
+}
+.thumb .ico{font-size:23px;opacity:.75}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.thumb img.on{opacity:1}
+.thumb.sq{width:52px;height:52px;border-radius:9px}
+.thumb.sq .ico{font-size:19px}
+.it-title{font-size:14.5px}
+.it-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-size:11.5px;padding:2px 8px;border-radius:20px;background:#eef2f5;color:var(--muted)}
+.tag.you{background:#e7eff6;color:#2b5f8c}
+.tag.par{background:#eaf1ec;color:#3d6b4d}
+.tag.all{background:#f6eee7;color:#8a5433}
+.tag.star{background:#fdf0e3;color:#9a5c12;font-weight:600}
+.maplink{
+  font-size:11.5px;padding:2px 9px 3px;border-radius:20px;text-decoration:none;
+  background:#16202b;color:#fff;display:inline-flex;gap:4px;align-items:center;font-weight:600
+}
+.nowmark{display:flex;align-items:center;gap:8px;margin:4px 0 4px 46px;color:var(--dc);font-size:11.5px;font-weight:700}
+.nowmark::after{content:"";flex:1;height:1px;background:var(--dc);opacity:.4}
+
+details.tips{margin-top:10px;background:#f5f7f9;border-radius:10px;padding:0 12px}
+details.tips summary{padding:10px 0;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;list-style:none}
+details.tips summary::-webkit-details-marker{display:none}
+details.tips summary::before{content:"＋ ";color:var(--dc)}
+details.tips[open] summary::before{content:"－ "}
+details.tips .body{padding-bottom:12px;font-size:13px;color:#3c4c5a}
+details.tips .body p{margin:0 0 8px}
+details.tips .body p:last-child{margin-bottom:0}
+
+/* ---------- map ---------- */
+.daypick{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;-webkit-overflow-scrolling:touch}
+.daypick button{
+  flex:none;border:1px solid var(--line);background:#fff;color:var(--muted);
+  font-family:inherit;font-size:12.5px;font-weight:600;padding:7px 11px;border-radius:20px;
+  font-variant-numeric:tabular-nums
+}
+.daypick button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mapbox{margin:0 0 10px;background:#e3e8ec;border-radius:var(--radius);overflow:hidden}
+.mapwrap{position:relative}
+.loc{
+  position:absolute;width:23%;max-width:100px;min-width:62px;
+  background:rgba(255,255,255,.94);border:1px solid #ccd5db;border-radius:9px;
+  padding:5px 5px 4px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.08)
+}
+.loc svg{display:block;width:100%;height:auto;border-radius:4px}
+.loc-fi{width:16%;max-width:72px;min-width:52px}
+.loc b{display:block;font-size:9.5px;line-height:1.35;margin-top:3px;color:var(--ink)}
+.loc span{display:block;font-size:9.5px;color:var(--muted);line-height:1.3}
+.loc-br{right:8px;bottom:8px}
+.loc-tl{left:8px;top:8px}
+.mapsvg{display:block;width:100%;height:auto;max-height:64vh}
+.mapbox.mini .mapsvg{max-height:380px}
+.mapbox figcaption{font-size:12px;color:var(--muted);padding:7px 12px 10px;text-align:center;background:#fff}
+.minimap{margin:12px 0 4px}
+.maphint{font-size:12px;color:var(--muted);margin:2px 2px 10px;line-height:1.5}
+.tinybtn{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;
+  font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px}
+.plist{background:#fff;border-radius:var(--radius);margin-top:12px;overflow:hidden}
+.plist button.prow{
+  display:flex;width:100%;gap:10px;align-items:center;border:0;background:none;font-family:inherit;
+  text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink)
+}
+.plist button.prow:last-child{border-bottom:0}
+.prow .pn{font-size:14px}
+.prow .pd{font-size:11.5px;color:var(--muted);margin-top:1px}
+.prow .go{margin-left:auto;font-size:11.5px;color:#fff;background:var(--ink);padding:3px 9px;border-radius:20px;flex:none}
+/* ---------- handbook ---------- */
+.hb{background:#fff;border-radius:var(--radius);margin-bottom:12px;padding:0 14px}
+.hb > summary{padding:14px 0;font-weight:700;font-size:15px;list-style:none;cursor:pointer;display:flex;align-items:center}
+.hb > summary::-webkit-details-marker{display:none}
+.hb > summary::after{content:"＋";margin-left:auto;color:var(--muted)}
+.hb[open] > summary::after{content:"－"}
+.hb .hbody{padding-bottom:14px;border-top:1px solid var(--line);padding-top:12px;font-size:13.5px}
+.hb h4{margin:14px 0 6px;font-size:13.5px}
+.hb h4:first-child{margin-top:0}
+.hb ul{margin:0 0 10px;padding-left:18px}
+.hb li{margin-bottom:5px}
+.todo{list-style:none;padding:0;margin:0}
+.todo li{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+.todo li:last-child{border:0}
+.st{font-size:11px;padding:2px 8px;border-radius:20px;flex:none;margin-top:2px;font-weight:600}
+.st.wait{background:#fdece4;color:#a8412a}
+.st.ok{background:#e7f0ea;color:#35704f}
+.st.pre{background:#eaf0f6;color:#33587f}
+table.mini{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
+table.mini th,table.mini td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.mini th{color:var(--muted);font-weight:600;font-size:12px}
+.warn{background:#fdf3ec;border-radius:10px;padding:10px 12px;font-size:13px;margin:10px 0;color:#7d3f21}
+footer{text-align:center;color:var(--muted);font-size:11.5px;padding:18px 20px 34px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="now" id="nowbar">
+  <div class="nb-row1">
+    <span class="pin" id="nbPin"></span>
+    <span class="nb-city" id="nbCity">布拉格</span>
+    <span id="nbSub">中歐時間</span>
+    <span class="nb-day" id="nbDay">Day 1</span>
+  </div>
+  <div class="clocks">
+    <span id="localTime" class="num">--:--</span>
+    <span class="sm">台北 <b id="tpeTime" class="num">--:--</b></span>
+  </div>
+  <div class="nowline">
+    <div class="txt">
+      <div class="nl-lead" id="nlLead">現在</div>
+      <div class="nl-title" id="nlTitle">行程準備中</div>
+      <div class="nl-next" id="nlNext"></div>
+    </div>
+    <a class="gobtn" id="nlMap" href="#" target="_blank" rel="noopener" hidden>地圖</a>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-today" aria-selected="true">今天</button>
+    <button role="tab" id="tab-all" aria-selected="false">全程</button>
+    <button role="tab" id="tab-map" aria-selected="false">地圖</button>
+    <button role="tab" id="tab-book" aria-selected="false">手冊</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-today"></section>
+  <section id="view-all" hidden></section>
+
+  <section id="view-map" hidden>
+    <div class="daypick" id="dayPick"></div>
+    <div id="bigmap"></div>
+    <p class="maphint"><b id="picStat">照片載入中…</b>　<button id="picRetry" class="tinybtn">重新載入照片</button><br>照片來自維基百科／維基共享資源，需要連網才會顯示；沒有條目的地點（飯店、餐廳、超市）會保留類型圖示。<br>示意圖：國界與行政區界為實際邊界，市區圖以水域和主要地標定位，位置為概略。數字＝當天順序，虛線＝搭車或飛行。下面每個地點都可以直接開 Google 地圖。</p>
+    <div class="plist" id="pList"></div>
+  </section>
+
+  <section id="view-book" hidden></section>
+</main>
+
+<footer>2026/09/10–09/24　布拉格・坦佩雷・羅瓦涅米・赫爾辛基<br>時間依當地時區自動換算</footer>
+</div>
+
+<script>
+/* ============ 城市 ============ */
+const CITY = {
+  prg:{n:'布拉格',c:'#a8412a',tz:'Europe/Prague',off:'+02:00',ctr:[50.0870,14.4180],z:14,sub:'中歐時間 台北−6'},
+  kv :{n:'卡羅維瓦利',c:'#a8412a',tz:'Europe/Prague',off:'+02:00',ctr:[50.2250,12.8790],z:14,sub:'中歐時間 台北−6'},
+  tre:{n:'坦佩雷',c:'#16697a',tz:'Europe/Helsinki',off:'+03:00',ctr:[61.4980,23.7620],z:13,sub:'東歐時間 台北−5'},
+  rov:{n:'羅瓦涅米',c:'#6b5b95',tz:'Europe/Helsinki',off:'+03:00',ctr:[66.5150,25.7800],z:11,sub:'東歐時間 台北−5'},
+  hel:{n:'赫爾辛基',c:'#2f7a4f',tz:'Europe/Helsinki',off:'+03:00',ctr:[60.1690,24.9450],z:13,sub:'東歐時間 台北−5'},
+  air:{n:'移動中',c:'#4a5b6a',tz:'Europe/Prague',off:'+02:00',ctr:[55,20],z:5,sub:''}
+};
+
+/* ============ 地點（ll 為概略座標，a=概略）============ */
+const P = {
+ 'prg-air'  :{n:'瓦茨拉夫·哈維爾機場',q:'Václav Havel Airport Prague',c:'prg',ll:[50.1008,14.2600]},
+ 'orea'     :{n:'OREA Place Seno（住宿 9/10–9/12）',q:'OREA Place Seno Prague',c:'prg',ll:[50.0871,14.4318],a:1},
+ 'ribs'     :{n:'Ribs of Prague（共和廣場店）',q:'Ribs of Prague Náměstí Republiky',c:'prg',ll:[50.0889,14.4287],a:1},
+ 'powder'   :{n:'火藥塔',q:'Prašná brána Prague',c:'prg',ll:[50.0873,14.4278]},
+ 'tyn'      :{n:'泰恩教堂',q:'Týn Church Prague',c:'prg',dl:'9/10',ll:[50.0879,14.4222]},
+ 'oldsq'    :{n:'老城廣場',q:'Old Town Square Prague',c:'prg',ll:[50.0875,14.4213]},
+ 'clock'    :{n:'天文鐘',q:'Prague Astronomical Clock',c:'prg',ll:[50.0870,14.4208]},
+ 'charles'  :{n:'查理大橋',q:'Charles Bridge Prague',c:'prg',ll:[50.0865,14.4114]},
+ 'havel'    :{n:'哈維爾市集',q:'Havelské tržiště Prague',c:'prg',ll:[50.0846,14.4222]},
+ 'palladium':{n:'Palladium（地下 Albert 超市）',q:'Palladium Praha',c:'prg',ll:[50.0895,14.4285]},
+ 'tram22'   :{n:'電車 Pražský hrad 站',q:'Pražský hrad tram stop',c:'prg',ll:[50.0947,14.3980]},
+ 'castle'   :{n:'布拉格城堡 北門',q:'Prague Castle North Gate',c:'prg',ll:[50.0919,14.3985]},
+ 'vitus'    :{n:'聖維特大教堂',q:'St. Vitus Cathedral Prague',c:'prg',ll:[50.0909,14.4006]},
+ 'oldpal'   :{n:'舊皇宮',q:'Old Royal Palace Prague Castle',c:'prg',ll:[50.0906,14.4019]},
+ 'george'   :{n:'聖喬治大殿',q:'St. George Basilica Prague Castle',c:'prg',ll:[50.0912,14.4029]},
+ 'golden'   :{n:'黃金巷',q:'Golden Lane Prague',c:'prg',ll:[50.0918,14.4041]},
+ 'malasq'   :{n:'小城廣場 · 聖尼古拉教堂',q:'Malostranské náměstí Prague',c:'prg',ll:[50.0880,14.4036]},
+ 'kampa'    :{n:'康帕島',q:'Kampa Island Prague',c:'prg',dl:'9/11',ll:[50.0851,14.4079]},
+ 'lennon'   :{n:'列儂牆',q:'Lennon Wall Prague',c:'prg',ll:[50.0862,14.4069]},
+ 'josefov'  :{n:'猶太區 Josefov',q:'Jewish Quarter Josefov Prague',c:'prg',ll:[50.0900,14.4180]},
+ 'maisel'   :{n:'梅瑟猶太會堂',q:'Maisel Synagogue Prague',c:'prg',dl:'9/11',ll:[50.0890,14.4184]},
+ 'pinkas'   :{n:'平卡斯猶太會堂',q:'Pinkas Synagogue Prague',c:'prg',dl:'9/11',ll:[50.0894,14.4166]},
+ 'cemetery' :{n:'舊猶太墓園',q:'Old Jewish Cemetery Prague',c:'prg',dl:'9/11',ll:[50.0898,14.4163]},
+ 'klausen'  :{n:'克勞森會堂 · 儀式廳',q:'Klausen Synagogue Prague',c:'prg',dl:'9/11',ll:[50.0904,14.4173]},
+ 'oldnew'   :{n:'舊新猶太會堂',q:'Old New Synagogue Prague',c:'prg',dl:'9/11',ll:[50.0901,14.4177]},
+ 'spanish'  :{n:'西班牙猶太會堂',q:'Spanish Synagogue Prague',c:'prg',dl:'9/11',ll:[50.0902,14.4204]},
+ 'soho'     :{n:'SOHO Boutique Hotel（住宿 9/22–9/24）',q:'SOHO Boutique Hotel Prague',c:'prg',ll:[50.0795,14.4230],a:1},
+ 'porks'    :{n:'Pork\u2019s Vodičkova',q:'Pork\u2019s Vodičkova Prague',c:'prg',ll:[50.0805,14.4235],a:1},
+ 'wenceslas':{n:'瓦茨拉夫廣場',q:'Wenceslas Square Prague',c:'prg',dl:'9/22',ll:[50.0810,14.4267]},
+ 'dancing'  :{n:'跳舞的房子',q:'Dancing House Prague',c:'prg',ll:[50.0755,14.4142]},
+ 'pier'     :{n:'遊船碼頭（查理大橋旁）',q:'Prague river cruise pier Charles Bridge',c:'prg',ll:[50.0868,14.4133],a:1},
+ 'florenc'  :{n:'Florenc 巴士總站',q:'Praha ÚAN Florenc',c:'prg',ll:[50.0897,14.4402]},
+ 'billa'    :{n:'Billa（瓦茨拉夫廣場一帶）',q:'Billa Václavské náměstí Praha',c:'prg',dl:'9/22',ll:[50.0812,14.4255],a:1},
+ 'tesco'    :{n:'Tesco My Národní',q:'Tesco My Národní Praha',c:'prg',dl:'9/23',ll:[50.0819,14.4187]},
+
+ 'kv-term'  :{n:'Karlovy Vary Terminál 巴士站',q:'Karlovy Vary Terminál bus station',c:'kv',ll:[50.2317,12.8722],a:1},
+ 'mlynska'  :{n:'磨坊溫泉迴廊',q:'Mlýnská kolonáda Karlovy Vary',c:'kv',ll:[50.2237,12.8830]},
+ 'vridelni' :{n:'溫泉迴廊 · Vřídlo 間歇泉',q:'Vřídelní kolonáda Karlovy Vary',c:'kv',ll:[50.2231,12.8834]},
+ 'diana'    :{n:'黛安娜觀景塔（纜車）',q:'Diana Lookout Tower Karlovy Vary',c:'kv',ll:[50.2185,12.8730]},
+ 'pupp'     :{n:'Grandhotel Pupp（纜車站在旁）',q:'Grandhotel Pupp Karlovy Vary',c:'kv',dl:'9/23',ll:[50.2205,12.8790]},
+
+ 'hel-air'  :{n:'赫爾辛基-萬塔機場',q:'Helsinki-Vantaa Airport',c:'hel',ll:[60.3172,24.9633]},
+ 'tikkurila':{n:'Tikkurila 站（轉長途列車）',q:'Tikkurila railway station',c:'hel',ll:[60.2925,25.0440]},
+ 'tre-sta'  :{n:'Tampere 火車站（置物櫃）',q:'Tampere railway station',c:'tre',ll:[61.4986,23.7736]},
+ 'satama'   :{n:'Satamakatu 15（住宿 9/12–9/16）',q:'Satamakatu 15 Tampere',c:'tre',ll:[61.4946,23.7645],a:1},
+ 'tre-hall' :{n:'Tampere Hall（ICIP 會場）',q:'Tampere-talo',c:'tre',ll:[61.4977,23.7757]},
+ 'moomin'   :{n:'姆明博物館（Tampere Hall 內）',q:'Moomin Museum Tampere',c:'tre',ll:[61.4977,23.7757],dl:'9/13'},
+ 'nasi'     :{n:'Näsinneula 觀景塔',q:'Näsinneula Tampere',c:'tre',ll:[61.5063,23.7530]},
+ 'pyynikki' :{n:'Pyynikki 觀景塔（munkki 甜甜圈）',q:'Pyynikin näkötorni',c:'tre',ll:[61.4940,23.7317]},
+ 'mhall'    :{n:'Tampere Market Hall 室內市場',q:'Tampereen Kauppahalli',c:'tre',ll:[61.4977,23.7607]},
+ 'tammel'   :{n:'Tammelantori 露天早市',q:'Tammelantori Tampere',c:'tre',ll:[61.4989,23.7826]},
+ 'vapriikki':{n:'Vapriikki 博物館中心',q:'Museokeskus Vapriikki',c:'tre',ll:[61.5010,23.7657]},
+ 'ratina'   :{n:'Ratina 購物中心 · K-Supermarket',q:'Kauppakeskus Ratina Tampere',c:'tre',ll:[61.4936,23.7676]},
+ 'laukon'   :{n:'Laukontori 河岸',q:'Laukontori Tampere',c:'tre',ll:[61.4954,23.7607]},
+ 'tallipiha':{n:'Tallipiha 老木屋街區',q:'Tallipiha Tampere',c:'tre',dl:'9/14',ll:[61.5040,23.7495]},
+ 'koski'    :{n:'Tammerkoski 激流',q:'Tammerkoski',c:'tre',dl:'9/13',ll:[61.4980,23.7620]},
+
+ 'rov-sta'  :{n:'Rovaniemi 車站 · Green Motion 租車',q:'Rovaniemi railway station',c:'rov',ll:[66.4938,25.7239]},
+ 'arktikum' :{n:'Arktikum 北極圈科學博物館',q:'Arktikum Rovaniemi',c:'rov',ll:[66.5077,25.7263]},
+ 'santa'    :{n:'Santa Claus Village 聖誕老人村',q:'Santa Claus Village Rovaniemi',c:'rov',ll:[66.5436,25.8472]},
+ 'glass'    :{n:'Glass Resort（住宿 9/17）',q:'Glass Resort Rovaniemi',c:'rov',ll:[66.5433,25.8450],a:1},
+ 'apukka'   :{n:'Apukka Resort（住宿 9/18）',q:'Apukka Resort Rovaniemi',c:'rov',ll:[66.5620,25.9600],a:1},
+ 'ounas'    :{n:'Ounasvaara 奧納斯山',q:'Ounasvaara Rovaniemi',c:'rov',ll:[66.4950,25.7600],a:1},
+ 'prisma'   :{n:'Prisma Rovaniemi',q:'Prisma Rovaniemi',c:'rov',ll:[66.5010,25.7180],a:1},
+
+ 'hel-sta'  :{n:'赫爾辛基中央車站（HSL 售票機）',q:'Helsinki Central Station',c:'hel',ll:[60.1719,24.9414]},
+ 'bobw'     :{n:'Bob W Vuorikatu 18B（住宿 9/20–9/22）',q:'Bob W Helsinki City Centre Vuorikatu',c:'hel',ll:[60.1738,24.9455],a:1},
+ 'rock'     :{n:'岩石教堂 Temppeliaukio',q:'Temppeliaukio Church',c:'hel',ll:[60.1725,24.9250]},
+ 'oodi'     :{n:'中央圖書館 Oodi',q:'Oodi Helsinki Central Library',c:'hel',ll:[60.1738,24.9382]},
+ 'hel-cath' :{n:'赫爾辛基大教堂 · 元老廣場',q:'Helsinki Cathedral',c:'hel',ll:[60.1703,24.9522]},
+ 'espla'    :{n:'Esplanadi 林蔭大道',q:'Esplanadi Helsinki',c:'hel',dl:'9/20',ll:[60.1671,24.9463]},
+ 'kauppa'   :{n:'興康廣場 Kauppatori 早市',q:'Kauppatori Helsinki',c:'hel',ll:[60.1675,24.9525]},
+ 'vanha'    :{n:'舊市集 Vanha Kauppahalli',q:'Vanha Kauppahalli Helsinki',c:'hel',ll:[60.1665,24.9505]},
+ 'suomen'   :{n:'芬蘭堡 Suomenlinna',q:'Suomenlinna',c:'hel',ll:[60.1454,24.9881]},
+ 'stock'    :{n:'Stockmann（地下 Herkku 超市）',q:'Stockmann Helsinki',c:'hel',ll:[60.1686,24.9418]}
+};
+
+/* ============ 逐日行程 ============ */
+const DAYS = [
+{d:'2026-09-10',w:'四',city:'prg',t:'抵達＋老城區半日',items:[
+ {t:'08:30',x:'抵達瓦茨拉夫·哈維爾機場',s:'領行李、換 CZK、搭車進市區（建議直接叫車）',p:'prg-air'},
+ {t:'10:00',x:'OREA Place Seno 放行李',s:'早班房未必能 check-in，先休息盥洗',p:'orea'},
+ {t:'11:45',x:'步行前往餐廳',s:'約 7 分鐘'},
+ {t:'12:00',x:'午餐：Ribs of Prague',s:'已訂位 3 人，餐廳排 1.5 小時，13:30 讓位',p:'ribs',star:1},
+ {t:'13:40',x:'火藥塔 → 策列特納街 → 泰恩教堂 → 老城廣場',p:'powder'},
+ {t:'15:00',x:'天文鐘整點報時',s:'提前 10 分鐘到占位',p:'clock',star:1},
+ {t:'15:30',x:'老城廣場周邊散步、咖啡休息',p:'oldsq'},
+ {t:'16:15',x:'查理大橋',s:'黃昏光線最好',p:'charles'},
+ {t:'17:10',x:'哈維爾市集買水果',s:'約 18:00 收攤',p:'havel'},
+ {t:'17:45',x:'Palladium 地下 Albert 超市採買',s:'就在火藥塔旁，營業至約 21:00',p:'palladium'},
+ {t:'18:30',x:'回飯店，房間裡簡單吃，早睡倒時差'}
+],notes:[
+ '點餐建議：豬腳約 1.2 公斤、肋排也是大份量。三人點 1 份豬腳＋1 份肋排就夠，再加一份大蒜湯或麵包盅牛肉湯。大家剛下 13 小時飛機，別一人一份重口味。',
+ '回程動線：查理大橋 → 老城廣場 → 哈維爾市集 → 策列特納街 → 火藥塔 → Palladium → 飯店，全程步行不繞路。',
+ '一定要買：礦泉水 Mattoni、水果。晚上墊胃：麵包 rohlík、火腿、起司、Hollandia 優格。順便試：Kofola、Bohemia 洋芋片、Kofila 巧克力棒。'
+]},
+{d:'2026-09-11',w:'五',city:'prg',t:'城堡區＋猶太區',items:[
+ {t:'08:30',x:'飯店出發，搭電車 22 號到 Pražský hrad 站',s:'不要走上坡，省體力',p:'tram22'},
+ {t:'09:00',x:'北門安檢入園 → 第二庭院買 Circuit B 套票',s:'一張含以下四項，不必買貴的',p:'castle'},
+ {t:'09:20',x:'① 聖維特大教堂',s:'最精華，慕夏彩繪玻璃在左側廊｜約 45 分',p:'vitus'},
+ {t:'10:15',x:'② 舊皇宮',s:'教堂東側，弗拉迪斯拉夫大廳｜約 20 分',p:'oldpal'},
+ {t:'10:40',x:'③ 聖喬治大殿',s:'紅色外牆的羅馬式教堂｜約 15 分',p:'george'},
+ {t:'11:00',x:'④ 黃金巷',s:'卡夫卡故居 22 號、上層兵器展｜約 30 分',p:'golden'},
+ {t:'11:40',x:'東側黑塔出園 → 舊城堡階梯下坡',s:'全程下坡'},
+ {t:'12:00',x:'小城廣場、聖尼古拉教堂，午餐',p:'malasq'},
+ {t:'13:15',x:'康帕島 → 列儂牆 → 小城橋塔',p:'lennon'},
+ {t:'14:30',x:'猶太區 Josefov',s:'務必 14:30 前抵達，留 3 小時',p:'josefov',star:1},
+ {t:'17:30',x:'Palladium 採買 9/12 早班機乾糧、晚餐',p:'palladium'},
+ {t:'19:30',x:'回飯店早睡',s:'明天 05:00 出門'}
+],notes:[
+ '猶太區參觀順序（走一圈不繞路）：① 梅瑟會堂（早期歷史）② 平卡斯會堂（8 萬名罹難者姓名、二樓兒童畫作）③ 舊猶太墓園 ④ 克勞森會堂＋儀式廳 ⑤ 舊新猶太會堂（會提前關門，優先看）⑥ 西班牙猶太會堂（金色內裝，壓軸）。',
+ '票種買「Jewish Town of Prague」聯票——含舊新猶太會堂。另一種 Jewish Museum 聯票不含，等於少看一個重點。',
+ '去之前先知道三件事：平卡斯會堂情緒很重，走不完可以在外面等；這是墓園和禮拜場所，全程輕聲、墓園與舊新會堂內禁止攝影；男性入內需戴小帽 kippah，門口免費提供。',
+ '猶太新年從 9/11 日落開始，舊新會堂會提前約一小時關門。',
+ '09:00 進場可避開安檢排隊與 12:00 衛兵交接人潮。'
+]},
+{d:'2026-09-12',w:'六',city:'prg',t:'布拉格 → 赫爾辛基 → 坦佩雷',items:[
+ {t:'05:00',x:'退房、搭前一晚預約好的計程車',s:'到機場約 30–40 分鐘',star:1},
+ {t:'06:30',x:'抵機場，報到、過安檢',p:'prg-air'},
+ {t:'07:00',x:'在管制區內吃早餐',s:'T2 申根航廈，早班時段咖啡店約 05:00 起營業'},
+ {t:'11:45',x:'抵達赫爾辛基-萬塔機場',p:'hel-air',city:'hel'},
+ {t:'13:30',x:'搭 P/I 環狀線至 Tikkurila 轉長途列車',p:'tikkurila',city:'hel'},
+ {t:'14:30',x:'Tikkurila → Tampere',s:'約 1.5 小時',city:'tre'},
+ {t:'16:10',x:'抵達 Tampere Station',p:'tre-sta',city:'tre'},
+ {t:'17:20',x:'入住 Satamakatu 15，附近覓食、超市補給',p:'satama',city:'tre'}
+],notes:[
+ '早餐：OREA 餐廳 06:30 才開，趕不上 05:00 出門。前一晚在 Albert 買好麵包、優格、水果帶著，正餐留到機場管制區內吃。',
+ '住處旁 Laukontori 小超市步行 3 分鐘，當晚先補水、麵包、水果。'
+]},
+{d:'2026-09-13',w:'日',city:'tre',t:'姆明博物館（全體）＋ICIP 註冊',items:[
+ {t:'08:30',x:'請 Titi 到 Tampere Hall 完成註冊領證',s:'櫃檯 08:00–20:30，三人一起過去，同一棟樓',p:'tre-hall',who:'all'},
+ {t:'09:00',x:'姆明博物館',s:'週日 09:00–17:00，就在 Tampere Hall 內。週一公休，只有今天三人能一起去',p:'moomin',who:'all',star:1},
+ {t:'12:00',x:'午餐',s:'Tampere Hall 內或 Yliopistonkatu 沿線',who:'all'},
+ {t:'14:00',x:'ICIP tutorial／workshop',s:'到 17:30',who:'you'},
+ {t:'14:00',x:'Tammerkoski 激流散步、Näsinneula 觀景塔',p:'nasi',who:'par'},
+ {t:'17:00',x:'K-Supermarket Ratina 採買',s:'離住處步行 5 分鐘',p:'ratina',who:'par'},
+ {t:'18:30',x:'Welcome Reception @ Park Hall',s:'建議出席，networking，到 20:30',who:'you'},
+ {t:'18:30',x:'Ratina 餐廳街晚餐',p:'ratina',who:'par'}
+],notes:['Tampere Market Hall 週日休市，移到 9/14。週日採買靠連鎖超市（K-Supermarket、S-market、Prisma 約 10:00–21:00），只有市集和 Alko 休息。']},
+{d:'2026-09-14',w:'一',city:'tre',t:'Poster 發表日',items:[
+ {t:null,x:'Poster 場次',s:'請 Titi 提前 30 分鐘張貼、全程站崗（時間依 program 為準）',who:'you',star:1},
+ {t:'08:30',x:'Opening Ceremony（Main Auditorium）',p:'tre-hall',who:'you'},
+ {t:'09:30',x:'Plenary Talk 1',who:'you'},
+ {t:'10:00',tl:'上午',x:'Tampere Market Hall ＋ Tallipiha 老木屋街區',s:'北歐最大室內市場，週一正常營業',p:'mhall',who:'par'},
+ {t:'12:00',tl:'中午',x:'三人在 Tampere Hall 一起午餐',p:'tre-hall',who:'all'},
+ {t:'14:00',tl:'下午',x:'續聽 technical sessions',who:'you'},
+ {t:'14:00',tl:'下午',x:'Pyynikki 公園散步、Laukontori 河岸',p:'laukon',who:'par'},
+ {t:'18:30',tl:'晚上',x:'三人一起吃晚餐，慶祝 poster 結束',who:'all'}
+],notes:[
+ '週一是芬蘭博物館公休日（姆明博物館、Vapriikki 都關），這天排室外與市場行程。',
+ '住處 Satamakatu 15 到 Tampere Hall 步行約 20 分鐘，不行就搭電車。'
+]},
+{d:'2026-09-15',w:'二',city:'tre',t:'ICIP 會期｜坦佩雷市區日',items:[
+ {t:'08:30',x:'ICIP technical sessions（整天）',p:'tre-hall',who:'you'},
+ {t:'09:00',x:'Tammelantori 露天早市',s:'約 14:00 前收攤；莓果、花、平價蔬果',p:'tammel',who:'par'},
+ {t:'10:30',x:'Vapriikki 博物館中心',s:'週二開館，一票逛多館，室內有電梯',p:'vapriikki',who:'par'},
+ {t:'12:30',x:'午餐',who:'par'},
+ {t:'14:00',x:'Näsinneula 觀景塔',s:'芬蘭最高，有電梯，塔上有迴轉餐廳',p:'nasi',who:'par'},
+ {t:'15:30',x:'Alko 買雲莓酒 ＋ Ratina 採買',s:'Alko 週日必休，只能平日買',p:'ratina',who:'par',star:1},
+ {t:'18:30',x:'會合晚餐',who:'all'}
+],notes:['坦佩雷不租車：9/17–9/19 在羅瓦涅米本來就要開車，那裡才非開不可；市中心緊湊，電車公車好搭；行李用車站置物櫃解決。唯一損失是國家公園，但拉普蘭會補回來。']},
+{d:'2026-09-16',w:'三',city:'tre',t:'Pyynikki 觀景塔 → ICIP 下午場 → 夜車北上',items:[
+ {t:'08:00',x:'退房',who:'all',star:1},
+ {t:'08:15',x:'行李拖到 Tampere 火車站存置物櫃',s:'步行約 15 分鐘或搭一段電車；整天不用再碰',p:'tre-sta',who:'all',star:1},
+ {t:'08:45',x:'車站搭公車前往 Pyynikki',s:'不要用走的爬坡',who:'all'},
+ {t:'09:15',x:'Pyynikki 觀景塔',s:'看 Näsijärvi 與 Pyhäjärvi 兩湖夾一城',p:'pyynikki',who:'all'},
+ {t:'09:50',x:'塔下咖啡廳的 munkki 甜甜圈＋咖啡',s:'坦佩雷名物，不要跳過',who:'all'},
+ {t:'10:30',x:'森林步道慢步',s:'全世界最高的礫石山脊，平緩好走',who:'all'},
+ {t:'11:30',x:'回市區、午餐',who:'all'},
+ {t:'13:00',x:'ICIP 下午場次（Tampere Hall）',p:'tre-hall',who:'you'},
+ {t:'13:00',x:'Ratina／Koskikeskus 最後補買',p:'ratina',who:'par'},
+ {t:'16:30',x:'離場，9/17 閉幕日放棄',s:'poster 已完成',who:'you'},
+ {t:'17:30',x:'車站周邊晚餐',s:'芬蘭馴鹿料理可以先試',who:'all'},
+ {t:'21:00',x:'取行李',p:'tre-sta',who:'all',star:1},
+ {t:'21:30',x:'找到臥鋪車廂',who:'all'},
+ {t:'22:20',x:'夜車出發 → Rovaniemi',s:'臥鋪已訂',who:'all',star:1}
+],notes:['置物櫃先確認尺寸：大型行李箱要選大格；當天大格滿了，住處也可以寄放，只是晚上要多跑一趟。','早上的塔人最少，光線也比下午好。']},
+{d:'2026-09-17',w:'四',city:'rov',t:'羅瓦涅米：北極圈',items:[
+ {t:'07:20',x:'抵達 Rovaniemi',p:'rov-sta'},
+ {t:'08:00',x:'Green Motion（火車站）取車',s:'IDP ＋ 台灣駕照 ＋ 信用卡',p:'rov-sta',star:1},
+ {t:'08:30',x:'Arktikum 北極圈科學博物館',s:'強烈建議留 2 小時',p:'arktikum'},
+ {t:'11:00',x:'Santa Claus Village',s:'跨越北極圈線、聖誕老人辦公室、寄一張明信片給自己',p:'santa'},
+ {t:'13:00',x:'Santa\u2019s Salmon Place 午餐',s:'明火烤鮭魚',p:'santa'},
+ {t:'15:00',x:'入住 Glass Resort',p:'glass'},
+ {t:'21:00',x:'天氣許可就看極光',s:'9 月中已有機會，需晴空＋無光害'}
+],notes:['羅瓦涅米 3–10°C，夜間可能接近 0°C。看極光要當「冬天」穿：防風防水外套、毛帽、手套、保暖內搭。']},
+{d:'2026-09-18',w:'五',city:'rov',t:'羅瓦涅米：Apukka 玻璃屋',items:[
+ {t:'10:00',tl:'上午',x:'Prisma Rovaniemi 採買',s:'這趟最划算的採買點：雲莓果醬 lakka、莓果乾、Fazer、鹹甘草糖、馴鹿肉罐頭',p:'prisma',star:1},
+ {t:'15:00',tl:'下午',x:'入住 Apukka Resort 玻璃屋',s:'參加哈士奇／馴鹿農場行程',p:'apukka'},
+ {t:'21:00',tl:'晚上',x:'玻璃屋躺著等極光'}
+],notes:['有車就在羅瓦涅米一次買足，重的東西（果醬、罐頭）用行李箱托運，不要留到赫爾辛基提著走。']},
+{d:'2026-09-19',w:'六',city:'rov',t:'羅瓦涅米 → 夜車回赫爾辛基',items:[
+ {t:'09:00',x:'奧納斯山 Ounasvaara 觀景',s:'開車可上，不必爬坡',p:'ounas'},
+ {t:'12:00',x:'市區自由活動、加滿油',s:'到 17:00'},
+ {t:'19:00',x:'提前一小時還車',s:'原本 20:00 還車、20:01 上車太危險',p:'rov-sta',star:1},
+ {t:'20:00',x:'進站、上車'},
+ {t:'21:00',x:'夜車出發 → 赫爾辛基',s:'臥鋪已訂',star:1}
+]},
+{d:'2026-09-20',w:'日',city:'hel',t:'赫爾辛基 Day 1',items:[
+ {t:'09:15',x:'抵赫爾辛基中央車站',p:'hel-sta'},
+ {t:'09:20',x:'站內售票機買 2 日 ABC 票 × 3',s:'先買再走。選 ABC 不是 AB，ABC 才含機場；48 小時效期到 9/22 09:20',p:'hel-sta',star:1},
+ {t:'09:35',x:'步行 5 分鐘到 Bob W，行李寄放',s:'數位門鎖沒有櫃檯，門鎖碼先截圖存手機',p:'bobw'},
+ {t:'10:30',x:'岩石教堂 Temppeliaukio',s:'搭電車，剛下夜車不要走 25 分鐘',p:'rock'},
+ {t:'12:00',x:'午餐'},
+ {t:'13:30',x:'中央圖書館 Oodi',s:'週日 12:00–18:00，建築本身就值得看',p:'oodi'},
+ {t:'15:00',x:'赫爾辛基大教堂、元老廣場、Esplanadi',p:'hel-cath'},
+ {t:'16:30',x:'回 Bob W 正式入住、休息',p:'bobw'},
+ {t:'17:30',x:'超市採買（這天必做）',s:'Stockmann 地下 Herkku 或站周邊 Alepa／K-Market，買齊 9/21＋9/22 兩天早餐',p:'stock',star:1},
+ {t:'18:30',x:'回房間自己煮，或外食',s:'公寓式飯店有完整廚房'}
+],notes:['日票從購買當下起算，9/20 09:20 買，效期到 9/22 09:20，比 9/22 06:25 的機場快線晚三小時，安全。','拿 AB 票搭到機場被查票罰 €100，是觀光客最常踩的雷。','芬蘭上車不用打票（跟布拉格相反），但一定要上車前買好。紙票三張別混在一起。']},
+{d:'2026-09-21',w:'一',city:'hel',t:'赫爾辛基 Day 2：芬蘭堡',items:[
+ {t:'08:00',x:'房間早餐',s:'前一晚買的'},
+ {t:'09:00',x:'興康廣場 Kauppatori 早市',p:'kauppa'},
+ {t:'09:30',x:'舊市集 Vanha Kauppahalli',s:'週一正常營業：鮭魚湯、馴鹿製品、起司',p:'vanha'},
+ {t:'10:30',x:'渡輪前往芬蘭堡 Suomenlinna',s:'船程 15 分鐘，HSL 票內含',p:'suomen',star:1},
+ {t:'11:00',x:'島上漫步、砲台、島上餐廳午餐',s:'到 14:30；路面不平，穿好走的鞋',p:'suomen'},
+ {t:'15:00',x:'回本島；Stockmann、Marimekko、Iittala 最後採買',s:'記得辦 Tax Free',p:'stock',star:1},
+ {t:'17:00',x:'超市補買 9/22 早餐',s:'若前一天買不夠'},
+ {t:'18:00',x:'晚餐；回房打包行李、早睡',s:'明天 05:45 起床'}
+],notes:['週一芬蘭博物館普遍公休，這天全排戶外與市集。','中央車站周邊的 Alepa 營業到深夜，晚上發現早餐買不夠還補得了。']},
+{d:'2026-09-22',w:'二',city:'hel',t:'赫爾辛基 → 布拉格｜伏爾塔瓦河晚餐遊船',items:[
+ {t:'05:45',x:'起床，房間吃前一晚買的早餐'},
+ {t:'06:15',x:'退房（數位門鎖，放下就走）→ 步行 5 分鐘到中央車站',p:'hel-sta'},
+ {t:'06:25',x:'搭機場快線 I 或 P 線',s:'約 30–35 分鐘，票要 ABC 效力',star:1},
+ {t:'07:00',x:'抵達萬塔機場，報到、過安檢',p:'hel-air'},
+ {t:'09:40',x:'HEL → PRG 起飛',star:1},
+ {t:'10:50',x:'抵達布拉格',s:'飛行約 2h10，時差 −1 小時',p:'prg-air',city:'prg'},
+ {t:'12:00',x:'入住 SOHO Boutique Hotel',s:'午前可能還不能 check-in，先寄行李',p:'soho',city:'prg'},
+ {t:'13:00',x:'Pork\u2019s Vodičkova 午餐',s:'捷克豬腳／烤鴨',p:'porks',city:'prg'},
+ {t:'14:30',x:'瓦茨拉夫廣場、跳舞的房子',s:'慢慢走就好',p:'dancing',city:'prg'},
+ {t:'15:30',x:'回飯店休息睡一下',s:'今天 05:45 就起床了',p:'soho',city:'prg'},
+ {t:'17:45',x:'出發到查理大橋旁碼頭',p:'pier',city:'prg'},
+ {t:'18:00',x:'伏爾塔瓦河晚餐遊船',s:'到 20:30。指定靠窗或上層；入夜河面風冷，外套要帶',p:'pier',city:'prg',star:1},
+ {t:'21:00',x:'回飯店',p:'soho',city:'prg'}
+],notes:['遊船排這天的理由：當天 05:45 起床又搭了飛機，晚上坐著不走路剛好；晚餐一併解決；9 月下旬布拉格日落約 19:00，18:00 上船先看黃昏，下半段剛好是點燈後的查理大橋和城堡。']},
+{d:'2026-09-23',w:'三',city:'kv',t:'卡羅維瓦利 溫泉一日遊',items:[
+ {t:'07:15',x:'飯店早餐，前往 Florenc 巴士總站',s:'提早 30 分鐘到站',p:'florenc',city:'prg'},
+ {t:'08:30',x:'RegioJet 發車',s:'訂位 2151655443，上層 29／30／31',p:'florenc',city:'prg',star:1},
+ {t:'10:40',x:'抵達 Karlovy Vary, Terminál',p:'kv-term'},
+ {t:'10:50',x:'搭當地 2 號公車進溫泉區',s:'或沿河步行約 20 分鐘'},
+ {t:'11:10',x:'磨坊溫泉迴廊 ＋ 市場迴廊',s:'先買溫泉杯 lázeňský pohárek，一人一個',p:'mlynska'},
+ {t:'12:00',x:'溫泉迴廊 Vřídelní：Vřídlo 間歇泉',s:'72°C、噴高約 12 公尺',p:'vridelni'},
+ {t:'12:45',x:'午餐',s:'河邊餐廳，控制在 1 小時內'},
+ {t:'13:45',x:'黛安娜觀景塔',s:'從 Grandhotel Pupp 旁搭纜車上去，不要爬坡',p:'diana'},
+ {t:'15:00',x:'下山、最後採買',s:'溫泉餅 oplátky、Becherovka、Moser 水晶'},
+ {t:'15:10',x:'搭 2 號公車回 Terminál',p:'kv-term'},
+ {t:'15:40',x:'抵站，上廁所、買水'},
+ {t:'16:00',x:'RegioJet 發車回布拉格',s:'上層 29／30／31',star:1},
+ {t:'18:15',x:'抵達 Florenc',p:'florenc',city:'prg'},
+ {t:'19:00',x:'晚餐；回飯店把行李打包完',s:'明天 05:45 起床',city:'prg',star:1}
+],notes:[
+ '溫泉是用喝的不是用泡的。鎮上 12 口飲用泉，30–72°C，一口一口試就是樂趣。一次喝一點點就好，礦物質濃度高，喝多了會跑廁所，待會要坐兩小時巴士。',
+ '回程 16:00 那班特別建議走道座位；上車前先在巴士站上一次廁所。坐下層前段最穩，避開上層最後排和廁所旁。'
+]},
+{d:'2026-09-24',w:'四',city:'prg',t:'返程：10:20 起飛',items:[
+ {t:'05:45',x:'起床、最後整理',s:'行李 9/23 晚上就要打包完'},
+ {t:'06:30',x:'退房、搭車前往機場',s:'市區約 30–40 分鐘；前一天請 SOHO 幫忙預約',p:'soho',star:1},
+ {t:'07:15',x:'抵達機場',s:'起飛前 3 小時，非申根 T1 報到排隊較長',p:'prg-air'},
+ {t:'07:30',x:'報到、退稅（VAT refund）、托運行李',s:'退稅商品可能驗貨，先退稅再托運',star:1},
+ {t:'08:15',x:'過安檢、辦理申根離境'},
+ {t:'08:45',x:'管制區內早餐、最後免稅採買'},
+ {t:'10:20',x:'起飛返台',star:1}
+],notes:['SOHO 早餐最早 07:00，趕不上——前一晚先買點小東西墊胃，正餐留到機場吃。','06:30 不一定叫得到車，前一天請飯店幫忙預約，機場接送有固定價。']}
+];
+
+/* ============ 工具 ============ */
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const gmap=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+const cityOf=(day,it)=>CITY[it&&it.city?it.city:day.city];
+function ts(day,it){ if(!it.t) return null; const c=cityOf(day,it); return new Date(day.d+'T'+it.t+':00'+c.off).getTime(); }
+function fmt(tz,d){ return new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:tz}).format(d); }
+
+const FLAT=[];
+DAYS.forEach((day,di)=>day.items.forEach((it,ii)=>{const m=ts(day,it); if(m!==null) FLAT.push({m,di,ii,day,it});}));
+FLAT.sort((a,b)=>a.m-b.m);
+
+function current(now){
+  let cur=null,next=null;
+  for(const f of FLAT){ if(f.m<=now) cur=f; else {next=f;break;} }
+  return {cur,next};
+}
+function todayIndex(now){
+  for(let i=0;i<DAYS.length;i++){
+    const c=CITY[DAYS[i].city];
+    const s=new Date(DAYS[i].d+'T00:00:00'+c.off).getTime();
+    const e=s+24*3600*1000;
+    if(now>=s&&now<e) return i;
+  }
+  return now<new Date(DAYS[0].d+'T00:00:00+02:00').getTime()?0:DAYS.length-1;
+}
+
+/* ============ 現在列 ============ */
+function tickNow(){
+  const now=Date.now(), d=new Date(now);
+  const {cur,next}=current(now);
+  const ref=cur||next||FLAT[0];
+  const day=ref.day, it=ref.it, c=cityOf(day,it);
+  document.documentElement.style.setProperty('--accent',c.c);
+  $('#nbPin').style.background=c.c;
+  $('#nbCity').textContent=c.n;
+  $('#nbSub').textContent=c.sub;
+  $('#localTime').textContent=fmt(c.tz,d);
+  $('#tpeTime').textContent=fmt('Asia/Taipei',d);
+  const ti=todayIndex(now);
+  const td=DAYS[ti];
+  $('#nbDay').textContent='Day '+(ti+1)+' · '+td.d.slice(5).replace('-','/')+' '+td.w;
+
+  const before=now<FLAT[0].m;
+  if(before){
+    $('#nlLead').textContent='行程尚未開始';
+    $('#nlTitle').textContent='第一站：'+FLAT[0].it.x;
+  }else{
+    $('#nlLead').textContent='現在'+(cur?'（'+cur.it.t+' 起）':'');
+    $('#nlTitle').textContent=cur?cur.it.x:'行程已結束';
+  }
+  if(next){
+    const mins=Math.round((next.m-now)/60000);
+    const left=mins>=60?Math.floor(mins/60)+' 小時 '+(mins%60)+' 分':mins+' 分鐘';
+    $('#nlNext').textContent='接下來 '+next.it.t+'　'+next.it.x+'（還有 '+left+'）';
+  }else $('#nlNext').textContent='';
+
+  const pk=(cur&&cur.it.p)||(next&&next.it.p);
+  const btn=$('#nlMap');
+  if(pk){ btn.hidden=false; btn.href=gmap(P[pk].q); btn.textContent='開地圖'; }
+  else btn.hidden=true;
+}
+
+/* ============ 行程渲染 ============ */
+function itemHTML(day,it,now){
+  const m=ts(day,it);
+  const {cur}=current(now);
+  const isCur=cur&&cur.day===day&&cur.it===it;
+  const done=m!==null&&m<now&&!isCur;
+  const tags=[];
+  if(it.who==='you')tags.push('<span class="tag you">Titi</span>');
+  if(it.who==='par')tags.push('<span class="tag par">其他成員</span>');
+  if(it.who==='all')tags.push('<span class="tag all">全體</span>');
+  if(it.star)tags.push('<span class="tag star">重要</span>');
+  if(it.p)tags.push('<a class="maplink" target="_blank" rel="noopener" href="'+gmap(P[it.p].q)+'">'+ICO(it.p)+' '+P[it.p].n.split('（')[0]+'</a>');
+  return '<li class="'+(isCur?'cur':(done?'done':''))+'">'+
+    '<span class="t">'+(it.tl||it.t||'　')+'</span><span class="rail"></span>'+
+    '<div class="itrow"><div class="itxt"><div class="it-title">'+it.x+'</div>'+
+    (it.s?'<div class="it-sub">'+it.s+'</div>':'')+
+    (tags.length?'<div class="tags">'+tags.join('')+'</div>':'')+
+    '</div>'+thumbHTML(it.p)+'</div></li>';
+}
+function dayHTML(day,di,now,open){
+  const c=CITY[day.city];
+  const ti=todayIndex(now);
+  const isToday=ti===di;
+  const md=day.d.slice(5).replace('-','/');
+  let body='<div class="minimap" data-di="'+di+'">'+(open?dayMapHTML(di,1):'')+'</div>'+
+           '<ol class="tl">'+day.items.map(it=>itemHTML(day,it,now)).join('')+'</ol>';
+  if(day.notes&&day.notes.length){
+    body+='<details class="tips"><summary>這天的提醒（'+day.notes.length+'）</summary><div class="body">'+
+      day.notes.map(n=>'<p>'+n+'</p>').join('')+'</div></details>';
+  }
+  return '<article class="day" style="--dc:'+c.c+'" data-di="'+di+'">'+
+    '<button class="day-head" aria-expanded="'+(open?'true':'false')+'">'+
+      '<span><span class="dn">Day '+(di+1)+' · '+md+'（'+day.w+'）· '+c.n+'</span>'+
+      '<span class="dt">'+day.t+(isToday?'<span class="today-flag">今天</span>':'')+'</span></span>'+
+      '<span class="chev">'+(open?'▾':'▸')+'</span>'+
+    '</button>'+
+    '<div class="day-body"'+(open?'':' hidden')+'>'+body+'</div></article>';
+}
+function renderToday(){
+  const now=Date.now(), ti=todayIndex(now);
+  let h=dayHTML(DAYS[ti],ti,now,true);
+  if(ti+1<DAYS.length) h+=dayHTML(DAYS[ti+1],ti+1,now,false);
+  $('#view-today').innerHTML=h;
+  bindDays($('#view-today'));
+}
+function renderAll(){
+  const now=Date.now(), ti=todayIndex(now);
+  $('#view-all').innerHTML=DAYS.map((d,i)=>dayHTML(d,i,now,i===ti)).join('');
+  bindDays($('#view-all'));
+}
+function bindDays(root){
+  root.querySelectorAll('.day-head').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const body=b.nextElementSibling, open=body.hidden;
+      body.hidden=!open; b.setAttribute('aria-expanded',open);
+      if(open){ const mm=body.querySelector('.minimap');
+        if(mm&&!mm.innerHTML) mm.innerHTML=dayMapHTML(Number(mm.dataset.di),1); applyThumbs(); }
+      b.querySelector('.chev').textContent=open?'▾':'▸';
+    });
+  });
+}
+
+/* ============ 地點照片 ============ */
+const KIND={
+ church:['⛪','教堂'],castle:['🏰','城堡'],tower:['🗼','觀景塔'],museum:['🏛','博物館'],
+ syn:['🕍','猶太會堂'],grave:['🪦','墓園'],square:['🏙','廣場'],bridge:['🌉','橋'],
+ market:['🧺','市集'],shop:['🛒','超市・購物'],hotel:['🛏','住宿'],food:['🍽','餐廳'],
+ station:['🚉','車站'],bus:['🚌','巴士站'],tram:['🚋','電車站'],airport:['✈️','機場'],
+ spa:['♨️','溫泉'],nature:['🌲','自然・步道'],island:['🏝','島'],aurora:['🌌','極光・玻璃屋'],
+ santa:['🎅','聖誕老人村'],boat:['🚢','遊船'],library:['📚','圖書館'],conf:['🎓','會場'],
+ river:['🌊','河・激流'],street:['🏘','老街'],art:['🎨','塗鴉牆'],clock:['🕰','天文鐘'],
+ arch:['🏢','建築'],quay:['⚓','河岸碼頭'],park:['🌳','林蔭大道']
+};
+const PIC={
+ 'prg-air':{k:'airport',t:'Václav Havel Airport Prague'},
+ 'orea':{k:'hotel',geo:1},
+ 'ribs':{k:'food'},
+ 'powder':{k:'tower',t:'Powder Tower, Prague',q:'Powder Tower Prague'},
+ 'tyn':{k:'church',t:'Church of Our Lady before Týn'},
+ 'oldsq':{k:'square',t:'Old Town Square, Prague',q:'Old Town Square Prague'},
+ 'clock':{k:'clock',t:'Prague astronomical clock'},
+ 'charles':{k:'bridge',t:'Charles Bridge'},
+ 'havel':{k:'market',q:'Havelské tržiště Prague market'},
+ 'palladium':{k:'shop',q:'Palladium Prague shopping mall'},
+ 'tram22':{k:'tram',q:'Prague tram 22'},
+ 'castle':{k:'castle',t:'Prague Castle'},
+ 'vitus':{k:'church',t:'St. Vitus Cathedral'},
+ 'oldpal':{k:'castle',t:'Old Royal Palace',q:'Old Royal Palace Prague Castle'},
+ 'george':{k:'church',t:"St. George's Basilica, Prague"},
+ 'golden':{k:'street',t:'Golden Lane',q:'Golden Lane Prague Castle'},
+ 'malasq':{k:'square',t:'Malostranské náměstí'},
+ 'kampa':{k:'island',q:'Kampa island Prague'},
+ 'lennon':{k:'art',t:'Lennon Wall'},
+ 'josefov':{k:'syn',t:'Josefov'},
+ 'maisel':{k:'syn',t:'Maisel Synagogue'},
+ 'pinkas':{k:'syn',t:'Pinkas Synagogue'},
+ 'cemetery':{k:'grave',t:'Old Jewish Cemetery, Prague'},
+ 'klausen':{k:'syn',t:'Klausen Synagogue'},
+ 'oldnew':{k:'syn',t:'Old New Synagogue'},
+ 'spanish':{k:'syn',t:'Spanish Synagogue (Prague)',q:'Spanish Synagogue Prague'},
+ 'soho':{k:'hotel',geo:1},
+ 'porks':{k:'food'},
+ 'wenceslas':{k:'square',t:'Wenceslas Square'},
+ 'dancing':{k:'arch',t:'Dancing House'},
+ 'pier':{k:'boat',q:'Vltava river cruise boat Prague'},
+ 'florenc':{k:'bus',q:'Florenc bus station Prague'},
+ 'billa':{k:'shop'},'tesco':{k:'shop'},
+ 'kv-term':{k:'bus',geo:1},
+ 'mlynska':{k:'spa',t:'Mill Colonnade'},
+ 'vridelni':{k:'spa',t:'Vřídlo',q:'Vřídlo Karlovy Vary hot spring'},
+ 'diana':{k:'tower',t:'Diana Lookout Tower',q:'Diana Lookout Tower Karlovy Vary'},
+ 'pupp':{k:'hotel',t:'Grandhotel Pupp'},
+ 'hel-air':{k:'airport',t:'Helsinki Airport'},
+ 'tikkurila':{k:'station',t:'Tikkurila railway station'},
+ 'tre-sta':{k:'station',q:'Tampere railway station'},
+ 'satama':{k:'hotel',geo:1},
+ 'tre-hall':{k:'conf',t:'Tampere Hall'},
+ 'moomin':{k:'museum',t:'Moomin Museum'},
+ 'nasi':{k:'tower',t:'Näsinneula'},
+ 'pyynikki':{k:'tower',q:'Pyynikki observation tower Tampere',t2:['fi','Pyynikin näkötorni']},
+ 'mhall':{k:'market',t:'Tampere Market Hall',t2:['fi','Tampereen kauppahalli']},
+ 'tammel':{k:'market',q:'Tammelantori Tampere',t2:['fi','Tammelantori']},
+ 'vapriikki':{k:'museum',t:'Vapriikki'},
+ 'ratina':{k:'shop',q:'Ratina shopping centre Tampere',t2:['fi','Ratina (kauppakeskus)']},
+ 'laukon':{k:'quay',q:'Laukontori Tampere',t2:['fi','Laukontori']},
+ 'tallipiha':{k:'street',q:'Tallipiha Tampere',t2:['fi','Tallipiha']},
+ 'koski':{k:'river',t:'Tammerkoski'},
+ 'rov-sta':{k:'station',q:'Rovaniemi railway station'},
+ 'arktikum':{k:'museum',t:'Arktikum'},
+ 'santa':{k:'santa',t:'Santa Claus Village'},
+ 'glass':{k:'aurora',geo:1,q:'Rovaniemi aurora glass igloo'},
+ 'apukka':{k:'aurora',geo:1},
+ 'ounas':{k:'nature',t:'Ounasvaara'},
+ 'prisma':{k:'shop',q:'Prisma Rovaniemi'},
+ 'hel-sta':{k:'station',t:'Helsinki Central Station'},
+ 'bobw':{k:'hotel',geo:1},
+ 'rock':{k:'church',t:'Temppeliaukio Church'},
+ 'oodi':{k:'library',t:'Oodi',q:'Oodi Helsinki Central Library'},
+ 'hel-cath':{k:'church',t:'Helsinki Cathedral'},
+ 'espla':{k:'park',t:'Esplanadi'},
+ 'kauppa':{k:'market',t:'Market Square, Helsinki',q:'Market Square Helsinki Kauppatori'},
+ 'vanha':{k:'market',q:'Vanha kauppahalli Helsinki old market hall',t2:['fi','Vanha kauppahalli']},
+ 'suomen':{k:'island',t:'Suomenlinna'},
+ 'stock':{k:'shop',t:'Stockmann'}
+};
+const ICO=k=>(KIND[(PIC[k]||{}).k]||['📍',''])[0];
+const KLB=k=>(KIND[(PIC[k]||{}).k]||['','地點'])[1];
+const IMGU={};
+const PSTAT={ok:0,done:0};
+function picStat(){
+  const el=document.getElementById('picStat'); if(!el) return;
+  const n=Object.keys(PIC).length;
+  el.textContent = PSTAT.ok?('照片 '+PSTAT.ok+'／'+n+' 張已載入'+(PSTAT.done?'（完成）':'（載入中…）'))
+    : (PSTAT.done?'照片載入失敗：這個開啟方式擋掉了外部連線。把檔案下載後用 Safari／Chrome 開啟，或改用可連網的方式檢視。':'照片載入中…');
+}
+
+function applyThumbs(){
+  document.querySelectorAll('img.th[data-pk]').forEach(im=>{
+    const u=IMGU[im.dataset.pk];
+    if(u&&im.getAttribute('src')!==u){ im.src=u; im.onload=()=>im.classList.add('on'); }
+  });
+  PSTAT.ok=Object.keys(IMGU).length; picStat();
+}
+let _jn=0;
+function jsonp(u){
+  return new Promise((res,rej)=>{
+    const cb='__wcb'+(++_jn), s=document.createElement('script');
+    const t=setTimeout(()=>{done();rej(0)},9000);
+    function done(){clearTimeout(t);try{delete window[cb]}catch(e){};if(s.parentNode)s.parentNode.removeChild(s)}
+    window[cb]=d=>{done();res(d)};
+    s.onerror=()=>{done();rej(0)};
+    s.src=u.replace('&origin=*','')+'&callback='+cb;
+    document.head.appendChild(s);
+  });
+}
+async function jget(u){
+  try{ if(typeof fetch==='function'){ const r=await fetch(u); if(r.ok) return await r.json(); } }catch(e){}
+  return jsonp(u);
+}
+function wikiURL(lang,extra){
+  return 'https://'+lang+'.wikipedia.org/w/api.php?action=query&format=json&origin=*&formatversion=2'+
+         '&prop=pageimages&piprop=thumbnail&pithumbsize=480&'+extra;
+}
+function pickThumbs(j,reqs){
+  const q=(j&&j.query)||{}, step={}, out={};
+  (q.normalized||[]).forEach(n=>step[n.from]=n.to);
+  (q.redirects||[]).forEach(n=>step[n.from]=n.to);
+  const by={}; (q.pages||[]).forEach(p=>{ if(p.thumbnail) by[p.title]=p.thumbnail.source; });
+  reqs.forEach(t=>{ let c=t; for(let i=0;i<4&&step[c];i++) c=step[c]; if(by[c]) out[t]=by[c]; });
+  return out;
+}
+async function loadThumbs(){
+  if(typeof fetch!=='function') return;
+  const keys=Object.keys(PIC);
+  // 1) 用條目名稱一次批次查（英文維基）
+  const byTitle={};
+  keys.forEach(k=>{ if(PIC[k].t) (byTitle[PIC[k].t]=byTitle[PIC[k].t]||[]).push(k); });
+  const titles=Object.keys(byTitle);
+  for(let i=0;i<titles.length;i+=40){
+    const part=titles.slice(i,i+40);
+    try{
+      const j=await jget(wikiURL('en','redirects=1&titles='+encodeURIComponent(part.join('|'))));
+      const got=pickThumbs(j,part);
+      Object.keys(got).forEach(t=>byTitle[t].forEach(k=>IMGU[k]=got[t]));
+    }catch(e){}
+  }
+  applyThumbs();
+  // 2) 沒抓到的，改用該語系條目名或全文搜尋
+  for(const k of keys){
+    if(IMGU[k]) continue;
+    const p=PIC[k];
+    try{
+      if(p.t2){
+        const j=await jget(wikiURL(p.t2[0],'redirects=1&titles='+encodeURIComponent(p.t2[1])));
+        const g=pickThumbs(j,[p.t2[1]]); if(g[p.t2[1]]){ IMGU[k]=g[p.t2[1]]; applyThumbs(); continue; }
+      }
+      const qq=p.q||p.t||(P[k]&&P[k].q); if(!qq) continue;
+      const j2=await jget(wikiURL('en','generator=search&gsrlimit=1&gsrsearch='+encodeURIComponent(qq)));
+      const pg=((j2.query||{}).pages||[])[0];
+      if(pg&&pg.thumbnail){ IMGU[k]=pg.thumbnail.source; applyThumbs(); }
+    }catch(e){}
+  }
+  PSTAT.done=1; picStat();
+  // 3) 還是沒有的，用座標找該地點附近的實景照片
+  for(const k of keys){
+    if(IMGU[k]||!P[k]) continue;
+    const ll=P[k].ll; if(!ll) continue;
+    try{
+      const u='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&formatversion=2'+
+        '&generator=geosearch&ggsnamespace=6&ggslimit=10&ggsradius=300&ggscoord='+ll[0]+'|'+ll[1]+
+        '&prop=imageinfo&iiprop=url|mime|size&iiurlwidth=480';
+      const j=await jget(u);
+      const pgs=((j.query||{}).pages||[]).filter(p=>{
+        const i=(p.imageinfo||[])[0]; return i&&i.mime==='image/jpeg'&&i.width>=640;
+      });
+      if(pgs.length){ IMGU[k]=pgs[0].imageinfo[0].thumburl; applyThumbs(); }
+    }catch(e){}
+  }
+  PSTAT.done=1; picStat();
+}
+function thumbHTML(k,cls){
+  if(!k||!P[k]) return '';
+  return '<span class="thumb '+(cls||'')+'" title="'+KLB(k)+'"><span class="ico">'+ICO(k)+'</span>'+
+         '<img class="th" data-pk="'+k+'" alt="'+P[k].n+'" loading="lazy" referrerpolicy="no-referrer"></span>';
+}
+
+/* ============ 示意地圖 ============ */
+const SCN={"overview":{"w":1000,"h":1731,"bbox":[3.5,45.0,33.5,71.0],"lon0":3.5,"lat1":71.0,"k":1909.859317102744,"kind":"macro","layers":[{"c":"land","d":"M1000.0 1679.6L997.7 1680.7L990.1 1675.0L965.9 1679.4L951.2 1670.9L944.4 1669.9L942.7 1667.8L949.7 1665.9L950.3 1662.7L940.5 1660.7L935.2 1656.7L962.0 1660.5L969.3 1653.7L961.8 1656.2L951.5 1652.4L948.2 1645.5L948.0 1635.9L942.0 1624.6L947.1 1638.6L945.8 1652.1L934.4 1651.3L935.4 1645.9L930.1 1653.1L909.9 1656.8L905.2 1670.6L890.6 1689.8L877.4 1696.2L870.9 1696.7L870.0 1702.5L872.3 1705.4L874.2 1714.7L873.5 1718.7L868.9 1713.4L863.5 1711.1L846.5 1717.3L842.7 1716.3L842.0 1719.9L831.7 1717.2L823.7 1709.7L833.3 1706.5L833.1 1699.4L841.0 1690.5L841.3 1686.4L848.3 1681.0L850.2 1674.9L847.7 1666.0L848.6 1661.3L856.2 1658.2L856.8 1665.2L860.2 1660.9L870.5 1664.2L873.6 1661.8L877.9 1666.5L885.9 1665.2L887.7 1663.0L880.8 1657.4L881.4 1648.5L879.3 1643.3L869.1 1636.8L867.0 1628.7L868.0 1621.7L854.5 1610.9L857.0 1596.8L854.2 1587.4L847.4 1588.1L842.5 1579.7L834.3 1578.2L832.1 1581.1L830.8 1578.3L828.0 1578.4L828.2 1575.0L826.4 1573.7L819.6 1572.8L810.7 1564.8L801.6 1561.7L791.0 1567.1L778.2 1566.3L770.6 1572.7L760.2 1575.5L755.4 1586.0L732.1 1590.1L722.3 1594.4L719.1 1598.3L713.1 1599.7L702.6 1589.1L699.5 1588.3L689.3 1590.3L672.3 1586.0L663.6 1586.2L654.6 1581.3L651.8 1585.3L645.9 1588.3L642.3 1580.2L636.1 1579.0L634.0 1575.4L628.3 1572.9L625.1 1565.3L621.1 1565.4L621.4 1557.2L626.5 1551.3L634.6 1531.6L644.7 1533.4L644.9 1531.2L640.2 1526.6L641.1 1520.3L638.3 1507.8L640.2 1504.4L651.2 1489.2L673.7 1464.4L682.4 1462.7L686.3 1456.4L686.5 1451.8L682.6 1442.9L686.5 1438.3L682.9 1434.8L672.1 1415.1L672.7 1410.6L670.2 1404.0L670.3 1399.1L676.4 1397.6L682.6 1400.1L695.4 1385.2L725.6 1381.4L747.5 1382.7L788.1 1391.4L793.2 1399.8L806.3 1401.1L806.7 1406.2L812.0 1400.0L817.0 1401.8L822.8 1399.2L836.6 1402.7L838.3 1407.3L841.0 1408.5L845.0 1402.8L853.4 1398.1L861.5 1411.3L888.7 1406.2L893.6 1410.4L894.4 1414.3L901.5 1417.5L904.4 1412.7L901.1 1399.8L902.8 1394.8L908.5 1383.7L916.0 1375.6L935.8 1372.2L954.1 1375.3L959.4 1371.9L962.1 1363.3L964.5 1361.4L976.9 1364.3L988.3 1359.6L1000.0 1359.9L1000.0 1679.6ZM955.0 1676.0L935.5 1671.0L933.6 1665.5L937.9 1670.3L955.0 1676.0Z"},{"c":"land","d":"M189.4 1602.0L204.2 1612.1L199.5 1626.5L199.6 1631.9L211.5 1634.6L212.6 1638.0L221.1 1642.2L228.3 1635.7L231.8 1639.9L229.9 1651.3L231.0 1656.9L225.7 1656.2L223.2 1653.4L219.6 1654.5L217.9 1660.1L220.9 1672.0L218.0 1672.0L214.6 1666.0L201.0 1668.7L197.6 1660.2L193.5 1659.5L192.0 1660.5L191.7 1669.6L183.4 1682.7L184.9 1689.4L181.8 1691.6L175.9 1683.6L177.3 1679.7L171.4 1678.1L165.3 1671.6L164.1 1661.9L153.2 1670.4L154.2 1675.7L149.8 1682.7L142.9 1687.2L134.6 1684.5L121.0 1689.2L118.5 1688.0L109.1 1675.5L110.6 1670.2L108.6 1663.4L97.6 1662.7L91.2 1667.4L92.4 1671.3L90.0 1674.1L82.4 1676.2L82.3 1673.1L86.5 1670.0L87.4 1665.2L85.3 1662.8L88.7 1653.9L97.0 1646.9L98.5 1637.5L105.6 1633.7L115.1 1621.9L116.7 1618.3L113.3 1615.7L118.4 1611.0L125.5 1614.1L130.7 1612.7L133.2 1608.1L137.2 1605.9L147.6 1607.3L165.1 1605.7L168.9 1602.9L163.4 1601.2L169.1 1596.8L179.4 1602.7L189.4 1602.0Z"},{"c":"land","d":"M519.2 1038.9L514.8 1044.8L510.5 1047.0L509.7 1060.8L513.6 1066.1L509.5 1068.4L506.7 1075.7L499.2 1080.6L494.7 1091.9L488.2 1095.5L492.8 1085.5L486.8 1073.9L488.4 1069.8L487.9 1056.3L501.2 1039.2L507.4 1037.1L510.2 1039.0L513.4 1033.9L519.2 1038.9ZM432.6 1136.6L430.0 1132.4L430.4 1116.8L437.7 1098.1L440.9 1096.6L449.9 1071.1L453.9 1070.9L451.7 1073.4L451.8 1077.8L446.1 1091.5L432.6 1136.6ZM265.7 970.6L271.4 969.5L276.6 945.9L272.7 926.1L277.8 919.2L281.1 908.1L289.0 904.9L299.5 891.9L303.0 868.8L293.8 838.8L293.1 831.2L306.9 827.3L312.7 807.0L303.2 793.8L288.5 781.2L293.5 741.1L287.2 719.1L287.0 695.2L290.6 689.3L283.3 667.8L290.4 652.9L289.2 645.1L309.8 614.6L323.5 608.9L348.7 613.5L354.7 601.4L352.6 579.0L338.3 569.9L366.0 513.2L368.3 485.6L371.2 473.6L368.1 446.1L384.7 443.0L399.5 431.5L397.4 416.2L430.1 368.5L431.1 359.9L420.9 336.5L423.1 329.6L431.9 325.6L436.2 318.9L442.8 295.4L460.8 276.8L480.6 289.2L489.2 268.1L488.8 238.5L496.0 235.4L549.0 254.1L558.0 243.1L549.0 237.2L558.0 225.3L561.6 209.1L561.2 204.4L553.9 193.1L570.7 191.6L579.8 197.0L580.6 203.7L616.6 239.2L645.1 253.1L653.3 263.0L656.1 273.9L660.6 274.4L671.3 290.1L666.7 297.1L668.0 320.1L665.2 333.5L674.5 336.8L675.8 344.9L670.9 353.1L671.4 362.1L683.0 389.3L679.8 398.0L678.9 409.0L673.4 417.0L673.3 436.0L675.0 441.0L680.2 444.6L688.5 472.7L679.7 474.5L673.0 470.8L657.4 474.2L653.4 478.3L641.6 467.3L634.6 473.6L630.0 468.0L626.3 477.1L625.1 489.5L619.5 488.4L621.6 493.1L614.0 494.7L615.0 499.7L612.7 503.5L602.2 504.7L600.8 508.7L603.6 516.4L597.0 512.0L601.5 520.8L602.5 527.2L587.9 552.2L592.6 558.8L596.5 572.8L600.7 579.1L598.8 585.5L583.9 601.0L575.4 624.6L556.8 640.1L547.1 644.0L540.7 655.0L533.4 651.6L533.2 657.9L528.5 654.0L524.5 663.7L517.8 671.8L510.6 670.3L509.7 671.8L512.0 674.1L503.5 676.2L501.0 684.6L493.8 689.6L500.1 690.1L498.8 696.9L489.0 704.7L479.3 698.6L482.5 709.7L480.1 714.2L484.6 718.4L471.5 729.3L463.7 725.1L462.6 728.4L464.3 737.6L471.1 744.9L467.0 749.7L462.5 771.0L465.5 783.8L456.5 781.0L457.2 785.8L454.4 791.4L454.6 805.0L456.7 809.8L455.5 812.2L456.8 834.7L459.3 844.3L458.4 851.9L462.0 855.9L469.8 856.8L472.0 863.1L481.9 859.4L488.8 871.7L501.9 882.1L501.2 888.9L509.6 893.8L516.3 910.5L515.7 915.2L502.6 927.8L482.1 941.4L487.8 944.2L500.3 938.2L503.9 943.5L497.1 945.9L495.8 953.1L492.8 957.7L465.2 973.9L449.3 987.0L423.8 988.1L442.9 991.4L447.5 997.4L438.4 1001.1L442.3 1015.0L440.0 1018.4L439.8 1033.7L436.6 1034.0L435.2 1040.3L438.4 1059.7L432.5 1074.3L434.3 1086.4L428.3 1108.3L421.7 1120.9L416.6 1137.7L410.9 1143.5L404.2 1139.9L373.8 1143.0L375.2 1149.0L368.6 1148.1L357.2 1161.0L356.8 1167.1L361.4 1179.0L355.8 1186.7L343.5 1184.8L327.4 1189.6L312.9 1185.8L314.7 1181.7L315.8 1166.0L299.0 1133.6L306.9 1136.9L310.1 1135.2L305.2 1124.6L311.9 1123.9L314.0 1120.1L312.8 1113.9L307.3 1111.1L302.4 1101.4L297.4 1096.3L288.4 1076.7L285.1 1063.1L282.1 1064.4L279.3 1048.6L274.5 1046.2L273.4 1030.2L268.3 1028.5L265.0 1021.1L264.4 1007.1L258.3 1005.2L259.1 998.4L255.6 961.8L259.8 959.1L262.9 962.4L265.7 970.6ZM521.3 1037.3L518.0 1034.1L521.2 1029.7L527.7 1030.9L521.9 1033.4L521.3 1037.3ZM495.7 963.5L496.6 959.0L499.5 958.0L497.2 962.9L495.7 963.5ZM502.3 936.3L502.4 930.5L506.6 929.9L504.1 932.7L502.3 936.3Z"},{"c":"land","d":"M634.6 1531.6L626.5 1551.3L621.4 1557.2L620.4 1566.0L607.4 1568.3L598.4 1558.0L585.6 1560.3L578.9 1558.3L566.3 1559.3L561.1 1570.9L548.3 1578.3L537.5 1574.5L532.2 1580.1L513.8 1583.1L509.7 1585.6L508.3 1588.7L509.3 1593.0L507.5 1596.2L475.4 1597.1L471.2 1595.1L460.6 1586.1L452.9 1583.7L445.5 1566.3L449.5 1551.7L454.5 1543.4L466.1 1544.1L475.3 1541.0L486.2 1532.0L488.7 1522.2L503.2 1510.2L514.6 1509.9L515.6 1515.1L521.6 1514.9L525.0 1509.2L531.4 1504.8L537.7 1514.6L542.5 1516.4L541.9 1524.9L543.4 1525.6L547.2 1524.1L551.9 1526.1L555.5 1519.2L562.1 1515.7L570.5 1515.4L578.9 1519.3L583.4 1518.0L586.0 1514.0L604.7 1514.3L613.0 1517.8L617.3 1524.7L634.6 1531.6Z"},{"c":"land","d":"M433.9 1659.3L425.3 1658.9L424.2 1665.5L418.9 1665.5L414.4 1670.1L404.5 1673.8L403.1 1676.7L405.5 1681.1L405.1 1690.0L392.6 1696.2L395.1 1699.7L392.8 1703.5L394.6 1708.9L391.4 1710.1L381.8 1707.3L376.4 1708.3L369.0 1699.8L362.3 1708.2L349.8 1706.9L346.0 1710.7L337.2 1708.4L335.9 1706.5L345.8 1701.8L340.7 1694.9L336.1 1692.4L336.7 1684.4L332.9 1684.0L332.9 1681.5L337.8 1674.9L330.7 1673.2L329.3 1670.8L330.0 1668.1L339.3 1661.1L340.0 1658.3L368.3 1664.2L379.8 1654.2L398.0 1653.0L408.9 1649.1L415.3 1650.7L415.9 1644.7L419.8 1641.7L426.1 1642.0L429.4 1652.6L433.9 1659.3Z"},{"c":"land","d":"M518.8 1724.5L521.0 1723.8L521.2 1721.7L526.8 1723.1L529.6 1722.8L530.0 1720.9L516.8 1712.1L518.8 1706.6L513.9 1702.5L514.9 1699.9L511.3 1691.3L513.5 1686.7L518.9 1683.0L525.9 1683.3L537.1 1675.3L558.1 1678.2L562.0 1684.6L569.4 1689.7L573.6 1696.1L575.8 1695.4L576.5 1708.8L584.1 1715.8L597.7 1721.9L599.7 1725.2L595.2 1731.0L519.8 1731.0L518.8 1724.5Z"},{"c":"land","d":"M1000.0 1359.9L988.3 1359.6L976.9 1364.3L964.5 1361.4L962.1 1363.3L959.4 1371.9L954.1 1375.3L942.1 1372.6L935.9 1361.1L937.2 1348.3L934.0 1339.9L935.5 1336.6L925.3 1322.4L930.6 1312.4L938.9 1312.1L945.0 1317.4L954.7 1318.2L964.2 1311.6L965.6 1308.3L973.5 1304.6L972.9 1298.3L965.7 1292.8L964.2 1288.9L965.0 1284.6L956.7 1279.6L941.8 1278.0L944.2 1265.5L930.1 1256.1L922.8 1241.4L919.2 1239.2L921.7 1231.5L910.0 1222.4L911.0 1214.8L915.9 1206.9L915.3 1201.8L910.5 1193.6L913.4 1186.6L912.7 1174.9L907.4 1173.4L898.5 1163.7L891.1 1160.2L881.2 1160.2L866.1 1169.7L861.8 1163.8L863.3 1158.1L862.5 1154.6L851.1 1149.7L843.2 1154.4L835.5 1145.5L826.1 1147.7L821.6 1142.5L823.4 1135.4L820.1 1118.2L816.9 1115.0L811.6 1099.6L804.6 1100.0L807.2 1087.3L811.0 1078.7L811.0 1072.6L801.3 1064.1L800.4 1059.3L795.1 1058.0L796.7 1049.4L801.4 1041.1L809.2 1037.6L805.8 1032.7L800.1 1014.6L801.0 1001.0L797.8 978.5L808.6 961.4L813.3 946.7L821.7 940.4L817.1 933.2L818.8 928.6L817.1 917.3L818.6 913.6L827.8 919.5L833.9 909.1L841.6 911.9L848.2 910.5L854.9 899.1L887.4 907.5L889.1 901.9L882.6 897.3L874.0 886.0L852.3 886.3L838.1 873.9L833.1 862.8L837.4 866.1L838.4 858.0L833.8 853.5L822.6 860.7L809.9 863.0L830.2 838.5L858.4 811.5L922.9 727.1L934.5 697.7L933.6 692.6L922.7 674.0L897.3 652.0L883.1 634.6L890.3 629.5L900.9 608.7L899.6 596.5L886.9 586.6L882.9 574.4L887.3 565.0L887.0 558.2L876.1 552.5L870.1 539.7L870.7 534.0L877.6 525.7L877.0 521.0L870.3 517.5L873.8 510.4L874.3 499.5L877.3 491.8L873.9 487.3L886.5 482.7L886.2 474.2L880.1 449.3L852.2 382.4L852.9 375.6L858.1 364.9L881.4 325.9L882.9 315.4L861.5 280.5L839.5 269.1L832.4 242.1L842.4 209.9L830.5 204.0L854.0 190.4L862.9 167.2L883.1 158.2L888.8 147.9L889.9 140.4L888.7 135.6L903.8 144.9L912.0 144.4L914.1 137.9L912.3 120.9L934.9 129.2L938.9 126.9L943.0 117.8L949.9 118.3L951.0 115.9L949.5 104.4L983.6 126.8L983.2 136.0L980.5 138.3L955.9 131.4L953.1 135.4L961.0 142.9L962.6 150.0L983.3 150.9L984.0 153.2L981.4 159.1L982.6 160.6L998.5 154.9L994.3 180.9L988.0 188.7L997.9 182.9L1000.0 177.9L1000.0 393.2L983.4 381.0L978.3 371.3L981.0 365.7L946.5 359.3L956.7 363.5L966.7 372.8L965.5 380.3L978.7 396.8L989.4 400.3L990.6 412.7L1000.0 417.6L1000.0 427.5L995.4 429.6L1000.0 430.5L1000.0 1359.9ZM581.9 1193.6L569.8 1210.9L579.6 1215.1L589.6 1213.6L591.2 1194.5L596.3 1193.8L619.1 1206.1L635.6 1206.4L637.6 1211.6L644.2 1217.3L639.5 1235.1L639.3 1239.1L642.2 1246.9L536.8 1241.1L545.3 1231.0L548.1 1224.3L549.2 1214.4L567.3 1210.2L580.0 1193.1L581.9 1193.6ZM996.4 1722.1L989.6 1721.8L980.6 1714.5L970.4 1715.5L966.9 1711.9L988.1 1695.4L1000.0 1690.3L1000.0 1724.9L996.4 1722.1Z"},{"c":"land","d":"M827.3 1714.6L842.0 1719.9L842.7 1716.3L846.5 1717.3L863.5 1711.1L868.9 1713.4L873.5 1718.7L871.3 1731.0L595.2 1731.0L599.7 1724.0L584.1 1715.8L576.5 1708.8L575.8 1695.4L573.6 1696.1L569.4 1689.7L562.0 1684.6L558.1 1678.2L566.9 1675.4L570.5 1677.0L575.3 1671.6L584.7 1671.8L587.4 1669.8L589.7 1664.6L592.2 1663.6L591.7 1660.0L594.0 1654.1L599.9 1649.4L599.8 1645.2L605.1 1636.8L605.4 1632.8L616.5 1615.6L616.7 1610.2L626.4 1599.2L636.9 1597.3L654.6 1581.3L663.6 1586.2L672.3 1586.0L689.3 1590.3L702.6 1589.1L713.1 1599.7L719.1 1598.3L722.3 1594.4L732.1 1590.1L755.4 1586.0L760.2 1575.5L773.8 1572.5L782.7 1577.9L794.6 1603.5L803.8 1618.3L819.1 1636.0L824.6 1652.5L824.8 1661.7L820.0 1684.7L822.0 1700.3L819.2 1702.6L827.3 1714.6Z"},{"c":"land","d":"M672.0 1407.7L672.1 1415.1L682.9 1434.8L686.5 1438.3L682.6 1442.9L686.5 1451.8L686.3 1456.4L682.4 1462.7L673.7 1464.4L651.2 1489.2L640.2 1504.4L638.3 1507.8L641.1 1520.3L640.2 1526.6L644.9 1531.2L643.7 1534.3L617.3 1524.7L613.0 1517.8L604.7 1514.3L586.0 1514.0L583.4 1518.0L578.9 1519.3L570.5 1515.4L562.1 1515.7L555.5 1519.2L551.9 1526.1L541.9 1524.9L542.5 1516.4L537.7 1514.6L531.4 1504.8L525.0 1509.2L521.6 1514.9L515.6 1515.1L514.6 1509.9L511.1 1509.3L510.2 1504.0L503.2 1496.5L502.1 1490.3L493.5 1488.5L484.3 1482.2L477.7 1484.9L470.9 1478.0L469.6 1475.8L474.5 1472.0L473.4 1468.0L463.8 1470.8L455.1 1464.3L446.0 1461.8L449.7 1471.7L438.0 1478.7L423.7 1461.9L430.7 1454.1L426.1 1449.8L416.9 1452.1L407.7 1445.4L395.1 1441.6L392.0 1433.8L383.1 1430.8L382.8 1437.6L377.0 1439.1L383.9 1418.2L380.2 1406.9L374.2 1403.7L374.2 1396.3L370.1 1387.1L375.1 1373.6L373.5 1372.1L372.7 1364.5L368.5 1358.5L370.6 1349.3L367.1 1342.8L354.3 1330.0L363.7 1312.3L358.6 1282.5L369.4 1287.6L368.6 1277.3L357.1 1274.6L356.6 1271.8L422.9 1250.7L435.3 1235.6L446.2 1233.2L458.7 1225.5L486.2 1219.4L494.1 1219.2L508.6 1228.1L510.0 1231.1L497.9 1224.6L505.7 1242.7L515.9 1247.4L530.2 1245.3L536.8 1241.1L622.3 1246.8L641.1 1247.3L646.5 1245.0L665.1 1259.1L670.0 1289.9L679.6 1321.8L680.0 1339.7L663.7 1349.9L655.8 1362.5L669.9 1372.5L671.7 1375.9L670.9 1388.4L668.2 1393.7L668.0 1398.6L672.0 1407.7Z"},{"c":"land","d":"M572.5 188.6L553.9 193.1L561.2 204.4L561.6 209.1L558.0 225.3L549.0 237.2L558.0 243.1L549.0 254.1L493.4 236.0L488.8 238.5L489.2 268.1L480.6 289.2L460.8 276.8L442.8 295.4L435.8 319.6L431.9 325.6L423.1 329.6L420.9 336.5L431.1 359.9L430.1 368.5L397.4 416.2L399.5 431.5L384.7 443.0L368.1 446.1L371.2 473.6L368.3 485.6L366.0 513.2L338.3 569.9L352.6 579.0L354.9 594.7L354.7 601.4L352.1 607.3L348.7 613.5L323.5 608.9L309.8 614.6L289.2 645.1L290.4 652.9L283.3 667.8L290.6 689.3L287.0 695.2L287.2 719.1L293.5 741.1L288.5 781.2L303.2 793.8L312.7 807.0L306.9 827.3L293.1 831.2L293.8 838.8L303.0 868.8L299.5 891.9L289.0 904.9L281.1 908.1L277.8 919.2L272.7 926.1L276.6 945.9L271.4 969.5L265.7 970.6L262.2 958.0L244.5 952.8L238.2 939.4L236.5 914.7L234.5 919.3L235.7 926.4L229.9 930.9L231.5 935.9L231.0 946.6L222.6 964.2L219.4 962.9L211.4 967.4L204.5 957.1L201.9 957.5L206.5 964.1L205.2 966.6L193.7 974.0L196.5 977.3L167.4 1009.6L155.5 1019.4L132.2 1027.2L116.8 1027.0L113.4 1024.1L113.7 1019.6L112.6 1019.1L110.1 1018.8L107.7 1024.3L103.0 1022.4L101.8 1020.8L106.4 1014.4L105.3 1012.0L96.3 1011.6L85.2 1004.8L73.6 995.4L67.2 982.4L68.5 966.4L70.4 963.9L86.6 973.1L95.4 964.7L86.6 967.9L79.6 960.8L79.6 958.4L82.3 952.7L81.7 945.3L96.8 928.1L68.8 945.8L62.1 954.0L55.8 954.2L54.4 950.1L56.2 935.2L60.2 922.8L65.7 918.1L75.7 921.6L78.9 916.7L90.6 911.2L77.8 912.7L74.3 908.2L85.7 893.5L88.0 883.5L100.6 871.7L102.5 874.9L100.9 888.9L107.3 871.0L116.5 864.7L94.9 871.0L88.4 875.9L80.1 889.0L79.2 894.4L73.3 898.4L66.5 910.7L54.9 923.0L53.5 916.9L57.3 900.5L55.8 896.0L56.9 893.2L66.5 894.4L73.0 890.8L59.5 885.3L56.1 878.4L54.6 869.2L71.6 852.7L58.1 860.8L53.9 856.3L51.6 851.4L50.3 828.7L82.8 823.3L97.3 825.6L109.3 821.6L115.7 827.5L118.0 834.6L119.3 833.7L118.0 825.1L136.8 816.9L130.1 816.0L128.2 810.6L131.4 801.3L127.7 805.6L125.9 818.9L122.5 819.9L105.2 817.1L103.3 811.4L99.8 820.7L96.1 822.2L86.1 819.8L65.0 824.3L53.6 818.4L50.7 814.1L50.1 801.4L61.3 797.7L55.6 793.7L47.6 782.0L47.7 770.1L65.5 768.8L83.9 776.5L98.9 775.1L107.7 770.7L87.7 772.0L58.9 766.1L55.3 764.6L53.2 759.6L54.8 750.1L58.0 748.1L61.9 750.7L67.8 739.3L73.9 734.4L80.3 731.8L90.3 736.3L102.7 732.4L106.4 728.0L87.9 732.4L87.3 729.5L95.1 717.7L115.4 716.5L135.7 722.2L139.7 719.5L134.2 717.7L134.6 713.3L153.2 708.9L151.5 706.0L130.3 710.4L124.7 707.4L107.8 709.7L114.7 694.4L135.7 682.0L153.4 682.6L157.0 689.6L170.8 700.6L155.3 677.4L156.1 671.9L159.0 668.2L171.2 664.0L169.8 657.8L162.9 656.4L162.0 652.4L169.2 644.7L178.1 641.4L187.9 645.3L188.6 647.3L185.9 652.3L188.5 655.3L194.1 647.0L206.6 643.0L217.4 660.4L228.0 654.6L242.0 655.2L239.1 647.9L240.8 642.9L262.4 629.4L260.3 624.0L255.9 622.3L265.3 614.4L260.2 610.9L252.5 615.5L247.1 620.6L251.6 626.3L247.8 632.0L218.5 651.3L214.1 650.7L208.9 637.3L202.2 636.8L203.8 630.1L212.1 620.8L217.0 608.3L224.5 600.9L235.5 582.6L271.1 551.8L259.9 556.4L261.7 544.6L266.3 539.1L288.7 523.0L293.6 530.4L300.3 529.3L313.9 510.2L297.3 522.6L287.8 515.0L287.4 508.4L292.4 491.9L304.3 472.6L306.3 464.8L310.6 460.6L317.8 460.4L309.5 448.5L339.1 442.0L351.1 432.2L320.6 437.8L318.9 421.2L320.2 412.1L323.1 412.3L323.7 403.6L337.4 390.6L348.6 390.6L340.1 385.8L338.4 381.1L346.0 376.2L353.6 363.0L375.9 356.5L397.2 355.8L397.8 352.0L364.7 349.9L375.2 330.1L382.1 323.6L397.0 332.3L403.1 343.2L402.5 334.9L406.4 328.2L399.6 328.8L391.6 321.1L390.6 316.5L394.9 309.5L393.5 306.8L384.7 314.1L376.0 314.8L376.6 302.9L387.8 288.5L396.7 293.2L404.0 290.6L403.5 287.1L393.1 282.8L416.9 265.6L418.8 268.2L420.7 283.6L427.1 296.6L425.3 285.9L429.7 277.9L425.3 273.1L422.5 260.9L423.5 257.7L429.6 251.1L437.3 249.6L448.4 254.2L468.4 247.8L464.2 242.7L436.2 244.1L433.8 238.1L438.4 229.6L454.4 223.4L463.0 213.7L466.3 206.3L468.2 195.0L473.5 185.8L486.7 180.5L486.0 164.6L492.0 150.8L504.9 164.9L512.0 165.6L513.9 163.6L504.1 154.3L503.8 148.9L516.4 142.2L517.9 132.7L523.2 124.3L539.6 118.8L540.7 121.1L538.1 155.3L548.7 116.9L560.8 105.2L562.9 112.7L561.3 136.9L551.5 161.7L553.6 163.1L566.2 144.0L574.6 146.1L567.8 129.6L568.2 114.3L570.7 108.3L588.8 110.6L591.8 99.6L597.8 98.6L614.4 117.9L615.8 115.9L613.1 99.5L610.1 93.4L596.7 82.8L595.2 77.0L609.3 77.4L624.0 69.5L627.4 73.9L630.7 66.7L639.5 63.0L648.0 69.9L651.5 89.9L661.8 101.5L663.3 98.0L659.5 89.6L662.6 75.6L672.0 60.5L684.6 52.0L692.9 34.3L697.3 30.3L696.8 25.9L692.3 23.1L692.1 17.7L705.2 0.0L709.4 0.0L725.5 16.0L731.2 9.0L742.3 15.0L742.7 18.7L723.6 51.6L721.5 68.1L716.5 78.5L716.1 85.8L718.1 89.2L730.6 76.8L732.4 66.4L766.9 8.9L772.0 6.2L774.5 14.9L772.5 26.3L768.6 33.6L771.5 36.9L769.5 59.5L783.0 49.4L789.5 26.0L793.6 20.0L801.5 20.0L791.2 5.4L794.7 0.0L829.7 2.5L829.4 13.3L827.6 17.8L813.3 32.7L823.9 30.0L825.7 33.7L823.4 42.9L822.2 64.4L823.1 75.5L827.0 56.2L831.2 50.4L837.0 24.5L844.4 13.9L853.4 14.2L874.6 35.8L885.5 30.2L891.3 38.3L890.4 46.2L903.2 48.2L914.2 60.4L915.4 66.1L914.8 73.0L892.1 87.7L880.9 90.5L842.7 85.7L843.5 90.8L870.0 102.1L871.6 105.4L871.2 121.2L873.2 124.6L886.3 127.2L891.3 113.3L895.0 115.9L897.6 126.8L899.5 119.8L912.3 120.9L914.1 133.5L913.2 142.2L909.6 145.3L888.7 135.6L889.6 144.0L886.2 154.4L862.9 167.2L857.0 186.0L848.9 193.0L844.4 184.0L844.9 178.6L861.1 150.6L854.7 131.7L830.4 117.1L813.0 93.9L808.3 93.6L787.6 109.0L767.5 108.1L752.4 129.7L742.2 168.6L741.6 196.0L735.8 205.5L725.0 211.6L719.6 228.3L714.7 232.6L678.5 213.1L673.6 221.5L660.8 227.5L630.4 221.0L626.7 208.4L603.1 169.5L592.2 169.5L585.5 175.1L587.6 187.5L585.5 191.2L572.5 188.6ZM48.6 825.6L43.3 825.7L44.1 819.1L47.2 817.6L49.1 821.2L48.6 825.6ZM53.0 886.5L48.5 882.8L48.6 869.1L51.7 873.0L53.0 886.5ZM885.2 115.6L874.8 120.1L877.9 109.1L885.2 115.6ZM280.1 489.6L275.9 488.9L275.5 486.8L279.2 480.7L283.4 482.9L280.1 489.6ZM176.2 637.0L159.6 638.3L174.4 629.7L177.0 631.9L176.2 637.0ZM153.4 664.4L146.3 663.3L143.5 658.7L152.5 654.5L154.5 657.4L153.4 664.4ZM664.7 18.8L652.3 41.1L635.3 49.0L622.3 44.3L616.5 34.8L648.8 29.4L663.2 16.1L664.7 18.8ZM754.5 0.0L742.0 4.7L733.8 0.0L754.5 0.0ZM668.2 38.8L671.4 54.2L668.3 59.7L659.0 70.8L653.3 70.8L653.0 62.7L647.3 62.0L650.7 51.9L658.3 50.0L668.2 38.8ZM677.6 47.8L672.3 40.8L673.0 28.2L675.9 25.7L685.9 35.5L683.9 43.8L677.6 47.8ZM334.6 263.8L354.0 264.0L342.6 276.7L333.2 281.4L330.8 278.7L328.4 285.2L324.3 286.5L323.3 278.3L326.7 271.7L331.0 271.5L334.6 263.8ZM310.8 301.9L315.3 284.7L318.9 279.7L320.8 281.6L319.2 291.9L310.8 301.9ZM389.2 196.8L396.6 215.1L394.9 225.3L390.7 230.5L379.7 230.9L374.8 224.9L367.4 228.9L362.4 221.7L368.5 211.9L376.7 214.4L379.1 203.1L384.6 204.9L384.6 195.0L389.2 196.8ZM536.6 73.8L547.0 80.1L552.9 89.9L542.7 92.3L536.6 73.8ZM576.0 91.1L565.5 92.4L563.7 84.7L571.8 77.3L577.3 79.8L576.0 91.1ZM528.1 98.7L533.3 95.2L536.9 98.0L536.4 102.8L527.8 117.3L516.9 123.2L510.2 134.7L509.5 140.5L492.5 144.7L485.4 138.3L490.9 135.1L495.0 122.4L504.1 118.0L505.8 121.1L506.2 110.5L512.8 98.9L518.4 96.2L518.7 83.6L521.1 75.9L523.8 75.6L525.2 93.4L528.1 98.7ZM297.6 465.0L297.7 461.7L301.6 456.6L309.3 457.5L297.6 465.0ZM294.2 453.8L298.7 441.6L304.0 442.1L302.5 450.9L294.2 453.8ZM256.0 549.9L244.4 549.5L241.3 547.4L243.8 543.2L254.4 539.0L258.2 544.4L256.0 549.9ZM470.8 144.3L476.1 142.0L483.5 147.6L485.9 157.9L481.4 164.3L481.7 176.6L468.9 180.1L466.3 176.7L452.8 193.8L452.6 190.7L443.7 188.5L449.1 182.2L450.1 161.1L452.8 157.6L462.0 159.3L462.4 153.8L457.7 150.2L465.1 145.2L466.8 138.9L470.8 144.3ZM409.1 236.1L413.6 227.3L418.7 224.6L421.7 209.7L427.6 206.6L434.9 221.3L434.0 228.9L423.1 237.6L415.8 249.9L408.8 249.3L397.9 258.0L392.7 252.5L389.6 258.2L380.9 258.6L371.0 268.3L358.6 269.0L358.6 263.1L369.5 250.1L386.5 246.4L397.1 230.5L402.1 206.8L398.1 202.6L399.4 191.0L413.1 169.1L421.0 169.4L416.4 184.6L410.4 192.8L413.5 203.6L414.3 219.7L409.1 236.1Z"},{"c":"land","d":"M83.1 1444.8L73.1 1443.5L71.3 1439.9L75.0 1434.2L77.3 1427.0L76.5 1423.5L65.9 1416.5L57.1 1416.8L53.3 1413.2L51.0 1406.6L44.9 1410.2L41.9 1405.5L37.8 1409.2L33.4 1406.3L29.5 1408.9L29.1 1412.7L16.9 1408.0L10.7 1409.8L2.9 1407.4L0.0 1404.9L0.0 1400.9L8.1 1399.8L21.4 1407.3L25.8 1406.5L16.8 1399.8L22.8 1399.1L14.9 1388.3L19.5 1378.4L32.8 1361.3L42.3 1326.5L46.3 1328.4L52.0 1325.5L61.9 1318.0L67.7 1308.4L85.4 1300.6L110.5 1298.7L115.6 1305.1L123.2 1307.6L123.0 1323.3L117.8 1342.5L107.0 1344.4L106.4 1349.2L108.3 1352.8L115.6 1353.9L117.8 1357.4L115.9 1366.9L107.5 1373.7L107.2 1376.1L110.0 1379.8L108.1 1382.9L100.6 1386.0L95.2 1387.5L88.9 1384.5L81.6 1388.7L90.0 1407.7L85.9 1419.7L87.7 1423.8L78.6 1430.0L84.9 1436.6L83.1 1444.8ZM24.2 1411.1L13.4 1420.6L6.1 1417.0L0.0 1418.0L0.0 1410.5L12.8 1412.8L24.2 1411.1ZM89.8 1296.7L88.6 1296.3L94.4 1294.8L89.8 1296.7ZM74.4 1298.7L71.8 1297.3L81.0 1297.8L74.4 1298.7ZM47.5 1310.3L50.9 1306.1L53.6 1306.2L47.5 1310.3ZM60.9 1301.8L56.3 1301.5L69.4 1298.9L60.9 1301.8ZM42.9 1323.3L40.3 1321.3L46.2 1313.1L46.2 1319.4L42.9 1323.3ZM15.0 1392.1L19.2 1397.0L15.0 1398.2L10.6 1394.6L7.7 1395.4L6.6 1392.7L15.0 1392.1ZM104.7 1291.0L105.6 1289.5L110.0 1288.4L107.8 1290.8L104.7 1291.0Z"},{"c":"land","d":"M770.6 1572.7L778.2 1566.3L791.0 1567.1L801.6 1561.7L810.7 1564.8L819.6 1572.8L826.4 1573.7L828.2 1575.0L828.0 1578.4L830.8 1578.3L832.1 1581.1L834.3 1578.2L842.5 1579.7L847.4 1588.1L854.2 1587.4L857.0 1596.8L854.5 1610.9L868.0 1621.7L867.0 1628.7L869.1 1636.8L879.3 1643.3L881.4 1648.5L880.8 1657.4L887.7 1663.0L885.9 1665.2L877.9 1666.5L873.6 1661.8L870.5 1664.2L860.2 1660.9L856.8 1665.2L856.2 1658.2L848.6 1661.3L847.7 1666.0L850.2 1674.9L848.3 1681.0L841.3 1686.4L841.0 1690.5L833.1 1699.4L833.3 1706.5L823.7 1709.7L819.2 1702.6L822.0 1700.3L820.0 1684.7L824.8 1661.7L824.6 1652.5L819.1 1636.0L803.8 1618.3L794.6 1603.5L782.7 1577.9L776.2 1572.9L770.6 1572.7Z"},{"c":"land","d":"M86.3 1476.0L87.9 1485.3L91.9 1490.6L99.6 1494.4L99.5 1499.1L95.9 1504.7L94.8 1512.2L89.4 1509.9L83.7 1512.6L76.3 1507.8L79.3 1502.4L74.2 1493.9L74.8 1488.2L82.5 1475.3L86.3 1476.0Z"},{"c":"land","d":"M580.0 1193.1L583.8 1186.4L587.2 1173.7L584.4 1189.4L581.9 1193.6L580.0 1193.1ZM642.2 1246.9L639.5 1235.1L644.2 1217.3L637.6 1211.6L635.6 1206.4L619.1 1206.1L596.3 1193.8L591.2 1194.5L590.0 1189.8L591.3 1183.3L585.4 1162.1L584.9 1146.8L605.1 1132.2L619.5 1126.6L645.9 1127.2L651.4 1131.6L656.5 1129.0L677.1 1131.3L687.4 1135.2L699.1 1134.0L711.4 1126.4L713.4 1127.1L719.0 1139.0L738.8 1144.7L759.4 1165.8L769.8 1170.7L765.3 1189.9L775.9 1193.9L770.0 1202.3L759.7 1201.7L755.8 1209.7L745.3 1214.5L740.7 1226.2L740.8 1235.0L734.9 1248.4L741.6 1252.5L742.2 1257.0L739.4 1259.3L733.7 1258.2L734.2 1255.0L732.0 1250.6L718.2 1259.7L712.3 1259.0L708.9 1268.7L704.0 1268.4L693.9 1273.3L689.7 1270.1L668.6 1271.8L666.2 1270.7L665.1 1259.1L662.3 1255.9L651.4 1249.9L649.2 1246.4L644.1 1244.7L642.2 1246.9Z"},{"c":"land","d":"M200.1 1631.9L199.5 1626.5L200.9 1621.7L203.7 1629.8L202.7 1632.2L200.1 1631.9Z"},{"c":"land","d":"M768.1 1170.4L759.4 1165.8L738.8 1144.7L719.0 1139.0L713.4 1127.1L711.4 1126.4L699.1 1134.0L687.4 1135.2L677.1 1131.3L656.5 1129.0L651.4 1131.6L645.9 1127.2L619.5 1126.6L605.1 1132.2L584.9 1146.8L584.4 1112.7L585.7 1101.4L595.0 1089.5L598.6 1070.8L607.6 1055.4L635.2 1045.8L638.3 1053.9L654.6 1070.7L659.6 1085.1L671.6 1092.4L681.0 1090.1L696.1 1075.2L694.1 1036.7L720.4 1024.6L724.3 1028.8L728.0 1026.1L749.7 1038.7L759.9 1053.5L765.4 1057.0L782.2 1053.0L789.6 1057.4L799.0 1058.3L801.3 1064.1L811.0 1072.6L811.0 1078.7L807.2 1087.3L804.6 1100.0L811.6 1099.6L816.9 1115.0L820.1 1118.2L823.4 1135.4L821.6 1142.5L813.2 1146.5L804.7 1156.3L802.6 1163.0L785.1 1161.1L781.8 1162.1L777.4 1168.3L768.1 1170.4Z"},{"c":"land","d":"M117.4 1687.0L121.0 1689.2L134.6 1684.5L142.9 1687.2L149.8 1682.7L154.2 1675.7L153.2 1670.4L164.1 1661.9L165.3 1671.6L171.4 1678.1L177.3 1679.7L175.9 1683.6L181.8 1691.6L184.1 1690.8L183.4 1682.7L191.7 1669.6L192.0 1660.5L193.5 1659.5L197.6 1660.2L201.0 1668.7L214.6 1666.0L219.4 1672.5L221.5 1671.2L217.9 1660.1L219.6 1654.5L223.2 1653.4L225.7 1656.2L231.0 1656.9L229.9 1651.3L231.8 1641.6L249.8 1645.9L254.5 1638.1L258.1 1636.2L275.9 1635.7L289.0 1631.0L290.0 1632.0L287.7 1635.7L288.5 1638.2L296.3 1649.5L340.0 1658.3L339.3 1661.1L330.0 1668.1L329.3 1670.8L330.7 1673.2L337.8 1674.9L332.9 1681.5L332.9 1684.0L336.7 1684.4L336.1 1692.4L340.7 1694.9L345.8 1701.8L340.7 1703.1L342.8 1701.2L337.6 1694.4L332.2 1697.3L323.5 1694.4L317.7 1700.8L308.7 1705.2L299.9 1709.1L297.7 1708.8L301.2 1705.2L295.1 1707.7L292.5 1709.9L290.9 1719.6L298.8 1731.0L106.9 1731.0L104.3 1725.4L111.4 1724.6L119.3 1719.6L121.5 1712.9L109.7 1695.8L110.1 1692.3L117.4 1687.0Z"},{"c":"land","d":"M624.2 1565.0L628.3 1572.9L634.0 1575.4L636.1 1579.0L642.3 1580.2L645.9 1588.3L636.9 1597.3L626.4 1599.2L617.9 1608.6L616.5 1615.6L612.3 1620.1L609.5 1628.2L605.4 1632.8L605.1 1636.8L599.8 1645.2L599.9 1649.4L593.2 1655.8L592.2 1663.6L584.7 1671.8L575.3 1671.6L570.5 1677.0L566.9 1675.4L558.1 1678.2L537.1 1675.3L525.9 1683.3L519.6 1682.6L514.3 1686.7L505.5 1687.9L497.9 1694.6L476.9 1693.5L470.2 1687.6L460.4 1683.6L445.7 1667.1L433.9 1659.3L429.4 1652.6L426.1 1642.0L419.8 1641.7L425.1 1636.4L431.8 1634.7L433.1 1629.0L430.6 1624.0L432.1 1621.6L431.4 1615.4L437.4 1613.0L439.2 1608.7L438.0 1605.1L430.7 1601.8L436.4 1598.0L442.9 1601.6L452.2 1600.2L451.0 1593.8L454.9 1585.4L460.6 1586.1L475.4 1597.1L507.5 1596.2L509.3 1593.0L508.3 1588.7L509.7 1585.6L513.8 1583.1L532.2 1580.1L537.5 1574.5L548.3 1578.3L561.1 1570.9L566.3 1559.3L578.9 1558.3L585.6 1560.3L598.4 1558.0L608.9 1568.8L624.2 1565.0Z"},{"c":"land","d":"M200.8 1609.2L189.4 1602.0L179.4 1602.7L169.1 1596.8L163.4 1601.2L169.0 1603.6L164.3 1605.9L147.6 1607.3L135.5 1605.2L134.6 1596.9L137.2 1577.8L144.6 1553.8L154.7 1541.1L154.5 1536.7L137.0 1532.2L131.7 1527.6L117.9 1529.6L116.7 1526.2L113.0 1524.8L107.8 1527.2L101.1 1515.2L94.8 1512.2L95.9 1504.7L99.5 1499.1L99.6 1494.4L91.9 1490.6L87.0 1482.2L89.2 1471.9L95.5 1467.6L94.7 1460.5L89.3 1456.8L91.2 1452.9L83.1 1444.8L84.9 1436.6L78.6 1430.0L87.7 1423.8L85.9 1419.7L90.0 1407.7L81.6 1388.7L88.9 1384.5L95.2 1387.5L108.1 1382.9L110.1 1379.1L107.2 1376.1L107.5 1373.7L117.3 1363.6L116.7 1355.3L108.3 1352.8L106.4 1349.2L108.3 1343.5L117.1 1343.5L122.6 1325.2L123.2 1307.6L118.4 1302.4L120.2 1292.2L126.2 1285.3L150.3 1284.7L155.6 1293.0L153.6 1297.3L158.2 1298.5L161.1 1289.5L166.4 1294.6L166.5 1301.4L167.6 1279.6L170.6 1274.3L179.9 1276.6L190.2 1275.4L202.8 1289.8L209.5 1292.4L204.4 1289.8L193.7 1275.2L182.6 1271.4L180.1 1267.2L180.2 1252.4L176.0 1249.4L171.5 1250.5L171.6 1244.6L181.7 1240.6L181.9 1236.5L172.7 1221.9L172.3 1215.5L180.1 1215.8L191.8 1221.0L203.9 1218.2L213.1 1222.6L217.4 1228.7L217.6 1234.1L212.3 1240.3L221.4 1239.4L223.7 1244.0L228.7 1242.3L241.1 1249.3L250.4 1245.7L252.1 1251.3L250.3 1257.0L243.7 1263.0L247.3 1267.5L253.5 1266.7L263.3 1270.4L276.5 1259.0L287.0 1257.7L302.5 1240.6L317.6 1243.8L321.6 1251.2L331.6 1259.3L340.8 1258.6L344.1 1266.2L345.5 1275.6L350.8 1280.4L358.6 1282.5L363.7 1312.3L354.3 1330.0L367.1 1342.8L370.6 1349.3L368.5 1358.5L372.7 1364.5L373.5 1372.1L375.1 1373.6L370.1 1387.1L374.2 1396.3L374.2 1403.7L381.2 1408.4L383.9 1418.2L382.1 1426.6L375.6 1441.2L370.5 1439.2L370.8 1436.1L368.2 1431.9L360.7 1429.6L358.5 1431.5L362.3 1437.0L335.2 1447.2L331.2 1452.6L329.2 1451.6L322.7 1457.4L317.2 1458.5L314.8 1462.8L308.8 1461.6L301.6 1463.5L292.6 1474.6L287.8 1467.8L286.3 1470.1L290.3 1479.0L300.4 1489.4L296.4 1497.5L304.4 1511.8L326.3 1530.4L330.0 1536.5L334.9 1537.4L342.3 1544.7L343.8 1547.2L342.8 1556.2L339.2 1559.5L332.9 1556.5L329.2 1567.6L313.2 1575.5L308.7 1580.3L315.1 1591.1L313.3 1599.5L317.8 1600.6L318.5 1602.8L317.1 1611.5L310.3 1608.4L309.0 1603.6L306.2 1602.1L299.4 1603.7L290.3 1599.6L289.5 1604.5L273.9 1606.3L259.9 1614.1L251.4 1615.7L249.4 1615.5L245.8 1609.4L231.3 1607.9L229.0 1617.0L222.8 1621.3L223.3 1617.2L218.9 1615.7L218.7 1613.0L215.7 1610.2L208.3 1606.7L200.8 1609.2ZM340.3 1245.5L340.2 1251.3L332.7 1248.0L328.8 1253.3L322.1 1246.5L322.6 1236.2L324.7 1230.8L330.8 1227.3L333.0 1232.1L338.6 1235.3L336.0 1240.8L340.3 1245.5ZM357.0 1270.1L357.1 1274.6L347.5 1274.1L347.4 1267.4L344.2 1263.9L344.3 1260.0L357.0 1270.1ZM259.4 1243.4L250.4 1240.7L251.4 1237.8L257.8 1238.7L259.4 1243.4ZM159.5 1223.3L159.9 1215.2L163.5 1206.4L165.0 1206.6L162.7 1215.7L171.0 1216.1L161.6 1218.7L159.5 1223.3ZM168.3 1227.9L165.1 1227.7L163.3 1226.4L169.1 1224.4L168.3 1227.9Z"},{"c":"land","d":"M137.2 1605.9L128.1 1613.7L118.4 1611.0L113.3 1615.7L116.7 1619.2L105.6 1633.7L98.5 1637.5L97.0 1646.9L88.7 1653.9L85.6 1661.3L87.4 1665.2L86.5 1670.0L82.3 1673.1L83.6 1676.6L90.0 1674.1L92.4 1671.3L91.2 1667.4L97.6 1662.7L109.2 1663.8L110.6 1670.2L109.1 1675.5L117.4 1687.0L110.1 1692.3L109.7 1695.8L121.8 1712.0L119.3 1719.6L111.4 1724.6L104.3 1725.4L106.9 1731.0L0.0 1731.0L0.0 1458.2L4.2 1460.2L6.3 1468.1L8.3 1466.1L15.0 1466.5L22.5 1471.2L21.2 1476.5L23.1 1479.1L21.2 1484.0L22.5 1486.1L34.8 1486.1L38.5 1483.9L42.4 1476.8L45.4 1477.0L43.0 1486.1L45.6 1495.0L59.3 1500.7L66.9 1509.3L76.3 1507.8L83.7 1512.6L91.4 1510.1L101.1 1515.2L107.8 1527.2L113.0 1524.8L116.7 1526.2L117.9 1529.6L131.7 1527.6L137.0 1532.2L154.5 1536.7L154.7 1541.1L144.6 1553.8L137.2 1577.8L134.3 1601.8L137.2 1605.9Z"},{"c":"land","d":"M544.1 872.9L558.6 881.6L556.5 886.1L551.4 887.0L551.1 892.8L541.5 892.5L539.6 881.2L542.6 880.0L542.8 884.8L544.9 884.3L545.7 878.9L542.9 875.3L544.1 872.9ZM538.9 888.1L536.0 890.1L534.0 886.7L535.0 882.8L537.6 882.6L538.9 888.1ZM570.1 897.9L567.4 898.3L563.3 896.4L569.0 894.4L570.1 897.9Z"},{"c":"hi","d":"M688.5 472.7L680.2 444.6L675.0 441.0L673.3 436.0L673.4 417.0L678.9 409.0L679.8 398.0L683.0 389.3L671.4 362.1L670.9 353.1L675.8 344.9L674.5 336.8L665.2 333.5L668.0 320.1L666.7 297.1L671.3 290.1L660.6 274.4L656.1 273.9L653.3 263.0L645.1 253.1L616.6 239.2L580.6 203.7L579.8 197.0L570.7 191.6L572.5 188.6L585.5 191.2L587.6 187.5L585.5 175.1L592.2 169.5L603.1 169.5L626.7 208.4L630.4 221.0L660.8 227.5L673.6 221.5L678.5 213.1L714.7 232.6L719.6 228.3L725.0 211.6L735.8 205.5L741.6 196.0L742.2 168.6L750.4 133.5L767.5 108.1L787.6 109.0L803.1 95.8L813.0 93.9L830.4 117.1L854.7 131.7L861.1 150.6L844.9 178.6L844.4 184.0L848.9 193.0L830.5 204.0L841.5 208.4L842.6 212.3L832.4 242.1L839.5 269.1L861.5 280.5L882.9 315.4L881.4 325.9L858.1 364.9L852.9 375.6L852.2 382.4L880.1 449.3L886.2 474.2L886.5 482.7L873.9 487.3L877.3 491.8L874.3 499.5L873.8 510.4L870.3 517.5L877.0 521.0L877.6 525.7L870.7 534.0L870.1 539.7L876.1 552.5L887.0 558.2L887.3 565.0L882.9 574.4L886.9 586.6L899.6 596.5L900.9 608.7L890.3 629.5L883.1 634.6L897.3 652.0L922.7 674.0L933.6 692.6L934.5 697.7L922.9 727.1L858.4 811.5L830.2 838.5L809.9 863.0L798.7 867.9L790.2 862.5L767.8 871.4L767.3 867.4L770.2 856.8L769.0 857.0L762.6 870.6L756.8 871.8L748.5 867.2L751.2 876.2L741.9 881.2L738.5 876.7L721.9 886.1L703.3 891.4L698.2 897.7L665.5 900.0L656.0 909.4L650.7 911.3L648.8 910.6L656.3 900.9L656.6 897.6L649.8 892.5L647.1 885.0L645.6 884.6L641.7 895.3L632.1 897.1L631.4 888.6L636.3 883.8L633.7 880.2L636.2 873.6L625.3 872.2L611.8 865.1L610.2 859.1L603.8 863.4L597.0 856.2L595.9 827.3L600.4 812.0L600.2 797.8L602.2 797.8L599.9 793.1L603.5 790.3L596.2 767.5L591.9 762.2L594.8 741.7L594.1 737.0L588.9 731.9L587.3 712.0L589.9 704.6L598.6 693.0L599.1 686.9L605.0 686.4L601.5 674.3L613.2 673.8L627.3 666.4L624.8 656.9L628.2 656.6L627.3 652.0L629.9 652.9L634.3 646.3L634.4 641.2L641.9 638.5L666.5 612.0L670.0 611.5L671.8 604.4L692.6 575.1L701.9 552.8L714.7 546.3L726.3 548.1L724.3 541.0L729.1 536.4L728.0 529.4L725.2 525.8L728.3 499.0L724.7 493.6L705.8 483.6L702.7 476.6L704.3 468.3L696.8 474.7L688.5 472.7ZM616.5 876.5L610.6 873.5L610.9 867.5L616.5 876.5ZM591.0 672.9L595.5 670.0L597.4 671.2L597.2 674.8L591.8 678.1L586.1 668.8L591.2 668.8L591.0 672.9ZM622.5 874.2L630.5 878.8L627.1 881.0L628.7 888.0L625.3 888.0L619.2 879.9L622.5 874.2ZM597.9 866.6L593.3 866.9L590.5 858.4L592.3 856.1L598.4 863.5L597.9 866.6ZM611.1 889.7L606.5 891.4L606.8 887.6L612.1 885.6L611.1 889.7ZM604.3 891.9L599.5 890.6L604.5 887.8L604.3 891.9ZM706.6 540.5L702.6 538.9L702.6 533.8L709.5 530.3L716.6 534.1L706.6 540.5Z"},{"c":"land","d":"M794.2 1058.2L782.2 1053.0L765.4 1057.0L759.9 1053.5L749.7 1038.7L726.1 1025.5L725.3 1028.8L720.4 1024.6L694.1 1036.7L698.8 1021.9L699.6 1012.0L701.7 1009.3L701.0 1006.2L694.6 1004.4L691.2 1010.3L687.2 1011.8L675.6 1005.7L673.1 996.5L667.0 986.7L667.7 983.0L672.7 978.5L666.8 978.3L664.4 969.9L667.2 964.8L665.6 962.7L667.2 957.8L666.5 952.1L676.1 946.9L686.1 945.8L685.1 940.5L689.2 940.3L696.0 934.0L731.5 930.8L734.0 928.2L733.6 923.0L770.8 928.6L782.5 935.4L813.1 937.8L817.1 933.2L821.7 940.4L813.3 946.7L808.6 961.4L797.8 978.5L801.0 1001.0L800.1 1014.6L805.8 1032.7L809.2 1037.6L801.4 1041.1L794.2 1058.2ZM634.9 988.7L648.8 990.1L660.8 1000.0L654.2 1001.0L641.0 1014.0L629.1 1014.9L625.6 1018.4L621.7 1030.6L616.6 1032.9L616.2 1028.9L622.9 1018.8L612.7 1012.0L611.8 1009.5L616.1 1004.1L612.1 997.1L625.6 996.4L627.6 991.7L634.9 988.7ZM644.7 979.1L642.2 976.3L638.7 983.5L634.7 984.7L632.4 983.3L630.4 973.6L618.5 968.4L632.1 966.4L638.3 959.1L640.8 963.8L647.0 965.3L649.4 969.9L650.3 975.5L644.7 979.1ZM661.5 993.7L652.1 989.8L655.5 985.5L661.1 987.4L661.5 993.7Z"},{"c":"land","d":"M302.4 1169.7L291.4 1178.4L290.5 1182.6L296.2 1187.3L297.1 1193.2L286.3 1198.9L285.0 1220.6L278.7 1223.0L274.7 1214.8L271.8 1199.0L259.5 1197.9L255.7 1190.7L256.3 1182.6L254.0 1174.7L250.3 1172.1L249.3 1167.5L260.7 1165.7L265.5 1158.2L265.8 1154.4L270.9 1153.6L273.2 1156.5L273.0 1167.1L277.3 1169.0L281.2 1157.2L278.9 1152.9L290.6 1143.9L294.1 1143.7L303.6 1149.0L300.8 1155.9L302.4 1169.7ZM207.5 1220.0L203.9 1218.2L191.8 1221.0L180.1 1215.8L172.3 1215.5L169.1 1202.0L172.3 1200.8L170.5 1185.4L154.4 1174.7L156.7 1152.0L154.0 1142.6L155.5 1114.5L168.4 1117.4L172.4 1121.3L174.5 1113.3L179.6 1106.8L185.6 1103.2L189.9 1108.8L191.8 1089.9L187.0 1087.9L183.1 1089.6L175.7 1107.4L165.6 1111.0L158.9 1105.6L158.9 1101.9L170.6 1083.8L197.8 1079.9L215.4 1054.8L225.3 1052.5L237.0 1045.0L232.7 1050.5L231.5 1055.9L234.6 1063.0L234.1 1075.7L226.5 1090.7L226.1 1113.7L233.0 1119.8L244.9 1119.7L247.5 1124.4L245.2 1133.3L241.8 1136.5L234.6 1139.0L230.9 1134.5L227.3 1138.3L222.8 1159.0L213.5 1160.3L217.5 1165.2L203.0 1181.0L205.7 1194.3L198.5 1207.6L204.8 1208.5L207.7 1211.7L207.5 1220.0ZM237.4 1174.0L244.0 1191.1L243.6 1198.0L242.8 1202.1L237.5 1206.8L231.4 1207.0L216.3 1200.4L212.0 1189.0L212.0 1179.7L226.2 1174.1L233.5 1177.2L237.4 1174.0ZM267.9 1219.7L274.7 1221.0L275.5 1228.4L265.2 1231.3L251.2 1223.0L252.0 1213.3L258.6 1212.7L267.9 1219.7ZM239.7 1224.6L237.4 1218.5L248.4 1200.8L242.2 1221.5L239.7 1224.6ZM301.6 1211.8L295.3 1212.1L289.5 1216.1L287.3 1214.8L292.5 1206.1L300.4 1210.0L301.6 1211.8ZM302.4 1177.4L300.7 1173.9L304.0 1170.0L305.5 1174.9L302.4 1177.4ZM233.5 1217.9L228.0 1218.0L223.3 1212.0L233.5 1217.9ZM218.7 1216.4L210.2 1215.3L209.0 1206.4L216.6 1210.6L218.7 1216.4ZM236.3 1165.0L234.2 1163.9L234.9 1151.5L238.7 1158.3L236.3 1165.0ZM250.4 1076.5L245.8 1074.5L247.8 1071.6L255.8 1070.8L250.4 1076.5ZM385.0 1209.6L372.8 1203.9L373.8 1196.0L375.5 1192.5L387.8 1201.4L387.9 1204.8L385.0 1209.6Z"},{"c":"hi","d":"M510.2 1509.3L503.2 1510.2L488.7 1522.2L486.2 1532.0L475.3 1541.0L466.1 1544.1L454.5 1543.4L448.4 1555.6L446.1 1550.4L434.8 1545.7L428.9 1548.6L418.6 1547.8L410.8 1542.2L383.1 1535.3L380.8 1546.9L376.2 1548.1L373.0 1555.6L366.3 1554.3L356.3 1556.7L351.6 1555.5L349.6 1550.9L334.9 1537.4L331.4 1537.6L313.9 1518.5L310.4 1518.6L306.0 1514.2L296.4 1497.5L300.4 1489.4L290.3 1479.0L286.3 1468.3L289.2 1469.0L292.6 1474.6L301.6 1463.5L308.8 1461.6L314.8 1462.8L317.2 1458.5L322.7 1457.4L329.2 1451.6L331.2 1452.6L335.2 1447.2L362.3 1437.0L358.5 1431.5L359.4 1430.0L368.2 1431.9L370.8 1436.1L370.5 1439.2L374.1 1441.4L382.8 1437.6L383.1 1430.8L392.0 1433.8L395.1 1441.6L407.7 1445.4L416.9 1452.1L426.1 1449.8L428.7 1451.6L430.7 1454.1L429.3 1457.1L423.7 1461.9L438.0 1478.7L449.7 1471.7L446.0 1461.8L455.1 1464.3L463.8 1470.8L473.4 1468.0L474.5 1472.0L469.6 1475.8L470.9 1478.0L477.7 1484.9L484.3 1482.2L493.5 1488.5L502.1 1490.3L503.2 1496.5L510.2 1504.0L510.2 1509.3Z"},{"c":"land","d":"M335.9 1706.5L346.0 1710.7L349.8 1706.9L362.3 1708.2L369.0 1699.8L376.4 1708.3L394.6 1708.9L392.8 1703.5L395.1 1699.7L392.6 1696.2L405.1 1690.0L405.9 1684.2L403.2 1678.2L403.6 1675.2L416.7 1668.7L418.9 1665.5L424.2 1665.5L424.6 1660.1L427.4 1657.6L441.6 1663.4L460.4 1683.6L470.2 1687.6L476.9 1693.5L495.3 1695.2L501.1 1693.2L505.5 1687.9L513.5 1686.7L511.3 1691.3L514.9 1699.9L513.9 1702.5L518.8 1706.6L516.8 1712.1L527.7 1718.3L530.0 1722.1L521.2 1721.7L521.0 1723.8L518.8 1724.5L519.8 1731.0L508.8 1731.0L505.4 1727.3L492.8 1724.6L483.2 1724.3L477.1 1727.3L471.8 1723.3L466.8 1725.3L457.0 1723.6L447.3 1717.9L443.0 1721.7L434.4 1720.7L426.4 1730.6L417.6 1722.0L412.9 1720.8L409.6 1722.5L408.7 1731.0L379.8 1731.0L378.5 1727.2L368.3 1716.9L362.9 1714.8L360.4 1715.0L357.9 1723.4L353.1 1731.0L341.1 1731.0L337.6 1725.9L333.9 1708.2L335.9 1706.5ZM376.4 1731.0L364.6 1726.3L369.0 1720.4L376.4 1731.0ZM361.3 1730.0L359.5 1724.2L361.9 1723.1L364.4 1731.0L361.3 1730.0Z"},{"c":"land","d":"M408.7 1730.6L410.8 1721.4L417.6 1722.0L426.4 1730.6L434.4 1720.7L443.0 1721.7L447.3 1717.9L457.0 1723.6L466.8 1725.3L471.8 1723.3L477.1 1727.3L483.2 1724.3L492.8 1724.6L505.4 1727.3L508.8 1731.0L408.7 1730.6Z"},{"c":"land","d":"M24.2 1411.1L30.1 1412.1L29.5 1408.9L33.4 1406.3L37.8 1409.2L41.9 1405.5L44.9 1410.2L51.0 1406.6L53.3 1413.2L57.1 1416.8L65.9 1416.5L77.6 1424.9L75.0 1434.2L71.3 1439.9L74.9 1444.3L83.1 1444.8L91.2 1452.9L89.3 1456.8L94.7 1460.5L95.5 1467.6L89.2 1471.9L87.2 1477.7L82.5 1475.3L74.8 1488.2L74.2 1493.9L79.3 1502.4L77.2 1507.0L66.9 1509.3L59.3 1500.7L45.6 1495.0L43.0 1486.1L45.4 1477.0L44.0 1476.1L34.8 1486.1L22.5 1486.1L21.2 1484.0L23.1 1479.1L21.2 1476.5L22.5 1471.2L15.0 1466.5L8.3 1466.1L6.3 1468.1L4.2 1460.2L0.0 1458.2L0.0 1418.0L6.1 1417.0L13.4 1420.6L22.4 1415.3L24.2 1411.1Z"},{"c":"land","d":"M942.1 1372.6L928.2 1372.3L923.9 1375.3L919.3 1373.9L908.5 1383.7L901.1 1399.8L904.4 1412.7L901.5 1417.5L894.4 1414.3L893.6 1410.4L888.7 1406.2L861.5 1411.3L853.4 1398.1L845.0 1402.8L841.0 1408.5L838.3 1407.3L836.6 1402.7L822.8 1399.2L817.0 1401.8L812.0 1400.0L806.7 1406.2L806.3 1401.1L793.2 1399.8L788.1 1391.4L742.9 1382.2L718.9 1381.8L695.4 1385.2L682.6 1400.1L673.6 1397.4L670.3 1399.1L670.2 1404.0L668.0 1398.6L668.2 1393.7L670.9 1388.4L671.7 1375.9L669.9 1372.5L655.8 1362.5L663.7 1349.9L678.2 1341.8L680.5 1336.0L678.6 1317.1L670.0 1289.9L666.2 1270.7L674.5 1272.2L689.7 1270.1L693.9 1273.3L704.0 1268.4L708.9 1268.7L712.3 1259.0L718.2 1259.7L732.0 1250.6L734.2 1255.0L733.7 1258.2L741.6 1258.3L741.6 1252.5L734.9 1248.4L740.8 1235.0L740.7 1226.2L745.3 1214.5L755.8 1209.7L759.7 1201.7L770.0 1202.3L775.9 1193.9L765.3 1189.9L769.8 1170.7L777.4 1168.3L781.8 1162.1L785.1 1161.1L802.6 1163.0L804.7 1156.3L813.2 1146.5L820.6 1142.3L826.1 1147.7L835.5 1145.5L843.2 1154.4L851.1 1149.7L862.5 1154.6L863.3 1158.1L861.8 1163.8L866.1 1169.7L881.2 1160.2L891.1 1160.2L898.5 1163.7L904.2 1170.8L913.6 1176.5L913.4 1186.6L910.4 1191.9L915.3 1201.8L915.9 1206.9L911.0 1214.8L910.0 1222.4L921.7 1231.5L919.2 1239.2L922.8 1241.4L930.1 1256.1L944.2 1265.5L941.8 1278.0L956.7 1279.6L965.0 1284.6L964.2 1288.9L965.7 1292.8L973.5 1300.0L973.5 1304.6L965.6 1308.3L964.2 1311.6L954.7 1318.2L945.0 1317.4L938.9 1312.1L929.6 1313.0L925.3 1322.4L935.5 1336.6L934.0 1339.9L937.2 1348.3L935.9 1361.1L942.1 1372.6Z"},{"c":"land","d":"M200.9 1621.7L204.2 1612.1L200.8 1609.2L208.3 1606.7L217.8 1611.7L218.9 1615.7L223.3 1617.2L222.8 1621.3L224.7 1621.1L229.0 1617.0L231.3 1607.9L245.8 1609.4L249.4 1615.5L251.4 1615.7L259.9 1614.1L273.9 1606.3L289.5 1604.5L290.3 1599.6L299.4 1603.7L306.2 1602.1L309.0 1603.6L310.3 1608.4L317.1 1611.5L318.5 1602.8L317.8 1600.6L313.3 1599.5L315.1 1591.1L308.7 1581.9L310.5 1577.6L329.2 1567.6L332.9 1556.5L340.8 1558.5L342.8 1556.2L343.8 1547.2L349.6 1550.9L351.6 1555.5L373.0 1555.6L376.2 1548.1L380.8 1546.9L383.1 1535.3L410.8 1542.2L418.6 1547.8L428.9 1548.6L434.8 1545.7L446.1 1550.4L448.4 1555.6L445.5 1566.3L454.9 1585.4L451.0 1593.8L452.2 1600.2L442.9 1601.6L436.4 1598.0L430.7 1601.8L438.0 1605.1L439.2 1608.7L437.4 1613.0L431.4 1615.4L432.1 1621.6L430.6 1624.0L433.1 1629.0L432.0 1633.9L425.1 1636.4L417.9 1642.6L415.9 1644.7L415.3 1650.7L408.9 1649.1L398.0 1653.0L379.8 1654.2L368.3 1664.2L299.3 1651.0L296.3 1649.5L288.5 1638.2L287.7 1635.7L290.0 1632.0L289.0 1631.0L275.9 1635.7L258.1 1636.2L254.5 1638.1L250.8 1644.9L247.6 1646.2L231.8 1641.6L230.5 1636.7L228.3 1635.7L221.1 1642.2L212.6 1638.0L211.5 1634.6L202.7 1632.2L203.7 1629.8L200.9 1621.7Z"}],"labels":[{"x":223,"y":1453,"zh":"德國","en":"GERMANY"},{"x":533,"y":1367,"zh":"波蘭","en":"POLAND"},{"x":357,"y":1615,"zh":"奧地利","en":"AUSTRIA"},{"x":537,"y":1551,"zh":"斯洛伐克","en":"SLOVAKIA"},{"x":530,"y":1635,"zh":"匈牙利","en":"HUNGARY"},{"x":390,"y":762,"zh":"瑞典","en":"SWEDEN"},{"x":183,"y":762,"zh":"挪威","en":"NORWAY"},{"x":937,"y":726,"zh":"俄羅斯","en":"RUSSIA"},{"x":737,"y":984,"zh":"愛沙尼亞","en":"ESTONIA"},{"x":717,"y":1097,"zh":"拉脫維亞","en":"LATVIA"},{"x":683,"y":1192,"zh":"立陶宛","en":"LITHUANIA"},{"x":817,"y":1290,"zh":"白俄羅斯","en":"BELARUS"},{"x":193,"y":1151,"zh":"丹麥","en":"DENMARK"},{"x":867,"y":1468,"zh":"烏克蘭","en":"UKRAINE"},{"x":17,"y":1596,"zh":"法國","en":"FRANCE"},{"x":233,"y":1693,"zh":"義大利","en":"ITALY"}]},"intl":{"w":1000,"h":1389,"bbox":[11.0,48.5,29.5,62.8],"lon0":11.0,"lat1":62.8,"k":3097.069162869314,"kind":"macro","layers":[{"c":"land","d":"M602.3 1383.6L610.6 1374.0L615.6 1358.6L623.7 1342.2L638.4 1346.5L640.0 1345.0L640.4 1341.5L632.7 1334.1L634.2 1323.8L629.7 1303.6L632.8 1298.0L650.6 1273.5L687.1 1233.1L701.2 1230.3L707.6 1220.1L707.8 1212.7L705.2 1203.7L701.5 1198.4L708.4 1193.3L707.9 1190.9L701.9 1185.1L695.3 1169.1L684.6 1153.3L685.4 1145.9L681.4 1135.3L681.5 1127.2L683.6 1125.6L691.4 1124.9L701.5 1128.9L717.8 1112.9L722.3 1104.8L760.4 1099.2L799.2 1099.8L852.6 1113.2L872.5 1114.9L880.9 1128.3L897.4 1128.0L902.1 1130.5L901.4 1137.7L902.7 1138.7L904.9 1138.3L911.3 1128.8L919.5 1131.6L928.9 1127.4L951.3 1133.1L953.9 1140.6L958.4 1142.6L964.8 1133.3L978.5 1125.7L991.7 1147.0L1000.0 1143.9L1000.0 1389.2L602.1 1389.2L602.3 1383.6Z"},{"c":"land","d":"M432.1 545.5L429.5 552.7L422.4 556.2L421.1 578.7L427.5 587.3L420.8 591.0L416.2 602.8L404.2 610.8L399.3 618.3L396.8 629.2L386.3 634.9L393.8 618.7L389.7 613.8L384.1 599.9L386.6 593.2L385.8 571.3L407.4 543.6L417.4 540.3L421.9 543.4L423.8 536.6L427.1 535.0L436.6 543.1L432.1 545.5ZM296.1 701.7L293.6 701.3L292.0 694.8L292.6 669.5L304.3 639.2L309.6 636.7L324.1 595.3L325.7 592.6L330.7 595.1L327.0 599.1L327.2 606.3L318.0 628.5L315.6 642.8L312.3 646.3L298.8 696.8L296.1 701.7ZM25.4 432.4L29.4 434.1L34.7 430.7L38.5 421.0L43.1 392.4L36.8 360.2L45.1 349.0L50.4 331.1L63.2 325.8L80.3 304.9L81.9 283.3L85.9 267.4L84.0 256.9L71.1 218.6L70.0 206.3L92.2 200.0L98.8 181.8L101.7 167.1L86.3 145.8L62.5 125.4L70.5 60.3L60.2 24.5L60.8 0.0L374.1 0.0L377.0 9.3L373.1 16.6L380.4 23.5L369.4 35.0L363.1 35.2L359.3 41.0L346.5 34.3L344.8 39.6L347.5 54.6L358.6 66.4L351.9 74.1L344.6 108.7L349.5 129.5L334.9 124.9L336.0 132.7L331.4 141.9L333.2 155.2L331.8 163.8L335.1 171.7L333.2 175.5L335.3 212.0L339.4 227.5L337.9 239.8L343.8 246.5L356.4 247.9L360.1 258.1L376.0 252.1L379.0 260.7L387.2 272.0L400.0 279.8L408.5 288.9L407.3 299.9L420.9 307.8L428.8 322.7L431.9 335.0L430.8 342.6L417.2 353.3L409.6 363.1L393.3 376.7L387.2 377.5L376.4 385.0L377.3 388.2L385.5 389.6L405.9 379.9L411.8 388.4L400.8 392.3L398.5 404.0L393.8 411.4L349.0 437.8L343.1 445.9L323.1 459.0L287.3 458.1L281.9 460.9L312.9 466.2L320.2 475.8L305.5 481.8L311.9 504.5L308.1 510.0L307.8 534.8L302.5 535.3L300.3 545.5L302.0 550.7L302.9 570.2L305.5 577.0L304.4 584.1L296.0 600.6L298.8 620.2L289.1 655.7L278.4 676.2L270.1 703.4L260.9 712.8L250.1 707.0L233.9 710.3L204.4 709.3L200.8 712.0L203.0 721.7L197.6 723.0L192.4 720.2L183.9 727.2L173.8 741.1L173.1 751.0L180.6 770.3L171.6 782.8L151.7 779.8L125.5 787.6L101.9 781.4L104.9 774.7L106.7 749.2L79.5 696.8L92.2 702.2L97.4 699.3L89.5 682.1L100.4 681.0L103.8 674.8L101.8 664.8L92.8 660.3L85.0 644.5L76.8 636.3L62.3 604.4L56.9 582.4L52.0 584.5L47.5 558.9L39.7 555.1L38.0 529.1L29.7 526.3L24.3 514.3L23.3 491.5L17.8 487.4L13.4 488.5L14.7 477.6L11.2 436.9L8.0 424.1L9.0 418.1L10.6 414.7L16.0 413.8L21.0 419.1L25.4 432.4ZM387.6 1.3L382.4 1.1L388.7 0.0L387.6 1.3ZM439.9 540.6L434.6 535.5L439.7 528.3L450.3 530.2L440.9 534.3L439.9 540.6ZM404.6 411.9L397.3 420.6L399.9 413.6L404.6 411.9ZM409.2 376.7L407.8 372.4L409.3 367.3L416.1 366.4L409.2 376.7Z"},{"c":"land","d":"M623.7 1342.2L615.6 1358.6L610.6 1374.0L602.3 1383.6L602.1 1389.2L570.5 1389.2L561.2 1384.8L544.2 1388.7L521.3 1385.1L513.0 1387.0L512.3 1389.2L319.0 1389.2L323.5 1374.7L331.7 1361.3L334.5 1359.7L350.4 1362.4L365.3 1357.4L373.7 1348.3L383.0 1342.8L387.1 1326.9L398.1 1320.4L407.3 1309.7L423.4 1305.9L429.1 1306.9L430.7 1315.4L440.5 1315.1L446.0 1305.9L456.3 1298.7L466.5 1314.6L474.3 1317.4L475.0 1325.9L473.3 1331.3L475.8 1332.3L482.0 1329.9L489.6 1333.2L495.3 1322.1L506.1 1316.3L519.8 1315.8L533.4 1322.2L540.6 1320.1L544.8 1313.6L575.1 1314.1L588.7 1319.8L592.8 1323.5L595.7 1330.9L623.7 1342.2Z"},{"c":"land","d":"M999.0 755.3L992.1 745.7L994.5 736.4L993.2 730.9L974.7 722.8L961.9 730.5L949.4 716.0L934.3 719.5L926.9 711.1L929.8 699.7L924.5 671.8L919.3 666.5L913.1 652.6L912.5 644.4L910.7 641.5L899.4 642.3L903.3 629.2L903.6 621.6L909.7 607.7L909.7 597.8L894.0 584.1L892.5 576.2L883.9 574.2L886.5 560.2L891.5 554.3L894.2 546.8L906.9 541.0L901.3 533.1L892.0 503.7L891.2 498.7L893.6 481.7L887.9 450.8L888.3 445.2L892.6 434.8L905.8 417.5L913.4 393.7L927.1 383.4L919.6 371.7L922.4 364.3L919.7 346.1L922.1 340.0L926.0 339.4L930.4 346.1L937.0 349.5L941.8 345.1L943.5 336.4L946.9 332.6L959.3 337.3L970.1 334.9L980.9 316.4L1000.0 319.7L999.0 755.3ZM1000.0 295.5L976.7 295.7L962.8 280.4L953.7 275.6L945.5 257.5L952.6 262.9L954.1 249.7L946.6 242.4L928.6 254.2L908.0 258.0L940.9 218.1L986.6 174.4L1000.0 156.3L1000.0 295.5ZM538.3 794.0L518.6 822.0L534.5 828.9L550.7 826.5L553.3 795.4L561.6 794.3L570.5 801.9L598.5 814.4L625.3 814.8L628.5 823.1L639.2 832.5L631.6 861.4L631.3 867.9L636.0 880.5L465.1 871.0L478.9 854.7L483.5 843.9L485.1 827.8L492.3 824.5L507.9 825.0L514.6 820.9L535.1 793.3L538.3 794.0Z"},{"c":"land","d":"M684.3 1141.2L684.6 1153.3L695.3 1169.1L701.9 1185.1L707.9 1190.9L708.4 1193.3L701.5 1198.4L705.2 1203.7L707.8 1212.7L707.6 1220.1L701.2 1230.3L687.1 1233.1L650.6 1273.5L632.8 1298.0L629.7 1303.6L634.2 1323.8L632.7 1334.1L640.4 1341.5L638.4 1346.5L595.7 1330.9L592.8 1323.5L588.7 1319.8L575.1 1314.1L544.8 1313.6L540.6 1320.1L533.4 1322.2L519.8 1315.8L506.1 1316.3L495.3 1322.1L489.6 1333.2L482.0 1329.9L473.3 1331.3L475.0 1325.9L474.3 1317.4L466.5 1314.6L456.3 1298.7L446.0 1305.9L440.5 1315.1L430.7 1315.4L429.1 1306.9L423.4 1305.9L422.0 1297.3L410.5 1285.3L408.8 1275.1L397.2 1270.9L394.9 1272.2L379.9 1262.0L377.5 1265.1L369.3 1266.4L358.2 1255.2L356.2 1251.7L362.7 1248.7L364.1 1245.5L362.3 1239.1L346.8 1243.5L332.5 1233.0L317.8 1228.9L323.8 1245.0L304.8 1256.4L288.3 1234.0L281.6 1229.2L289.5 1222.7L293.0 1216.4L285.5 1209.5L270.7 1213.2L267.5 1208.2L255.7 1202.3L235.4 1196.1L231.2 1190.0L230.2 1183.5L215.9 1178.8L215.3 1189.7L205.9 1192.1L214.3 1171.8L217.1 1158.2L211.1 1140.0L201.3 1134.7L201.3 1122.7L194.7 1107.8L198.6 1101.5L202.8 1086.0L200.2 1083.5L198.9 1071.1L195.4 1068.7L192.1 1061.4L195.6 1046.5L189.9 1036.1L169.1 1015.3L169.7 1010.4L182.1 994.9L184.4 986.4L184.6 978.8L176.2 938.3L193.7 946.5L192.0 940.3L192.3 929.7L173.7 925.3L172.9 920.9L173.6 918.0L182.9 920.4L231.8 900.6L280.3 886.7L300.5 862.2L318.1 858.2L338.5 845.8L383.0 835.8L395.9 835.6L419.4 850.0L421.6 854.8L402.0 844.4L414.6 873.6L431.1 881.3L454.4 877.8L465.1 871.0L603.7 880.2L634.2 881.1L639.1 876.9L642.9 877.4L673.2 900.3L674.5 917.3L681.0 950.2L691.3 979.9L696.6 1001.9L698.2 1020.6L697.4 1030.9L670.9 1047.6L658.1 1067.9L681.0 1084.1L683.9 1089.6L681.5 1103.7L682.5 1109.9L678.1 1118.5L677.8 1126.5L684.3 1141.2Z"},{"c":"land","d":"M60.8 0.0L60.2 24.5L70.5 60.3L62.5 125.4L86.3 145.8L101.7 167.1L98.8 181.8L92.2 200.0L70.0 206.3L71.1 218.6L84.0 256.9L85.9 267.4L81.9 283.3L80.3 304.9L63.2 325.8L50.4 331.1L45.1 349.0L36.8 360.2L43.1 392.4L38.5 421.0L34.7 430.7L29.4 434.1L25.4 432.4L19.8 411.9L0.0 405.7L0.0 0.0L60.8 0.0Z"},{"c":"land","d":"M535.1 793.3L541.3 782.3L546.7 761.8L546.2 774.1L542.3 787.2L538.3 794.0L535.1 793.3ZM636.0 880.5L631.3 867.9L631.6 861.4L639.2 832.5L628.5 823.1L625.3 814.8L598.5 814.4L570.5 801.9L561.6 794.3L553.3 795.4L551.4 787.8L553.4 777.3L543.9 742.9L543.0 718.2L575.9 694.4L599.2 685.4L626.3 688.5L641.9 686.4L646.9 688.0L651.0 693.5L659.2 689.3L692.6 693.0L709.2 699.3L728.3 697.4L748.2 685.0L751.5 686.3L760.5 705.5L792.6 714.8L815.4 734.9L826.0 749.0L842.9 756.9L841.4 768.5L835.5 788.0L852.7 794.6L845.9 801.1L843.3 808.1L826.6 807.2L824.4 808.6L820.3 820.1L803.2 828.0L795.8 846.9L795.9 861.2L790.3 870.9L786.3 882.8L797.2 889.5L798.1 896.9L793.5 900.5L784.3 898.8L785.3 893.6L781.7 886.5L766.5 893.7L759.2 901.2L749.7 900.1L747.3 902.5L744.2 915.8L736.3 915.3L719.9 923.3L713.0 918.0L678.9 920.8L674.8 919.0L673.2 900.3L668.7 895.0L650.9 885.4L647.4 879.6L639.1 876.9L636.0 880.5Z"},{"c":"land","d":"M840.2 756.5L826.0 749.0L815.4 734.9L792.6 714.8L760.5 705.5L751.5 686.3L748.2 685.0L728.3 697.4L709.2 699.3L692.6 693.0L659.2 689.3L651.0 693.5L646.9 688.0L641.9 686.4L626.3 688.5L599.2 685.4L575.9 694.4L543.0 718.2L541.3 699.8L542.2 662.9L544.4 644.5L559.5 625.2L565.4 594.9L579.9 569.9L624.6 554.4L629.7 567.4L656.0 594.7L664.2 618.1L683.7 629.9L699.0 626.2L717.9 609.9L723.4 602.1L724.5 594.6L722.3 562.4L719.0 548.3L720.1 539.6L762.8 519.9L769.1 526.7L771.5 525.4L772.0 521.4L775.1 522.4L799.7 539.8L810.3 542.9L826.9 566.9L835.8 572.6L839.6 573.9L863.0 566.0L875.0 573.2L890.3 574.6L892.5 576.2L894.0 584.1L909.7 597.8L909.7 607.7L903.6 621.6L903.3 629.2L899.4 642.3L910.7 641.5L912.5 644.4L913.1 652.6L919.3 666.5L924.5 671.8L929.8 699.7L926.9 711.1L920.7 712.0L913.3 717.6L899.6 733.5L896.0 744.3L867.7 741.3L862.3 743.0L855.3 752.9L840.2 756.5Z"},{"c":"land","d":"M513.0 1387.0L533.3 1385.5L544.2 1388.7L564.9 1384.9L570.5 1389.2L512.3 1389.2L513.0 1387.0Z"},{"c":"land","d":"M0.0 878.5L3.5 887.6L0.0 897.2L0.0 878.5ZM5.6 912.6L21.6 918.6L43.0 900.1L60.1 898.0L85.2 870.3L109.7 875.5L116.1 887.4L132.3 900.5L147.3 899.4L152.6 911.7L154.9 926.9L163.5 934.8L176.2 938.3L184.6 978.8L184.4 986.4L182.1 994.9L169.7 1010.4L169.1 1015.3L189.9 1036.1L195.6 1046.5L192.1 1061.4L195.4 1068.7L198.9 1071.1L200.2 1083.5L202.8 1086.0L198.6 1101.5L194.7 1107.8L201.3 1122.7L201.3 1134.7L211.1 1140.0L217.1 1158.2L211.8 1179.2L205.3 1193.5L201.3 1195.9L195.3 1192.4L195.9 1187.3L191.7 1180.5L177.5 1177.5L176.0 1179.8L182.1 1188.7L156.7 1200.4L138.2 1205.3L131.7 1214.1L128.4 1212.3L121.0 1216.2L117.9 1221.8L109.0 1223.5L105.0 1230.6L95.4 1228.6L83.7 1231.8L78.5 1235.5L69.0 1249.7L63.5 1240.7L58.9 1239.5L65.3 1256.8L81.7 1273.7L75.2 1286.8L90.9 1313.9L98.0 1321.0L103.6 1320.9L115.7 1335.1L123.7 1340.2L129.8 1350.1L137.7 1351.5L149.7 1363.3L152.1 1367.4L151.3 1379.3L147.2 1385.7L144.6 1387.3L134.4 1382.5L131.9 1389.2L0.0 1389.2L0.0 913.3L5.6 912.6ZM147.8 884.4L146.3 887.5L140.3 882.2L134.2 882.3L130.5 890.5L127.8 890.8L116.9 879.8L117.7 863.1L120.6 859.5L121.1 854.3L126.3 848.8L131.0 848.6L134.7 856.5L143.7 861.7L144.4 863.9L139.5 870.6L140.6 874.2L146.4 878.1L147.8 884.4ZM173.6 918.0L173.7 925.3L158.2 924.6L156.9 919.1L157.9 913.8L152.8 908.0L152.9 901.8L173.6 918.0ZM7.0 875.0L0.6 870.4L2.3 865.8L4.6 864.1L12.6 867.1L15.3 874.8L7.0 875.0Z"},{"c":"land","d":"M483.5 277.6L491.2 278.0L500.5 288.1L497.0 295.4L488.8 296.8L488.3 306.3L472.8 305.7L468.8 291.1L469.6 287.4L474.5 285.4L474.9 293.3L478.3 292.5L479.5 283.7L475.0 277.9L476.9 274.0L480.4 272.3L483.5 277.6ZM468.5 298.6L463.8 301.8L460.5 296.4L462.2 290.0L466.4 289.7L468.5 298.6ZM519.1 314.6L514.7 315.2L508.0 312.0L517.3 308.9L519.1 314.6Z"},{"c":"hi","d":"M999.6 156.8L986.6 174.4L940.9 218.1L908.0 258.0L901.0 262.1L889.9 265.8L876.0 257.2L862.2 265.1L839.7 271.5L838.9 265.1L843.6 247.9L841.6 248.3L835.5 265.6L831.2 270.3L821.9 272.2L812.8 264.7L808.4 264.8L812.7 279.3L807.9 278.7L797.7 287.4L795.4 287.4L792.2 280.2L781.4 288.1L771.2 289.5L765.2 295.4L735.2 304.0L726.8 314.1L721.2 311.8L687.7 320.1L673.7 317.9L658.5 333.1L649.8 336.3L646.7 335.1L658.8 319.4L659.4 314.1L648.3 305.8L643.9 293.7L641.5 293.0L638.9 305.4L635.1 310.2L619.6 313.3L618.3 306.6L620.1 300.5L618.5 299.4L620.0 294.6L626.5 291.6L626.4 288.7L622.3 285.9L626.2 275.0L608.5 272.8L586.7 261.4L584.1 251.6L573.7 258.6L564.1 251.4L560.0 210.3L561.0 200.0L566.4 187.6L568.3 175.1L567.9 152.2L571.1 152.2L567.5 144.6L573.3 140.1L561.3 103.1L554.4 94.5L559.7 67.5L559.1 61.3L558.0 53.7L549.5 45.3L546.1 20.9L548.3 7.1L552.0 0.0L1000.0 0.0L999.6 156.8ZM590.4 280.3L584.8 274.9L584.1 272.8L586.3 271.6L585.3 265.3L589.6 268.7L591.9 272.7L589.6 273.7L594.3 279.8L590.4 280.3ZM604.1 276.1L613.8 277.7L617.1 283.5L611.5 287.1L611.1 291.6L614.1 298.5L608.6 298.5L604.8 290.7L598.8 285.3L601.4 277.7L604.1 276.1ZM564.2 263.8L556.8 264.2L552.1 250.5L555.0 246.7L564.9 258.7L564.2 263.8ZM585.6 301.2L578.1 304.0L578.6 297.7L587.3 294.5L585.6 301.2ZM569.8 305.8L566.8 302.7L571.2 297.7L574.8 298.1L574.5 304.7L569.8 305.8Z"},{"c":"land","d":"M883.9 574.2L863.0 566.0L839.6 573.9L835.8 572.6L826.9 566.9L810.3 542.9L799.7 539.8L772.0 521.4L770.7 526.8L762.8 519.9L720.1 539.6L727.8 515.6L729.1 499.6L732.4 495.2L731.3 490.1L720.9 487.3L715.4 496.7L708.9 499.1L690.1 489.4L686.8 482.0L686.0 474.5L679.1 467.2L676.2 458.6L677.3 452.6L685.4 445.2L675.9 444.9L672.0 431.2L676.5 423.0L673.9 419.6L676.6 411.6L675.4 402.3L690.9 393.9L707.2 392.2L705.6 383.6L712.2 383.3L723.3 373.0L734.2 374.8L750.1 367.7L780.7 367.8L784.9 363.7L784.3 355.2L844.6 364.3L863.5 375.3L913.1 379.2L919.6 371.7L927.1 383.4L913.4 393.7L905.8 417.5L892.6 434.8L888.3 445.2L887.9 450.8L893.6 481.7L891.2 498.7L892.0 503.7L901.3 533.1L906.9 541.0L894.2 546.8L891.5 554.3L886.5 560.2L883.9 574.2ZM631.8 465.0L638.9 462.4L646.7 464.1L666.1 480.1L655.5 481.6L634.1 502.8L614.7 504.2L609.2 510.0L606.9 521.1L602.8 529.8L594.4 533.4L593.8 526.9L604.7 510.6L588.2 499.5L586.7 495.5L590.5 494.0L593.7 486.7L587.2 475.3L594.7 474.0L599.0 477.3L603.7 473.4L609.0 474.2L612.3 466.7L624.2 461.8L631.8 465.0ZM640.1 446.2L636.1 441.7L630.3 453.3L623.9 455.3L620.1 453.0L620.5 448.7L616.8 437.2L603.3 433.6L597.6 428.8L619.6 425.6L626.3 414.4L629.7 413.8L632.6 415.1L633.8 421.3L643.8 423.9L647.7 431.3L649.1 440.3L644.5 441.1L640.1 446.2ZM662.7 470.9L652.1 463.5L657.6 456.6L666.6 459.6L667.2 469.8L662.7 470.9Z"},{"c":"land","d":"M84.9 755.3L67.2 769.4L65.7 776.2L68.9 781.1L74.9 783.9L76.4 793.3L71.5 798.0L58.9 802.6L56.8 837.7L46.6 841.8L40.0 828.4L35.3 802.7L15.5 801.1L9.2 789.3L10.3 776.2L6.9 769.6L6.5 763.3L0.5 759.2L0.0 751.2L17.4 748.8L25.1 736.6L25.7 730.4L33.9 729.1L37.6 733.8L37.3 751.1L44.3 754.1L49.8 741.5L50.5 735.0L46.8 728.0L65.9 713.5L71.5 713.1L82.5 716.9L86.9 721.8L82.4 732.8L84.9 755.3ZM29.1 836.4L40.0 838.5L41.4 850.5L24.7 855.2L1.9 841.7L3.2 826.0L14.0 824.9L29.1 836.4ZM83.7 823.6L73.4 824.0L64.0 830.5L60.5 828.4L62.8 822.8L68.0 818.4L68.9 814.3L81.8 820.6L83.7 823.6ZM85.0 767.8L82.2 762.0L87.6 755.8L90.0 763.7L85.0 767.8ZM0.6 604.2L0.0 595.3L9.4 594.8L4.2 599.4L0.6 604.2ZM219.0 819.9L199.1 810.7L200.7 797.9L203.5 792.3L223.4 806.7L223.6 812.2L219.0 819.9Z"},{"c":"hi","d":"M423.4 1305.9L410.6 1307.5L398.1 1320.4L387.1 1326.9L383.0 1342.8L373.7 1348.3L365.3 1357.4L350.4 1362.4L334.5 1359.7L331.7 1361.3L327.7 1366.2L321.8 1381.1L318.0 1372.5L299.7 1365.0L296.1 1364.6L290.1 1369.7L273.4 1368.4L260.8 1359.4L254.1 1359.7L233.0 1350.3L225.0 1352.6L215.9 1348.1L212.0 1367.0L206.6 1366.8L204.6 1369.0L200.4 1375.2L199.5 1381.1L188.6 1378.9L182.0 1383.0L172.4 1382.8L164.8 1380.8L161.6 1373.5L152.1 1367.4L137.7 1351.5L131.9 1351.9L123.7 1340.2L115.7 1335.1L103.6 1320.9L98.0 1321.0L90.9 1313.9L75.2 1286.8L81.7 1273.7L65.3 1256.8L58.9 1239.5L63.5 1240.7L69.0 1249.7L78.5 1235.5L83.7 1231.8L95.4 1228.6L105.0 1230.6L109.0 1223.5L117.9 1221.8L121.0 1216.2L128.4 1212.3L131.7 1214.1L138.2 1205.3L156.7 1200.4L182.1 1188.7L176.0 1179.8L177.5 1177.5L191.7 1180.5L195.9 1187.3L195.3 1192.4L201.3 1195.9L215.3 1189.7L215.9 1178.8L230.2 1183.5L231.2 1190.0L235.4 1196.1L255.7 1202.3L267.5 1208.2L270.7 1213.2L285.5 1209.5L289.7 1212.4L293.0 1216.4L290.8 1221.3L281.6 1229.2L288.3 1234.0L304.8 1256.4L323.8 1245.0L317.8 1228.9L332.5 1233.0L346.8 1243.5L362.3 1239.1L364.1 1245.5L362.7 1248.7L356.2 1251.7L358.2 1255.2L369.3 1266.4L377.5 1265.1L379.9 1262.0L394.9 1272.2L397.2 1270.9L408.8 1275.1L410.5 1285.3L422.0 1297.3L423.4 1305.9Z"},{"c":"land","d":"M1000.0 1143.9L991.7 1147.0L978.5 1125.7L964.8 1133.3L958.4 1142.6L953.9 1140.6L951.3 1133.1L928.9 1127.4L919.5 1131.6L911.3 1128.8L904.9 1138.3L902.7 1138.7L901.4 1137.7L902.1 1130.5L897.4 1128.0L880.9 1128.3L872.5 1114.9L852.6 1113.2L806.8 1100.7L771.2 1098.6L722.3 1104.8L717.8 1112.9L701.5 1128.9L686.9 1124.5L681.5 1127.2L681.4 1135.3L677.8 1126.5L678.1 1118.5L682.5 1109.9L681.5 1103.7L683.9 1089.6L681.0 1084.1L658.1 1067.9L670.9 1047.6L694.3 1034.4L697.4 1030.9L698.1 1024.9L695.1 994.3L681.0 950.2L674.8 919.0L688.3 921.5L713.0 918.0L719.9 923.3L736.3 915.3L744.2 915.8L747.3 902.5L749.7 900.1L759.2 901.2L766.5 893.7L781.7 886.5L785.3 893.6L784.3 898.8L797.3 899.0L797.2 889.5L786.3 882.8L790.3 870.9L795.9 861.2L795.8 846.9L799.0 836.1L803.2 828.0L820.3 820.1L824.4 808.6L843.3 808.1L845.9 801.1L852.7 794.6L835.5 788.0L841.4 768.5L842.9 756.9L855.3 752.9L862.3 743.0L896.0 744.3L899.6 733.5L913.3 717.6L925.3 710.8L934.3 719.5L949.4 716.0L961.9 730.5L974.7 722.8L993.2 730.9L994.5 736.4L992.1 745.7L1000.0 754.5L1000.0 1143.9Z"},{"c":"land","d":"M131.9 1389.2L134.4 1382.5L144.6 1387.3L147.2 1385.7L150.6 1382.1L152.1 1367.4L161.6 1373.5L164.8 1380.8L182.0 1383.0L188.6 1378.9L199.5 1381.1L200.4 1375.2L204.6 1369.0L206.6 1366.8L212.0 1367.0L215.9 1348.1L225.0 1352.6L233.0 1350.3L254.1 1359.7L260.8 1359.4L273.4 1368.4L290.1 1369.7L296.1 1364.6L299.7 1365.0L318.0 1372.5L321.8 1381.1L319.0 1389.2L131.9 1389.2Z"}],"labels":[{"x":16,"y":1163,"zh":"德國","en":"GERMANY"},{"x":449,"y":1058,"zh":"波蘭","en":"POLAND"},{"x":465,"y":1373,"zh":"斯洛伐克","en":"SLOVAKIA"},{"x":243,"y":262,"zh":"瑞典","en":"SWEDEN"},{"x":995,"y":262,"zh":"俄羅斯","en":"RUSSIA"},{"x":778,"y":454,"zh":"愛沙尼亞","en":"ESTONIA"},{"x":757,"y":637,"zh":"拉脫維亞","en":"LATVIA"},{"x":697,"y":792,"zh":"立陶宛","en":"LITHUANIA"},{"x":908,"y":950,"zh":"白俄羅斯","en":"BELARUS"}]},"cz-region":{"w":1000,"h":440,"bbox":[12.4,49.85,14.78,50.52],"lon0":12.4,"lat1":50.52,"k":24073.856938269884,"kind":"region","layers":[{"c":"land","d":"M0.0 439.7L0.0 0.0L1000.0 0.0L1000.0 439.7L0.0 439.7Z"},{"c":"adm1","d":"M868.7 1.8L872.0 16.9L866.3 23.8L862.0 46.6L837.6 63.9L822.6 61.2L827.8 95.4L819.0 112.6L789.9 116.6L772.1 128.5L758.4 123.3L725.3 129.0L696.7 122.3L674.0 124.1L669.0 128.5L667.9 144.1L664.6 150.5L648.1 153.4L623.2 169.0L611.0 181.7L595.2 177.8L555.1 198.7L530.5 199.3L504.1 218.2L474.6 231.3L458.6 257.6L413.6 291.1L385.1 284.4L355.8 254.7L366.5 237.0L349.4 198.8L351.6 189.0L349.3 141.8L344.4 123.2L335.2 116.5L300.1 110.6L284.3 92.2L256.8 89.0L235.6 73.1L250.7 57.0L256.1 18.0L263.1 14.8L277.5 19.4L297.2 13.9L319.4 15.2L333.8 0.0L868.7 1.8Z"},{"c":"adm1","d":"M1000.0 0.0L968.2 20.9L923.2 31.3L918.4 30.0L912.6 16.4L872.0 16.9L866.6 0.0L1000.0 0.0Z"},{"c":"adm1","d":"M235.6 73.1L256.8 89.0L284.3 92.2L300.1 110.6L335.2 116.5L346.5 127.4L351.6 189.0L349.4 198.8L366.5 237.0L355.8 254.7L373.9 270.8L365.3 279.0L369.5 300.3L341.7 309.2L341.0 318.9L345.3 340.7L335.7 343.6L315.3 324.5L284.4 319.2L270.9 331.9L229.8 355.1L220.7 388.3L198.5 381.6L183.2 390.7L170.9 379.8L138.3 379.2L120.8 396.9L92.7 392.6L72.0 407.6L52.1 403.8L49.5 399.1L26.3 386.7L29.7 370.8L28.6 361.2L21.6 354.5L6.1 352.8L0.0 346.8L0.0 134.3L28.1 117.5L31.5 99.3L46.3 86.6L94.7 79.3L122.6 82.7L136.6 63.7L148.8 55.9L163.1 56.6L175.4 50.8L217.8 75.6L232.2 76.5L235.6 73.1Z"},{"c":"adm1","d":"M47.4 426.5L52.1 403.8L76.0 406.9L92.7 392.6L120.8 396.9L138.3 379.2L170.9 379.8L183.2 390.7L198.5 381.6L220.7 388.3L229.8 355.1L270.9 331.9L284.4 319.2L315.3 324.5L330.3 341.5L343.7 342.4L345.9 338.3L341.0 318.9L341.7 309.2L369.5 300.3L365.3 279.0L373.9 270.8L388.9 286.3L413.6 291.1L422.6 284.7L427.8 300.7L422.9 315.5L424.5 320.4L435.6 320.3L446.3 314.9L461.2 318.7L492.6 344.3L527.1 345.6L549.2 364.8L568.2 372.1L571.3 380.0L597.0 395.2L603.3 426.7L592.3 432.5L590.4 439.7L40.3 439.7L47.4 426.5Z"},{"c":"adm1","d":"M590.3 438.4L592.3 432.5L603.3 426.7L598.0 406.2L598.8 398.4L593.3 391.3L571.3 380.0L565.5 370.4L549.2 364.8L527.1 345.6L492.6 344.3L468.5 322.3L448.7 314.9L424.5 320.4L422.9 315.5L427.8 300.7L422.6 284.7L426.9 278.5L442.9 271.8L458.6 257.6L474.6 231.3L504.1 218.2L530.5 199.3L555.1 198.7L595.2 177.8L611.0 181.7L623.2 169.0L648.1 153.4L664.6 150.5L667.9 144.1L669.0 128.5L674.0 124.1L696.7 122.3L725.3 129.0L758.4 123.3L772.1 128.5L789.9 116.6L819.0 112.6L827.8 95.4L822.6 61.2L837.6 63.9L862.0 46.6L866.3 23.8L872.0 16.9L912.6 16.4L918.4 30.0L930.5 30.7L968.2 20.9L1000.0 2.4L1000.0 439.7L590.3 438.4ZM900.1 341.8L944.0 341.9L946.5 337.2L941.7 308.4L958.7 289.0L959.3 281.3L943.4 271.6L934.6 260.1L920.1 255.0L915.0 245.6L898.2 232.1L872.9 233.6L817.7 249.7L814.9 252.8L815.2 263.4L811.2 266.7L791.3 262.6L762.0 276.7L775.7 290.8L773.3 303.0L786.0 319.8L792.0 335.8L804.4 350.4L805.5 370.0L809.3 373.2L880.5 355.4L900.1 341.8Z"},{"c":"adm1","d":"M898.2 232.1L915.0 245.6L920.1 255.0L934.6 260.1L943.4 271.6L959.3 281.3L958.7 289.0L941.7 308.4L947.1 334.1L944.0 341.9L919.4 345.0L900.1 341.8L880.5 355.4L809.3 373.2L805.5 370.0L804.4 350.4L792.0 335.8L786.0 319.8L773.3 303.0L775.7 290.8L761.8 278.6L771.4 270.0L791.3 262.6L811.2 266.7L815.2 263.4L814.9 252.8L817.7 249.7L872.9 233.6L898.2 232.1Z"},{"c":"riv","d":"M846.5 439.7L836.3 426.8L839.2 413.0L827.7 386.7L828.8 382.3L836.3 377.8L841.8 325.0L850.9 301.1L844.6 290.6L847.7 284.2L862.4 276.5L864.4 270.4L839.2 260.9L842.0 234.0L833.8 226.2L821.9 229.1L830.0 217.3L830.8 211.2L828.8 211.9L819.1 191.4L803.2 177.7L801.0 170.5L810.2 157.4L816.3 134.9L860.6 130.3L869.8 126.5L871.0 116.9"},{"c":"riv","d":"M1000.0 230.4L990.3 231.3L977.7 224.7L969.3 227.3L942.9 207.1L928.6 191.4L926.6 185.2L911.4 189.2L896.3 172.6L893.9 153.3L876.1 146.4L879.6 136.9L878.7 123.4L862.3 110.1L865.5 92.1L863.7 83.0L834.9 60.3L823.5 33.1L807.7 32.7L800.8 38.3L791.4 57.8L773.8 56.0L770.2 18.3L761.8 0.0M704.9 0.0L702.8 0.0"},{"c":"rivbig","d":"M843.7 310.4L845.6 305.1L848.1 299.9L847.7 296.0L845.7 292.4L844.1 288.8L845.1 285.2L846.4 282.9L847.9 281.8L850.5 280.4L854.2 279.5L858.4 278.0L862.2 275.7"},{"c":"riv","d":"M200.0 201.6L201.5 197.3L202.9 195.0L201.3 191.7L198.3 189.1"}],"labels":[{"x":223,"y":184,"zh":"卡羅維瓦利州","en":"","w":1},{"x":756,"y":263,"zh":"布拉格／中波希米亞州","en":"","w":1}]},"prague":{"w":1000,"h":690,"bbox":[14.392,50.0745,14.4485,50.0995],"lon0":14.392,"lat1":50.0995,"k":1014084.593151917,"kind":"city","layers":[{"c":"land","d":"M0.0 689.6L0.0 0.0L1000.0 0.0L1000.0 689.6L0.0 689.6Z"},{"c":"rivbig","d":"M382.0 689.6L368.1 664.8L300.9 510.4L343.4 358.6L398.2 262.1L460.2 215.2L571.7 157.3L725.7 118.6L902.7 55.2L993.7 0.0"}],"labels":[{"x":292,"y":110,"zh":"伏爾塔瓦河","en":"","w":1},{"x":195,"y":235,"zh":"城堡區","en":"","w":1}]},"prague-wide":{"w":1000,"h":577,"bbox":[14.235,50.048,14.47,50.135],"lon0":14.235,"lat1":50.135,"k":243811.82771524423,"kind":"city","layers":[{"c":"land","d":"M0.0 577.0L0.0 0.0L1000.0 0.0L1000.0 577.0L0.0 577.0Z"},{"c":"rivbig","d":"M736.2 577.0L755.3 524.0L780.9 471.0L776.6 431.2L756.6 395.4L740.4 358.3L750.6 321.8L763.8 298.6L778.7 287.3L805.5 273.4L842.6 264.1L885.1 248.9L923.4 225.6"}],"labels":[{"x":711,"y":259,"zh":"伏爾塔瓦河","en":"","w":1}]},"tampere":{"w":1000,"h":754,"bbox":[23.722,61.4855,23.797,61.5125],"lon0":23.722,"lat1":61.5125,"k":763943.7268411127,"kind":"city","layers":[{"c":"land","d":"M0.0 754.4L0.0 0.0L1000.0 0.0L1000.0 754.4L0.0 754.4Z"},{"c":"water","d":"M720.0 237.6L613.3 265.5L549.3 248.8L496.0 204.0L466.7 92.2L380.0 103.4L346.7 215.2L266.7 265.5L0.0 251.6L0.0 0.0L1000.0 0.0L1000.0 195.7L720.0 237.6Z"},{"c":"water","d":"M166.7 614.8L346.7 544.9L453.3 503.0L516.0 483.5L570.7 494.7L629.3 531.0L682.7 578.5L722.7 634.3L773.3 679.0L1000.0 746.1L1000.0 754.4L0.0 754.4L0.0 712.5L166.7 614.8Z"},{"c":"rivbig","d":"M566.7 262.7L570.7 321.4L573.3 391.3L557.3 447.2L526.7 477.9"}],"labels":[{"x":107,"y":140,"zh":"Näsijärvi 湖","en":"","w":1},{"x":267,"y":671,"zh":"Pyhäjärvi 湖","en":"","w":1}]},"rovaniemi":{"w":1000,"h":890,"bbox":[25.655,66.468,26.005,66.592],"lon0":25.655,"lat1":66.592,"k":163702.22718023646,"kind":"city","layers":[{"c":"land","d":"M0.0 889.6L0.0 0.0L1000.0 0.0L1000.0 889.6L0.0 889.6Z"},{"c":"riv","d":"M1000.0 695.9L961.3 659.9L777.2 545.3L493.3 502.4L415.9 522.6L343.3 588.2L269.4 723.8L198.9 808.6L23.4 861.9L0.0 887.1"},{"c":"riv","d":"M0.0 138.0L28.6 230.0L100.0 445.3L151.4 588.8L174.3 638.9"}],"labels":[{"x":329,"y":481,"zh":"Kemijoki 河","en":"","w":1},{"x":71,"y":338,"zh":"Ounasjoki 河","en":"","w":1}]},"helsinki":{"w":1000,"h":883,"bbox":[24.905,60.137,25.012,60.184],"lon0":24.905,"lat1":60.184,"k":535474.5748886309,"kind":"city","layers":[{"c":"land","d":"M626.2 159.7L607.5 263.1L551.4 291.3L457.9 315.7L439.3 413.4L448.6 507.3L401.9 535.5L345.8 488.5L280.4 432.2L224.3 404.0L186.9 338.2L121.5 263.1L74.8 187.9L65.4 94.0L14.4 0.0L604.3 0.0L626.2 159.7Z"},{"c":"land","d":"M700.9 285.6L712.1 347.6L560.7 360.8L556.1 281.9L700.9 285.6Z"},{"c":"land","d":"M705.6 638.7L775.7 601.2L845.8 680.0L799.1 779.6L700.9 792.7L705.6 638.7Z"}],"labels":[{"x":187,"y":695,"zh":"波羅的海","en":"","w":1}]},"helsinki-c":{"w":1000,"h":788,"bbox":[24.9175,60.1615,24.966,60.1805],"lon0":24.9175,"lat1":60.1805,"k":1181356.2786202347,"kind":"city","layers":[{"c":"land","d":"M958.8 497.5L752.6 551.4L711.3 766.9L713.4 787.6L319.6 787.6L237.1 746.1L154.6 601.1L10.3 435.3L0.0 418.7L0.0 0.0L1000.0 0.0L1000.0 476.7L958.8 497.5Z"},{"c":"land","d":"M1000.0 477.5L1000.0 649.0L979.4 650.8L969.1 476.7L1000.0 477.5Z"}],"labels":[{"x":876,"y":684,"zh":"南港 · 波羅的海","en":"","w":1},{"x":876,"y":104,"zh":"Töölönlahti","en":"","w":1}]},"kv-town":{"w":1000,"h":1059,"bbox":[12.856,50.2085,12.901,50.239],"lon0":12.856,"lat1":50.239,"k":1273239.544735197,"kind":"city","layers":[{"c":"land","d":"M0.0 1059.4L0.0 0.0L1000.0 0.0L1000.0 1059.4L0.0 1059.4Z"},{"c":"rivbig","d":"M444.4 868.4L522.2 642.7L600.0 521.1L511.1 347.4L355.6 208.5"}],"labels":[{"x":200,"y":764,"zh":"黛安娜山丘","en":"","w":1},{"x":600,"y":174,"zh":"特普拉河 Teplá","en":"","w":1}]},"inset-cz":{"w":300,"h":194,"bbox":[11.3,48.1,19.7,51.6],"lon0":11.3,"lat1":51.6,"k":2046.2778397529407,"kind":"macro","layers":[{"c":"land","d":"M297.3 187.4L295.2 187.9L292.8 190.7L291.7 193.4L289.6 194.0L205.5 194.0L202.6 188.7L198.8 178.6L198.7 175.7L201.5 169.8L203.0 162.9L205.8 157.3L208.4 154.1L210.3 153.0L220.8 154.8L225.9 154.0L230.7 151.5L236.2 145.5L241.1 143.4L242.4 141.9L243.2 135.6L245.0 131.4L252.3 127.1L254.1 124.1L260.6 118.5L269.0 117.5L272.8 118.2L273.9 123.8L280.3 123.6L283.9 117.4L290.8 112.7L292.1 113.9L297.5 123.2L300.0 124.0L300.0 188.5L297.3 187.4Z"},{"c":"land","d":"M300.0 124.0L297.5 123.2L292.1 113.9L290.8 112.7L283.9 117.4L280.3 123.6L273.9 123.8L272.8 118.2L269.0 117.5L268.1 111.8L260.5 103.8L259.4 97.1L251.7 94.3L250.2 95.2L240.3 88.5L238.7 90.5L234.8 92.0L233.3 91.4L227.9 84.8L226.0 83.9L224.6 81.7L228.9 79.6L229.8 77.6L229.3 73.8L228.7 73.3L223.4 75.7L218.4 76.2L209.0 69.3L199.3 66.6L198.9 67.3L203.3 76.0L203.2 77.2L197.9 80.0L192.1 85.0L190.7 84.7L189.2 83.6L185.3 76.6L179.8 70.0L176.1 68.4L175.4 66.8L177.9 63.5L180.6 62.5L182.8 58.4L177.9 53.7L168.1 56.2L166.0 52.9L158.2 49.0L144.8 44.9L142.0 40.9L141.4 36.6L131.9 33.5L131.5 40.7L125.3 42.3L130.9 28.9L132.7 19.9L129.8 9.4L128.8 7.8L122.3 4.4L121.8 3.2L122.5 0.0L300.0 0.0L300.0 124.0Z"},{"c":"land","d":"M291.7 193.4L292.8 190.7L295.2 187.9L297.3 187.4L300.0 188.5L300.0 194.0L289.6 194.0L291.7 193.4Z"},{"c":"land","d":"M121.8 3.2L122.3 4.4L128.8 7.8L129.8 9.4L132.7 19.9L129.2 33.8L123.8 44.6L122.3 44.8L118.3 42.5L118.7 39.1L117.7 38.9L115.9 34.6L107.8 32.1L105.6 34.2L107.1 37.0L109.9 39.1L109.6 40.0L92.8 47.8L80.6 51.0L76.3 56.8L74.1 55.7L71.6 57.6L69.2 58.2L67.2 61.9L61.3 63.0L58.7 67.7L52.3 66.4L44.6 68.5L41.2 70.9L34.9 80.3L31.2 74.4L29.8 73.1L28.2 73.6L28.2 75.5L31.2 80.6L32.4 85.0L34.9 88.1L41.3 92.9L43.3 96.2L42.8 98.6L38.9 104.9L42.9 110.4L47.6 120.2L54.0 127.4L57.7 127.4L65.7 136.8L71.0 140.1L75.0 146.6L76.5 147.8L80.3 147.6L88.2 155.4L89.8 158.1L88.8 167.8L84.8 171.3L78.1 168.1L77.1 169.0L75.3 178.2L74.1 180.0L72.2 181.6L63.6 184.6L57.1 188.4L54.1 190.7L52.2 194.0L0.0 194.0L0.0 0.0L122.5 0.0L121.8 3.2Z"},{"c":"hi","d":"M269.0 117.5L260.6 118.5L254.1 124.1L252.3 127.1L245.0 131.4L243.2 135.6L242.4 141.9L241.1 143.4L236.2 145.5L230.7 151.5L225.9 154.0L220.8 154.8L210.3 153.0L208.4 154.1L205.8 157.3L203.0 162.9L201.9 167.2L199.4 161.5L193.3 159.8L187.3 156.5L184.9 156.3L181.0 159.6L169.9 158.7L161.6 152.8L157.2 153.0L143.2 146.8L137.9 148.3L134.5 145.5L131.9 145.4L131.1 146.3L129.4 157.8L125.8 157.7L124.5 159.1L121.7 163.2L121.1 167.1L113.9 165.7L111.8 166.2L109.6 168.4L103.2 168.3L98.2 167.0L96.0 162.1L89.8 158.1L88.2 155.4L80.3 147.6L76.5 147.8L71.0 140.1L65.7 136.8L57.7 127.4L54.0 127.4L49.3 122.8L42.9 110.4L38.9 104.9L42.8 98.6L43.3 96.2L41.3 92.9L34.9 88.1L32.4 85.0L31.2 80.6L28.2 75.5L28.2 73.6L29.8 73.1L31.2 74.4L34.9 80.3L41.2 70.9L44.6 68.5L52.3 66.4L58.7 67.7L61.3 63.0L67.2 61.9L69.2 58.2L71.6 57.6L74.1 55.7L76.3 56.8L80.6 51.0L92.8 47.8L109.6 40.0L109.9 39.1L107.1 37.0L105.6 34.2L106.5 32.6L107.8 32.1L115.9 34.6L117.7 38.9L118.7 39.1L118.3 42.5L122.3 44.8L123.8 44.6L125.3 42.3L131.5 40.7L131.9 33.5L141.4 36.6L142.0 40.9L144.8 44.9L158.2 49.0L166.0 52.9L168.1 56.2L177.9 53.7L180.7 55.7L182.8 58.4L181.4 61.5L177.9 63.5L175.4 66.8L176.1 68.4L179.8 70.0L185.3 76.6L189.2 83.6L190.7 84.7L192.1 85.0L197.9 80.0L203.2 77.2L203.3 76.0L198.9 67.3L199.3 66.6L209.0 69.3L218.4 76.2L223.4 75.7L228.7 73.3L229.3 73.8L229.8 77.6L228.9 79.6L224.6 81.7L226.0 83.9L227.9 84.8L233.3 91.4L234.8 92.0L238.7 90.5L240.3 88.5L250.2 95.2L251.7 94.3L259.4 97.1L260.5 103.8L268.1 111.8L269.0 117.5Z"},{"c":"land","d":"M52.2 193.6L54.1 190.7L57.1 188.4L63.6 184.6L72.2 181.6L74.1 180.0L75.3 178.2L77.1 169.0L78.1 168.1L84.8 171.3L86.6 170.2L88.8 167.8L89.8 158.1L96.0 162.1L98.2 167.0L103.2 168.3L109.6 168.4L111.8 166.2L113.9 165.7L121.1 167.1L121.7 163.2L124.5 159.1L125.8 157.7L129.4 157.8L131.1 146.3L131.9 145.4L134.5 145.5L137.9 148.3L143.2 146.8L157.2 153.0L161.6 152.8L169.9 158.7L181.0 159.6L184.9 156.3L187.3 156.5L193.3 159.8L199.4 161.5L201.9 167.2L201.5 169.8L198.7 175.7L198.8 178.6L202.6 188.7L205.5 194.0L52.2 193.6Z"}],"labels":[]},"inset-fi":{"w":300,"h":602,"bbox":[18.6,58.8,32.6,70.6],"lon0":18.6,"lat1":70.6,"k":1227.766703851764,"kind":"macro","layers":[{"c":"land","d":"M0.0 127.3L29.4 137.3L35.1 130.2L29.3 126.4L35.1 118.7L37.5 108.4L37.2 105.3L32.5 98.1L43.3 97.1L49.2 100.5L49.7 104.9L72.8 127.7L89.6 135.3L96.4 143.0L98.2 150.0L101.1 150.3L108.0 160.4L105.0 164.9L105.9 179.7L104.0 188.3L110.0 190.4L110.9 195.7L107.7 200.9L108.0 206.7L115.5 224.2L113.4 229.8L112.8 236.8L109.3 242.0L109.3 254.2L110.4 257.5L113.7 259.7L119.0 277.8L113.4 279.0L109.1 276.6L99.0 278.8L96.5 281.4L88.9 274.4L84.4 278.4L81.4 274.8L79.0 280.6L78.3 288.6L74.7 287.9L76.0 290.9L71.1 292.0L71.8 295.2L70.3 297.6L63.5 298.4L62.6 300.9L64.5 305.9L60.2 303.1L63.1 308.7L63.7 312.9L54.4 328.9L57.4 333.1L59.9 342.2L62.6 346.2L61.4 350.4L51.8 360.3L46.3 375.5L34.4 385.4L28.2 387.9L24.0 395.0L19.3 392.8L19.2 396.9L16.2 394.3L13.6 400.6L9.3 405.8L4.6 404.9L4.1 405.8L5.5 407.3L0.0 409.2L0.0 127.3ZM0.0 546.8L4.0 548.5L8.4 559.3L7.9 562.3L0.0 569.9L0.0 546.8ZM0.4 580.5L0.0 580.7L0.0 579.6L0.4 580.5ZM0.4 571.2L2.1 571.7L2.1 572.1L0.0 574.3L0.4 571.2Z"},{"c":"land","d":"M189.5 602.4L196.2 592.0L199.2 582.5L204.7 578.5L201.7 573.8L202.8 570.9L201.7 563.7L202.7 561.2L208.6 565.0L212.5 558.3L217.4 560.2L221.7 559.2L226.0 551.9L246.9 557.3L247.6 556.0L248.0 553.7L243.8 550.8L238.3 543.5L224.3 543.7L215.2 535.7L212.0 528.6L214.8 530.7L215.4 525.5L212.4 522.6L205.3 527.2L197.1 528.7L210.2 512.9L228.2 495.6L269.7 441.3L277.2 422.5L276.6 419.2L269.6 407.2L253.3 393.1L244.1 381.9L248.8 378.6L255.6 365.3L254.7 357.4L246.6 351.0L244.0 343.2L246.9 337.2L246.6 332.7L239.6 329.1L235.8 320.9L236.2 317.3L240.6 311.9L240.2 308.8L235.9 306.6L238.2 302.1L238.5 295.0L240.4 290.1L238.2 287.2L246.3 284.2L246.2 278.8L242.2 262.8L224.3 219.8L224.7 215.4L228.1 208.5L243.0 183.5L244.0 176.7L230.2 154.3L216.1 146.9L211.5 129.6L218.0 108.9L210.3 105.1L225.4 96.4L231.2 81.4L244.2 75.7L247.8 69.0L248.1 60.8L257.5 67.1L262.7 66.7L264.1 62.6L262.9 51.6L277.4 57.0L280.0 55.5L282.6 49.6L287.1 50.0L287.8 48.4L286.8 41.0L300.0 50.5L300.0 61.5L290.9 58.4L289.1 61.0L294.2 65.8L295.2 70.4L300.0 69.8L300.0 206.8L284.9 204.9L291.5 207.6L297.9 213.6L297.1 218.4L300.0 221.3L300.0 602.4L189.5 602.4Z"},{"c":"land","d":"M44.5 95.2L32.5 98.1L37.2 105.3L37.5 108.4L35.1 118.7L29.3 126.4L35.1 130.2L29.4 137.3L0.0 127.3L0.0 79.2L6.8 79.1L0.5 73.1L0.3 69.7L8.4 65.4L9.4 59.2L12.8 53.8L23.3 50.3L24.1 51.8L22.3 73.7L29.2 49.1L36.9 41.6L38.3 46.4L37.2 61.9L31.2 79.3L40.4 66.5L45.8 67.8L41.4 57.3L41.7 47.4L43.3 43.5L54.9 45.0L56.9 37.9L60.7 37.3L71.4 49.7L72.3 48.5L70.6 37.9L68.6 34.0L60.0 27.2L59.1 23.4L68.1 23.7L77.6 18.6L79.8 21.5L81.9 16.8L87.5 14.5L93.0 18.9L95.3 31.7L101.9 39.2L102.9 36.9L100.4 31.6L102.4 22.5L108.5 12.9L116.5 7.4L120.0 0.0L144.7 0.0L141.6 7.1L140.3 17.7L137.0 24.4L136.8 29.1L138.1 31.3L146.1 23.3L147.2 16.6L157.3 0.0L172.2 0.0L171.1 12.2L179.8 5.7L181.4 0.0L206.1 0.0L205.0 15.4L205.6 22.5L208.1 10.1L210.8 6.3L211.7 0.0L249.1 0.0L248.9 3.7L257.1 4.9L264.1 12.8L264.9 16.4L264.5 20.8L249.9 30.3L242.7 32.1L218.2 29.0L218.7 32.3L235.7 39.6L236.7 41.7L236.5 51.8L237.7 54.0L246.2 55.7L249.4 46.7L251.8 48.5L253.5 55.4L254.7 50.9L262.9 51.6L264.1 59.8L263.5 65.3L261.2 67.4L247.7 61.1L248.3 66.5L246.2 73.2L231.2 81.4L227.4 93.5L222.1 98.0L219.3 92.2L219.6 88.7L230.0 70.8L225.9 58.6L210.3 49.2L199.1 34.3L196.0 34.1L182.7 44.0L169.8 43.5L160.1 57.3L153.6 82.3L153.2 99.9L149.5 106.1L142.5 110.0L139.0 120.7L135.9 123.4L112.6 110.9L109.4 116.3L101.2 120.2L81.7 116.0L79.3 107.9L64.2 82.9L57.1 82.9L52.8 86.5L54.2 94.5L52.8 96.8L44.5 95.2ZM245.5 48.2L238.8 51.1L240.8 44.0L245.5 48.2ZM96.0 0.0L82.1 5.8L74.7 0.0L96.0 0.0ZM106.7 0.4L108.0 8.7L106.0 12.3L100.1 19.4L96.4 19.5L96.2 14.3L92.5 13.8L94.8 7.3L99.6 6.1L105.0 0.0L106.7 0.4ZM112.0 4.7L108.6 0.0L116.6 0.0L116.1 2.1L112.0 4.7ZM21.4 21.4L28.1 25.4L31.9 31.7L25.3 33.3L21.4 21.4ZM46.7 32.5L39.9 33.3L38.8 28.4L44.0 23.6L47.6 25.2L46.7 32.5ZM15.9 37.4L19.3 35.1L21.6 36.9L21.3 40.0L15.7 49.4L11.4 50.0L4.4 60.5L4.0 64.3L0.0 65.1L0.0 50.0L1.6 51.8L1.9 45.0L6.1 37.5L9.7 35.8L9.9 27.7L11.4 22.8L13.1 22.5L14.0 34.0L15.9 37.4Z"},{"c":"land","d":"M26.2 535.1L35.5 540.7L34.2 543.6L30.9 544.1L30.7 547.9L24.6 547.7L23.3 540.4L25.3 539.6L25.4 542.7L26.7 542.4L27.2 538.9L25.5 536.7L26.2 535.1ZM22.9 544.8L21.0 546.1L19.7 544.0L20.4 541.4L22.0 541.3L22.9 544.8ZM42.9 551.2L41.2 551.4L38.5 550.2L42.2 548.9L42.9 551.2Z"},{"c":"hi","d":"M119.0 277.8L113.7 259.7L110.4 257.5L109.3 254.2L109.3 242.0L112.8 236.8L113.4 229.8L115.5 224.2L108.0 206.7L107.7 200.9L110.9 195.7L110.0 190.4L104.0 188.3L105.9 179.7L105.0 164.9L108.0 160.4L101.1 150.3L98.2 150.0L96.4 143.0L91.2 136.6L72.8 127.7L49.7 104.9L49.2 100.5L43.3 97.1L44.5 95.2L52.8 96.8L54.2 94.5L52.8 86.5L57.1 82.9L64.2 82.9L79.3 107.9L81.7 116.0L101.2 120.2L109.4 116.3L112.6 110.9L135.9 123.4L139.0 120.7L142.5 110.0L149.5 106.1L153.2 99.9L153.6 82.3L158.8 59.7L169.8 43.5L182.7 44.0L192.7 35.5L199.1 34.3L210.3 49.2L225.9 58.6L230.0 70.8L219.6 88.7L219.3 92.2L222.1 98.0L210.3 105.1L217.4 107.9L218.1 110.4L211.5 129.6L216.1 146.9L230.2 154.3L244.0 176.7L243.0 183.5L228.1 208.5L224.7 215.4L224.3 219.8L242.2 262.8L246.2 278.8L246.3 284.2L238.2 287.2L240.4 290.1L238.5 295.0L238.2 302.1L235.9 306.6L240.2 308.8L240.6 311.9L236.2 317.3L235.8 320.9L239.6 329.1L246.6 332.7L246.9 337.2L244.0 343.2L246.6 351.0L254.7 357.4L255.6 365.3L248.8 378.6L244.1 381.9L253.3 393.1L269.6 407.2L276.6 419.2L277.2 422.5L269.7 441.3L228.2 495.6L210.2 512.9L197.1 528.7L189.9 531.8L184.4 528.4L170.0 534.1L169.7 531.6L171.6 524.7L170.8 524.9L166.7 533.6L163.0 534.4L157.6 531.4L159.3 537.2L153.4 540.4L151.2 537.6L140.5 543.6L128.6 547.0L125.3 551.0L104.2 552.5L98.2 558.5L94.7 559.8L93.5 559.3L98.3 553.1L98.5 551.0L94.2 547.7L92.4 542.9L91.4 542.6L88.9 549.5L82.8 550.7L82.3 545.2L85.5 542.1L83.8 539.8L85.4 535.5L78.4 534.6L69.7 530.1L68.7 526.2L64.6 529.0L60.2 524.3L59.5 505.8L62.4 495.9L62.3 486.8L63.5 486.8L62.1 483.8L64.4 482.0L59.7 467.4L56.9 464.0L58.8 450.8L58.4 447.8L55.0 444.4L54.0 431.7L55.6 426.9L61.2 419.4L61.6 415.5L65.4 415.2L63.1 407.4L70.6 407.1L79.7 402.3L78.1 396.2L80.3 396.0L79.7 393.0L81.4 393.7L84.2 389.4L84.3 386.1L89.1 384.4L104.9 367.3L107.1 367.0L108.3 362.5L121.7 343.6L127.7 329.3L135.9 325.1L143.3 326.3L142.0 321.7L145.1 318.8L144.4 314.2L142.6 312.0L144.6 294.7L142.3 291.3L130.2 284.8L128.2 280.3L129.2 275.0L124.4 279.1L119.0 277.8ZM72.7 537.4L69.0 535.5L69.2 531.6L72.7 537.4ZM56.3 406.5L59.3 404.7L60.5 405.4L60.3 407.7L56.9 409.9L53.2 403.9L56.5 403.9L56.3 406.5ZM76.6 535.9L81.8 538.9L79.6 540.3L80.6 544.8L78.4 544.8L74.5 539.6L76.6 535.9ZM60.8 531.1L57.9 531.2L56.0 525.8L57.2 524.3L61.1 529.0L60.8 531.1ZM69.3 545.9L66.3 547.0L66.5 544.5L70.0 543.2L69.3 545.9ZM64.9 547.3L61.8 546.5L65.0 544.7L64.9 547.3ZM130.7 321.4L128.1 320.3L128.1 317.1L132.6 314.9L137.1 317.3L130.7 321.4Z"},{"c":"land","d":"M104.9 601.6L103.5 597.4L105.3 594.2L104.3 592.8L105.4 589.7L104.9 586.0L111.1 582.6L117.5 581.9L116.9 578.6L119.5 578.4L123.9 574.3L146.7 572.3L148.3 570.7L148.1 567.3L172.0 570.9L179.5 575.3L199.1 576.8L201.7 573.8L204.7 578.5L199.2 582.5L196.2 592.0L189.5 602.4L104.9 601.6ZM94.5 601.0L82.5 602.4L81.7 599.8L74.1 596.5L82.8 595.2L86.8 590.5L88.4 593.5L92.4 594.5L93.9 597.5L94.5 601.0Z"}],"labels":[]}};
+const MC={sea:'#a9c4d6',land:'#d2d8dd',hi:'#f2c14e',line:'#ffffff',riv:'#7ba8c6',ink:'#2a3742'};
+const SEA_SCENES={overview:1,intl:1,helsinki:1};
+function _X(l){return l*Math.PI/180}
+function _Y(l){return Math.log(Math.tan(Math.PI/4+l*Math.PI/360))}
+function prj(s,lat,lon){return [(_X(lon)-_X(s.lon0))*s.k,(_Y(s.lat1)-_Y(lat))*s.k]}
+
+const DAYPT=[
+ [{sc:'prague',ret:2,pts:[
+  {n:1,t:'瓦茨拉夫·哈維爾機場',ll:[50.1008,14.2600],lp:'b'},
+  {n:2,t:'OREA 飯店',ll:[50.0871,14.4318],lp:'b'},
+  {n:3,t:'火藥塔 · 午餐 · Palladium',ll:[50.0884,14.4285],lp:'r'},
+  {n:4,t:'老城廣場 · 天文鐘',ll:[50.0874,14.4212],lp:'t'},
+  {n:5,t:'查理大橋',ll:[50.0865,14.4114],lp:'l'},
+  {n:6,t:'哈維爾市集',ll:[50.0846,14.4222],lp:'b'}]}],
+ [{sc:'prague',pts:[
+  {n:1,t:'城堡區：聖維特 · 舊皇宮 · 黃金巷',ll:[50.0915,14.4012],lp:'t'},
+  {n:2,t:'小城廣場 · 午餐',ll:[50.0880,14.4036],lp:'l'},
+  {n:3,t:'康帕島 · 列儂牆',ll:[50.0857,14.4074],lp:'b'},
+  {n:4,t:'猶太區 Josefov',ll:[50.0898,14.4180],lp:'t'},
+  {n:5,t:'Palladium · 飯店',ll:[50.0885,14.4300],lp:'r'}]}],
+ [{sc:'intl',pts:[
+  {n:1,t:'布拉格機場 07:00',ll:[50.1008,14.2600],lp:'l'},
+  {n:2,t:'赫爾辛基機場 11:45 · Tikkurila 轉車',ll:[60.3050,25.0000],lp:'r',air:1},
+  {n:3,t:'坦佩雷 16:10',ll:[61.4986,23.7736],lp:'l'}]}],
+ [{sc:'tampere',pts:[
+  {n:1,t:'住處 Satamakatu',ll:[61.4946,23.7645],lp:'l'},
+  {n:2,t:'Tampere Hall · 姆明博物館',ll:[61.4977,23.7757],lp:'l'},
+  {n:3,t:'Näsinneula（其他成員）',ll:[61.5063,23.7530],lp:'l'},
+  {n:4,t:'Ratina 採買 · 晚餐',ll:[61.4936,23.7676],lp:'b'}]}],
+ [{sc:'tampere',pts:[
+  {n:1,t:'Tampere Hall · Titi 的 Poster',ll:[61.4977,23.7757],lp:'l'},
+  {n:2,t:'Market Hall（其他成員）',ll:[61.4977,23.7607],lp:'t'},
+  {n:3,t:'Tallipiha 老木屋',ll:[61.5040,23.7495],lp:'r'},
+  {n:4,t:'Laukontori · 住處',ll:[61.4950,23.7625],lp:'b'}]}],
+ [{sc:'tampere',pts:[
+  {n:1,t:'Tammelantori 早市',ll:[61.4989,23.7826],lp:'b'},
+  {n:2,t:'Vapriikki 博物館',ll:[61.5010,23.7657],lp:'t'},
+  {n:3,t:'Näsinneula 觀景塔',ll:[61.5063,23.7530],lp:'r'},
+  {n:4,t:'Alko · Ratina',ll:[61.4936,23.7676],lp:'b'},
+  {n:5,t:'Tampere Hall（Titi）',ll:[61.4977,23.7757],lp:'l'}]}],
+ [{sc:'tampere',ret:1,pts:[
+  {n:1,t:'住處退房',ll:[61.4946,23.7645],lp:'l'},
+  {n:2,t:'火車站 · Tampere Hall（存行李／下午場／夜車）',ll:[61.4982,23.7746],lp:'t'},
+  {n:3,t:'Pyynikki 觀景塔',ll:[61.4940,23.7317],lp:'b'}]}],
+ [{sc:'rovaniemi',pts:[
+  {n:1,t:'車站 · 取車',ll:[66.4938,25.7239],lp:'b'},
+  {n:2,t:'Arktikum',ll:[66.5077,25.7263],lp:'l'},
+  {n:3,t:'聖誕老人村 · Glass Resort',ll:[66.5436,25.8472],lp:'b'}]}],
+ [{sc:'rovaniemi',pts:[
+  {n:1,t:'Prisma 採買',ll:[66.5010,25.7180],lp:'b'},
+  {n:2,t:'Apukka Resort 玻璃屋',ll:[66.5620,25.9600],lp:'l'}]}],
+ [{sc:'rovaniemi',pts:[
+  {n:1,t:'奧納斯山 Ounasvaara',ll:[66.4950,25.7600],lp:'r'},
+  {n:2,t:'市區 · 還車 · 車站',ll:[66.4938,25.7239],lp:'b'},
+  {n:3,t:'夜車 → 赫爾辛基',ll:[63.5,25.0],lp:'r',air:1}]}],
+ [{sc:'helsinki-c',pts:[
+  {n:1,t:'中央車站 · 買 ABC 票',ll:[60.1719,24.9414],lp:'b'},
+  {n:2,t:'Bob W 住處',ll:[60.1738,24.9455],lp:'r'},
+  {n:3,t:'岩石教堂',ll:[60.1725,24.9250],lp:'l'},
+  {n:4,t:'Oodi 圖書館',ll:[60.1738,24.9382],lp:'t'},
+  {n:5,t:'大教堂 · Esplanadi',ll:[60.1690,24.9510],lp:'b'},
+  {n:6,t:'Stockmann 超市',ll:[60.1686,24.9418],lp:'l'}]}],
+ [{sc:'helsinki',pts:[
+  {n:1,t:'Kauppatori · 舊市集',ll:[60.1670,24.9515],lp:'r'},
+  {n:2,t:'芬蘭堡 Suomenlinna',ll:[60.1454,24.9881],lp:'l'},
+  {n:3,t:'Stockmann · Marimekko',ll:[60.1686,24.9418],lp:'t'}]}],
+ [{sc:'intl',pts:[
+  {n:1,t:'赫爾辛基 06:25 · 萬塔機場 09:40',ll:[60.2500,24.9550],lp:'r'},
+  {n:2,t:'布拉格 10:50 · 市區遊船',ll:[50.0900,14.3400],lp:'l',air:1}]}],
+ [{sc:'cz-region',ret:0,cap:'去程 08:30 · 回程 16:00（RegioJet 約 2h15）',pts:[
+   {n:1,t:'Florenc 巴士總站',ll:[50.0897,14.4402],lp:'l'},
+   {n:2,t:'Karlovy Vary Terminál',ll:[50.2317,12.8722],lp:'b'}]},
+  {sc:'kv-town',cap:'鎮上沿河步行，2 號公車接駁',pts:[
+   {n:1,t:'Terminál 巴士站',ll:[50.2317,12.8722],lp:'b'},
+   {n:2,t:'溫泉迴廊 · Vřídlo 間歇泉',ll:[50.2234,12.8832],lp:'r'},
+   {n:3,t:'Pupp · 纜車',ll:[50.2205,12.8790],lp:'l'},
+   {n:4,t:'黛安娜觀景塔',ll:[50.2185,12.8730],lp:'b'}]}],
+ [{sc:'prague-wide',pts:[
+  {n:1,t:'SOHO 飯店',ll:[50.0800,14.4232],lp:'r'},
+  {n:2,t:'機場 · 10:20 起飛返台',ll:[50.1008,14.2600],lp:'r'}]}]
+];
+const TRIPMAP={sc:'overview',ret:0,pts:[
+  {n:1,t:'布拉格 9/10–12 · 9/22–24',ll:[50.0875,14.4213],lp:'l'},
+  {n:2,t:'坦佩雷 9/12–16',ll:[61.4980,23.7620],lp:'l',air:1},
+  {n:3,t:'羅瓦涅米 9/17–19',ll:[66.5000,25.7300],lp:'r'},
+  {n:4,t:'赫爾辛基 9/20–22',ll:[60.1700,24.9450],lp:'r'}]};
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function scaleBar(s,fs){
+  const latm=(2*Math.atan(Math.exp(s.lat1*Math.PI/180))-Math.PI/2)*0+s.lat1;
+  const kmU=111.32*Math.cos(latm*Math.PI/180)/(s.k*Math.PI/180);
+  const target=s.w*0.22*kmU;
+  const nice=[0.2,0.5,1,2,5,10,20,50,100,200,500,1000];
+  let v=nice[0]; for(const n of nice) if(n<=target) v=n;
+  const px=v/kmU, x=34, y=s.h-30;
+  return '<g stroke="'+MC.ink+'" stroke-width="'+(fs*0.09)+'" opacity=".65">'+
+   '<path d="M'+x+' '+y+'h'+px.toFixed(0)+'M'+x+' '+(y-fs*0.28)+'v'+(fs*0.56)+'M'+(x+px).toFixed(0)+' '+(y-fs*0.28)+'v'+(fs*0.56)+'"/></g>'+
+   '<text x="'+(x+px/2).toFixed(0)+'" y="'+(y-fs*0.45)+'" text-anchor="middle" font-size="'+(fs*0.72)+'" fill="'+MC.ink+'" opacity=".7">'+(v<1?v*1000+' m':v+' km')+'</text>';
+}
+function buildMap(cfg,mini){
+  const s=SCN[cfg.sc]; if(!s) return '';
+  const asp=s.h/s.w, fs=38*Math.max(1,Math.min(asp,1.8));
+  const sea=SEA_SCENES[cfg.sc];
+  let g='<rect width="'+s.w+'" height="'+s.h+'" fill="'+(sea?MC.sea:MC.land)+'"/>';
+  for(const l of s.layers){
+    if(l.c==='land')      g+='<path d="'+l.d+'" fill="'+MC.land+'" stroke="'+MC.line+'" stroke-width="'+(fs*0.06)+'"/>';
+    else if(l.c==='hi')   g+='<path d="'+l.d+'" fill="'+MC.hi+'" stroke="'+MC.line+'" stroke-width="'+(fs*0.06)+'"/>';
+    else if(l.c==='water')g+='<path d="'+l.d+'" fill="'+MC.sea+'" stroke="'+MC.line+'" stroke-width="'+(fs*0.05)+'"/>';
+    else if(l.c==='adm1') g+='<path d="'+l.d+'" fill="none" stroke="'+MC.line+'" stroke-width="'+(fs*0.05)+'"/>';
+    else if(l.c==='riv')  g+='<path d="'+l.d+'" fill="none" stroke="'+MC.riv+'" stroke-width="'+(fs*0.08)+'" stroke-linejoin="round"/>';
+    else if(l.c==='rivbig')g+='<path d="'+l.d+'" fill="none" stroke="'+MC.riv+'" stroke-width="'+(fs*0.22)+'" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  for(const lb of s.labels){
+    const big=!lb.w;
+    g+='<text x="'+lb.x+'" y="'+lb.y+'" text-anchor="middle" font-size="'+(fs*(big?0.82:0.7))+'" fill="'+(big?'#6b7a86':'#5d7f96')+'" font-weight="'+(big?700:500)+'" paint-order="stroke" stroke="#fff" stroke-width="'+(fs*0.12)+'" stroke-linejoin="round">'+esc(lb.zh)+'</text>';
+    if(big&&lb.en) g+='<text x="'+lb.x+'" y="'+(lb.y+fs*0.8)+'" text-anchor="middle" font-size="'+(fs*0.6)+'" fill="#8a969f" paint-order="stroke" stroke="#fff" stroke-width="'+(fs*0.1)+'">'+esc(lb.en)+'</text>';
+  }
+  // 投影＋出界夾在邊緣
+  const m=fs*1.1, P=cfg.pts.map(p=>{
+    let [x,y]=prj(s,p.ll[0],p.ll[1]); let out=0;
+    if(x<m){x=m;out=1} if(x>s.w-m){x=s.w-m;out=1}
+    if(y<m){y=m;out=1} if(y>s.h-m){y=s.h-m;out=1}
+    return {x,y,out,p};
+  });
+  const col=cfg.color||'#a8412a';
+  let route='';
+  for(let i=1;i<P.length;i++){
+    const dash=(P[i].p.air||P[i].out||P[i-1].out)?' stroke-dasharray="'+(fs*0.4)+' '+(fs*0.32)+'"':'';
+    route+='<path d="M'+P[i-1].x.toFixed(0)+' '+P[i-1].y.toFixed(0)+'L'+P[i].x.toFixed(0)+' '+P[i].y.toFixed(0)+'" fill="none" stroke="'+col+'" stroke-width="'+(fs*0.17)+'" stroke-linecap="round" opacity=".85"'+dash+'/>';
+  }
+  if(cfg.ret!==undefined){
+    const a=P[P.length-1],b=P[cfg.ret];
+    route+='<path d="M'+a.x.toFixed(0)+' '+a.y.toFixed(0)+'L'+b.x.toFixed(0)+' '+b.y.toFixed(0)+'" fill="none" stroke="'+col+'" stroke-width="'+(fs*0.15)+'" stroke-dasharray="'+(fs*0.35)+' '+(fs*0.3)+'" opacity=".6"/>';
+  }
+  g+=route;
+  const r=fs*0.66;
+  const tw=t=>{let w=0;for(const ch of String(t))w+=(ch.charCodeAt(0)>0x2e80?0.95:0.5);return w*fs*0.82};
+  P.forEach(q=>{
+    const p=q.p; let lp=p.lp||'r';
+    const W=tw(p.t+(q.out?' ↗':''));
+    if(lp==='r'&&q.x+r*1.35+W>s.w-14) lp='l';
+    if(lp==='l'&&q.x-r*1.35-W<14) lp='r';
+    let tx=q.x,ty=q.y,anc='middle';
+    if(lp==='r'){tx=q.x+r*1.35;ty=q.y+fs*0.3;anc='start'}
+    else if(lp==='l'){tx=q.x-r*1.35;ty=q.y+fs*0.3;anc='end'}
+    else if(lp==='t'){ty=q.y-r*1.3}
+    else {ty=q.y+r*1.3+fs*0.75}
+    if(anc==='middle'){ tx=Math.min(Math.max(tx,14+W/2), s.w-14-W/2); ty=Math.min(Math.max(ty,fs), s.h-14); }
+    else if(anc==='start'){ tx=Math.min(tx, s.w-14-W); }
+    else { tx=Math.max(tx, 14+W); }
+    g+='<circle cx="'+q.x.toFixed(0)+'" cy="'+q.y.toFixed(0)+'" r="'+r.toFixed(0)+'" fill="'+col+'" stroke="#fff" stroke-width="'+(fs*0.12)+'"/>'+
+       '<text x="'+q.x.toFixed(0)+'" y="'+(q.y+fs*0.3).toFixed(0)+'" text-anchor="middle" font-size="'+(fs*0.82)+'" font-weight="700" fill="#fff">'+esc(p.n)+'</text>'+
+       '<text x="'+tx.toFixed(0)+'" y="'+ty.toFixed(0)+'" text-anchor="'+anc+'" font-size="'+(fs*0.82)+'" font-weight="600" fill="'+MC.ink+'" paint-order="stroke" stroke="#fff" stroke-width="'+(fs*0.24)+'" stroke-linejoin="round">'+esc(p.t)+(q.out?' ↗':'')+'</text>';
+  });
+  g+=scaleBar(s,fs);
+  g+='<text x="'+(s.w-30)+'" y="'+(fs*1.5)+'" text-anchor="end" font-size="'+(fs*0.85)+'" font-weight="700" fill="'+MC.ink+'" opacity=".55">N ↑</text>';
+  return '<svg viewBox="0 0 '+s.w+' '+s.h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" class="mapsvg'+(mini?' mini':'')+'" role="img">'+g+'</svg>';
+}
+
+const LOCI={
+ prague:['cz','布拉格','br'], 'prague-wide':['cz','布拉格','br'], 'cz-region':['cz','布拉格 ↔ 卡羅維瓦利','tl'],
+ 'kv-town':['cz','卡羅維瓦利','tl'], tampere:['fi','坦佩雷','br'], rovaniemi:['fi','羅瓦涅米','br'],
+ helsinki:['fi','赫爾辛基','tl'], 'helsinki-c':['fi','赫爾辛基','br']
+};
+function buildLocator(sceneId){
+  const cfg=LOCI[sceneId]; if(!cfg) return '';
+  const ins=SCN['inset-'+cfg[0]], sc=SCN[sceneId]; if(!ins||!sc) return '';
+  const bb=sc.bbox, cx=(bb[0]+bb[2])/2, cy=(bb[1]+bb[3])/2;
+  let g='<rect width="'+ins.w+'" height="'+ins.h+'" fill="'+MC.sea+'"/>';
+  for(const l of ins.layers)
+    g+='<path d="'+l.d+'" fill="'+(l.c==='hi'?MC.hi:MC.land)+'" stroke="#fff" stroke-width="1.6"/>';
+  const a=prj(ins,bb[3],bb[0]), b=prj(ins,bb[1],bb[2]), p=prj(ins,cy,cx);
+  const w=Math.abs(b[0]-a[0]), hh=Math.abs(b[1]-a[1]);
+  if(w>14||hh>14) g+='<rect x="'+a[0].toFixed(1)+'" y="'+a[1].toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+hh.toFixed(1)+
+      '" fill="none" stroke="#b3341d" stroke-width="4"/>';
+  else g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="9" fill="#b3341d" stroke="#fff" stroke-width="3.5"/>';
+  const name=cfg[0]==='cz'?'捷克 CZECHIA':'芬蘭 FINLAND';
+  return '<div class="loc loc-'+cfg[2]+' loc-'+cfg[0]+'"><svg viewBox="0 0 '+ins.w+' '+ins.h+'" xmlns="http://www.w3.org/2000/svg" '+
+    'preserveAspectRatio="xMidYMid meet" role="img" aria-label="'+name+'定位圖">'+g+'</svg>'+
+    '<b>'+name+'</b><span>'+cfg[1]+'</span></div>';
+}
+function dayMapCfg(i){
+  return DAYPT[i].map(c=>Object.assign({},c,{color:CITY[DAYS[i].city].c}));
+}
+function mapFigure(c,mini){
+  return '<figure class="mapbox'+(mini?' mini':'')+'"><div class="mapwrap">'+buildMap(c,mini)+
+    buildLocator(c.sc)+'</div>'+(c.cap?'<figcaption>'+esc(c.cap)+'</figcaption>':'')+'</figure>';
+}
+function dayMapHTML(i,mini){ return dayMapCfg(i).map(c=>mapFigure(c,mini)).join(''); }
+
+/* ---- 地圖頁 ---- */
+let mapSel='all';
+function mapStops(sel){
+  if(sel==='all'){
+    return [['prg','布拉格','9/10–12 · 9/22–24','charles'],['tre','坦佩雷','9/12–16','nasi'],
+            ['rov','羅瓦涅米','9/17–19','santa'],['hel','赫爾辛基','9/20–22','hel-cath'],
+            ['kv','卡羅維瓦利','9/23','mlynska']]
+      .map(c=>({q:CITY[c[0]].n,n:c[1],d:c[2],k:c[3]}));
+  }
+  const day=DAYS[sel], seen={}, out=[];
+  day.items.forEach(it=>{ if(it.p&&!seen[it.p]){seen[it.p]=1; out.push({q:P[it.p].q,n:P[it.p].n,d:(it.tl||it.t||'')+'　'+KLB(it.p),k:it.p});} });
+  return out;
+}
+function renderMapTab(){
+  const sel=mapSel;
+  $('#dayPick').querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected', b.dataset.d===String(sel)));
+  if(sel==='all'){
+    $('#bigmap').innerHTML=mapFigure(Object.assign({color:'#a8412a',cap:'整趟路線 1 布拉格 → 2 坦佩雷 → 3 羅瓦涅米 → 4 赫爾辛基 →（虛線）飛回布拉格'},TRIPMAP),0);
+  }else{
+    const i=Number(sel), d=DAYS[i];
+    $('#bigmap').innerHTML='<figure class="mapbox"><figcaption style="padding:10px 12px 2px;font-weight:600;color:var(--ink)">Day '+(i+1)+' · '+
+      d.d.slice(5).replace('-','/')+'（'+d.w+'）'+d.t+'</figcaption></figure>'+dayMapHTML(i,0);
+  }
+  $('#pList').innerHTML=mapStops(sel).map(s=>
+    '<button class="prow" data-q="'+encodeURIComponent(s.q)+'">'+(s.k?thumbHTML(s.k,'sq'):'')+
+    '<span><span class="pn">'+s.n+'</span>'+
+    (s.d?'<span class="pd">'+s.d+'</span>':'')+'</span><span class="go">Google 地圖</span></button>').join('');
+  applyThumbs();
+  $('#pList').querySelectorAll('.prow').forEach(b=>b.addEventListener('click',()=>{
+    window.open(gmap(decodeURIComponent(b.dataset.q)),'_blank','noopener');
+  }));
+}
+$('#dayPick').innerHTML='<button data-d="all" aria-selected="true">全程</button>'+
+  DAYS.map((d,i)=>'<button data-d="'+i+'">'+(i+1)+'　'+d.d.slice(5).replace('-','/')+'</button>').join('');
+$('#picRetry').addEventListener('click',()=>{ PSTAT.done=0; picStat(); loadThumbs(); });
+$('#dayPick').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  mapSel = b.dataset.d==='all'?'all':Number(b.dataset.d);
+  renderMapTab(); $('#bigmap').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+
+/* ============ 手冊 ============ */
+const TODO=[
+ ['wait','待訂','姆明博物館門票（成人 €18、敬老 €9），線上先買 9/13 的'],
+ ['wait','待訂','布拉格猶太區「Jewish Town of Prague」聯票（9/11 唯一能去的一天）'],
+ ['wait','待訂','伏爾塔瓦河晚餐遊船 9/22 18:00，指定靠窗／上層'],
+ ['wait','可選','Vapriikki 博物館門票（9/15，可現場買）'],
+ ['pre','出發前','Bob W 線上預先 check-in，門鎖碼截圖存手機（沒有櫃檯）'],
+ ['pre','出發前','裝好三個交通 app 並綁卡：PID Lítačka、Nysse、HSL'],
+ ['pre','出發前','9/23 晚跟 SOHO 確認 9/24 06:00 前能否叫到計程車'],
+ ['ok','已確認','Ribs of Prague — Náměstí Republiky（9/10 12:00，3 人）'],
+ ['ok','已付款','KV 巴士 9/23 RegioJet（去 08:30–10:40／回 16:00–18:15，上層 29／30／31）'],
+ ['ok','已訂','Bob W Helsinki City Centre（Vuorikatu 18B，9/20、9/21）'],
+ ['ok','已訂','HEL → PRG 機票（9/22 09:40–10:50）'],
+ ['ok','已訂','布拉格回程班機（9/24 10:20 起飛）'],
+ ['ok','已訂','兩段 VR 夜車臥鋪'],
+ ['ok','已備妥','ICIP poster'],
+ ['ok','已辦','國際駕照 IDP（羅瓦涅米要用）']
+];
+$('#view-book').innerHTML=
+'<details class="hb" open><summary>待辦與待訂</summary><div class="hbody"><ul class="todo">'+
+ TODO.map(t=>'<li><span class="st '+t[0]+'">'+t[1]+'</span><span>'+t[2]+'</span></li>').join('')+
+ '</ul><div class="warn">坦佩雷租車已取消，改為市區行程＋車站置物櫃。</div></div></details>'+
+
+'<details class="hb"><summary>交通：布拉格 PID</summary><div class="hbody">'+
+ '<p>地鐵（A 綠／B 黃／C 紅）、電車、公車共用同一張票，可自由轉乘。</p>'+
+ '<table class="mini"><tr><th>票種</th><th>紙票</th><th>App</th></tr>'+
+ '<tr><td>30 分鐘</td><td>39 CZK</td><td>36</td></tr><tr><td>90 分鐘</td><td>50 CZK</td><td>46</td></tr>'+
+ '<tr><td>24 小時</td><td>150 CZK</td><td>140</td></tr><tr><td>72 小時</td><td>350 CZK</td><td>340</td></tr>'+
+ '<tr><td>大件行李</td><td>25 CZK</td><td>—</td></tr></table>'+
+ '<p>60–65 歲可買優待票 zlevněné jízdné，約半價（90 分鐘票約 23 CZK），護照就能證明年齡，不必辦卡。</p>'+
+ '<h4>真正要搭車的只有三段</h4><ul><li>9/11 早上 飯店 → 城堡：電車 22 號（為了不爬坡）</li>'+
+ '<li>9/22 傍晚 SOHO ↔ 遊船碼頭：步行 20 分或電車 2 站</li>'+
+ '<li>9/23 早晚 SOHO ↔ Florenc：地鐵來回</li></ul>'+
+ '<div class="warn">上車後一定要打票（黃色打票機「喀」一聲）。沒打票＝逃票，罰 1,000 CZK 起跳。30／90 分鐘票不能搭佩特任山纜車。</div>'+
+ '<p>三人約 6 趟，買單程 90 分鐘票就好（一趟約 92 CZK，全程約 550 CZK）。三趟機場接送直接叫車，市區↔機場約 700–900 CZK。</p></div></details>'+
+
+'<details class="hb"><summary>交通：坦佩雷 Nysse</summary><div class="hbody">'+
+ '<p>兩條電車線和公車網，單程票約 €2.2–2.5，市區同一區。<b>可以直接刷感應信用卡上車</b>，最省事；或用 Nysse Mobiili app。</p>'+
+ '<p>住 Satamakatu 15 在 Laukontori 旁，市中心景點幾乎都走得到；真正會用到的只有 9/12 車站到住處、9/16 上 Pyynikki。</p></div></details>'+
+
+'<details class="hb"><summary>交通：赫爾辛基 HSL（分區是關鍵）</summary><div class="hbody">'+
+ '<p>地鐵、電車、公車、渡輪全部通用。市中心是 A、B 區，<b>機場在 C 區</b>。</p>'+
+ '<table class="mini"><tr><th>何時</th><th>路段</th><th>票</th></tr>'+
+ '<tr><td>9/20 09:15</td><td>中央車站 → Bob W</td><td>步行 5 分</td></tr>'+
+ '<tr><td>9/20 上午</td><td>Bob W → 岩石教堂</td><td>AB</td></tr>'+
+ '<tr><td>9/21 上午</td><td>Bob W → Kauppatori</td><td>AB 或步行</td></tr>'+
+ '<tr><td>9/21 10:30</td><td>芬蘭堡渡輪來回</td><td>AB（渡輪含在票內）</td></tr>'+
+ '<tr><td>9/22 06:25</td><td>機場快線 I／P</td><td><b>ABC</b></td></tr></table>'+
+ '<div class="warn">9/20 上午在中央車站售票機買「2 日 ABC 票 × 3 張」全票（芬蘭對外國旅客沒有敬老優惠）。用 AB 票搭到機場罰 €100。上車不用打票，但一定要先買。</div>'+
+ '<p>機器就在站內，觸控式有英文；地下 Rautatientori 地鐵站內的 HSL 服務點有真人可問。</p></div></details>'+
+
+'<details class="hb"><summary>每日採買點</summary><div class="hbody">'+
+ '<h4>布拉格</h4><ul><li>9/10 哈維爾市集 16:45（18:00 收）：現切水果、木偶、明信片</li>'+
+ '<li>9/10、9/11 Albert（Palladium 地下）17:30：水、麵包、火腿起司、優格、9/12 早班機乾糧</li>'+
+ '<li>9/22 Billa（瓦茨拉夫廣場一帶）16:00｜9/23 Tesco My Národní 傍晚：巧克力、蜜餞、啤酒</li>'+
+ '<li>9/23 Manufaktura／Botanicus：捷克手工皂、溫泉杯</li></ul>'+
+ '<h4>坦佩雷</h4><ul><li>9/12 Laukontori 旁小超市 18:00：水、麵包、水果</li>'+
+ '<li>9/13（日）K-Supermarket Ratina 17:00：市集全休，靠連鎖超市</li>'+
+ '<li>9/14 Tampere Market Hall：起司、馴鹿肉製品、黑麥麵包</li>'+
+ '<li>9/15 Tammelantori 09:00｜<b>Alko 15:30 買雲莓酒 lakkalikööri（週日必休）</b></li>'+
+ '<li>9/16 Ratina／Koskikeskus：Marimekko、Iittala、姆明周邊</li></ul>'+
+ '<div class="warn">重的東西往後押：9/16 晚上要提行李上夜車，果醬罐頭留到羅瓦涅米（有車）再買。</div>'+
+ '<h4>羅瓦涅米</h4><ul><li>9/18 Prisma Rovaniemi 是這趟最划算的採買點：雲莓果醬、莓果乾、Fazer、鹹甘草糖、馴鹿肉罐頭</li></ul>'+
+ '<h4>赫爾辛基</h4><ul><li>9/20 17:30 必做：Stockmann 地下 Herkku 或 Alepa／K-Market，買齊 9/21＋9/22 兩天早餐（Bob W 沒早餐但有廚房）</li>'+
+ '<li>9/21 Kauppatori 早市、舊市集、Stockmann／Marimekko／Iittala（辦 Tax Free）</li></ul></div></details>'+
+
+'<details class="hb"><summary>退稅（很重要）</summary><div class="hbody">'+
+ '<p>芬蘭和捷克都在歐盟，<b>中途轉機不退稅</b>——所有 Tax Free 單據留到 9/24 從布拉格離境時一次辦理。</p>'+
+ '<ul><li>芬蘭門檻約 €40／單張收據，捷克約 CZK 2,001／單張收據</li>'+
+ '<li>結帳時就要跟店員說 Tax Free 並出示護照</li>'+
+ '<li>9/24 順序：報到櫃檯 → 退稅 → 托運 → 安檢</li></ul></div></details>'+
+
+'<details class="hb"><summary>給全體成員的提醒</summary><div class="hbody"><ul>'+
+ '<li>天氣：坦佩雷 9 月約 8–15°C，羅瓦涅米 3–10°C、夜間可能接近 0°C。防風防水外套、毛帽、手套、保暖內搭必備。</li>'+
+ '<li>步行量：布拉格老城與城堡區全是石板路，穿好走的鞋。</li>'+
+ '<li>時差：台灣 → 布拉格 −6 小時、→ 芬蘭 −5 小時。第 1、2 天刻意排鬆就是為了倒時差。</li>'+
+ '<li>保險：申根區旅遊醫療保險，保額拉高。</li>'+
+ '<li>證件：護照效期需離境後 6 個月以上；ICIP 邀請函／錄取信印一份備查。</li></ul></div></details>';
+
+/* ============ 分頁 ============ */
+const VIEWS={'tab-today':'view-today','tab-all':'view-all','tab-map':'view-map','tab-book':'view-book'};
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    Object.keys(VIEWS).forEach(id=>{
+      const on=id===b.id;
+      document.getElementById(id).setAttribute('aria-selected',on);
+      document.getElementById(VIEWS[id]).hidden=!on;
+    });
+    window.scrollTo({top:0});
+    if(b.id==='tab-map') renderMapTab();
+  });
+});
+
+/* ============ 啟動 ============ */
+let lastKey=null;
+function curKey(){ const c=current(Date.now()).cur; return c?c.di+'-'+c.ii:'none'; }
+function refresh(){ const k=curKey(); if(k!==lastKey){ lastKey=k; renderToday(); renderAll(); applyThumbs(); } }
+tickNow(); refresh();
+loadThumbs();
+setInterval(()=>{ tickNow(); refresh();
+loadThumbs(); },15000);
+addEventListener('scroll',()=>{ $('#nowbar').classList.toggle('compact',scrollY>110); },{passive:true});
+</script>
+</body>
+</html>
